@@ -162,7 +162,8 @@ requires = [
 
 [tool.briefcase.app.fsaxis.android]
 requires = [
-    "toga-android~=0.4.0"
+    "toga-android~=0.4.0",
+    "requests",
 ]
 
 # Web deployments
