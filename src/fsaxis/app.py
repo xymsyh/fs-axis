@@ -9,7 +9,7 @@ class fsaxis(toga.App):
         column_style = Pack(direction=COLUMN, padding=0)
 
         # Creating the main layout box
-        main_box = toga.Box(style=column_style)
+        main_box = toga.Box(style=Pack(direction=COLUMN, padding=0))
 
         # Creating input fields with flex styling
         inp_keyword = toga.TextInput(style=Pack(flex=1))
@@ -20,15 +20,15 @@ class fsaxis(toga.App):
         inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=200))
 
         # Creating buttons
-        button_style = {'width': 85}
-        b1 = toga.Button('B1', style=Pack(**button_style))
-        b2 = toga.Button('B2', style=Pack(**button_style))
-        b3 = toga.Button('B3', style=Pack(**button_style))
+        button_style = {'width': 85, 'padding_top': 30}
+        btn_line = toga.Button('✅line', style=Pack(**button_style))
+        btn_cell = toga.Button('✅cell', style=Pack(**button_style))
+        btn_clear = toga.Button('清空', style=Pack(**button_style))
 
         # Organizing components into rows and columns
         row1 = toga.Box(style=row_style, children=[inp_keyword, inp_content])
-        row2 = toga.Box(style=row_style, children=[inp_line, b1])
-        col1 = toga.Box(style=column_style, children=[b2, b3])
+        row2 = toga.Box(style=row_style, children=[inp_line, btn_line])
+        col1 = toga.Box(style=column_style, children=[btn_cell, btn_clear])
         row3 = toga.Box(style=row_style, children=[inp_cell, col1])
 
         # Adding rows to the main layout box
