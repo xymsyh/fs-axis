@@ -63,11 +63,26 @@ class fsaxis(toga.App):
         self.main_window.show()
 
     # 定义回调函数
+    def update_ui_with_result(self, result):
+        # 这个方法会在主线程中被调用，用来更新UI
+        # 注意：确保这个方法是线程安全的
+        self.inp_cell.value = result
+
+    def worker(self, inp_line_value):
+        # 这是在新线程中执行的方法
+        # result = api_methods.locate_now()
+        need_line_data = inp_line_value
+        result = api_methods.write_line_data(need_line_data)
+        # 一旦你得到了结果，调度 update_ui_with_result 在主线程中运行
+        # lambda 函数接受一个参数，即使它不会被使用
+        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(result))
+
     def clk_btn_line(self, widget):
+        # 这个方法会启动一个新线程来运行api_methods.locate_now
         self.inp_line.value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
-        thread = threading.Thread(target=api_methods.locate_now)
+        inp_line_value = self.inp_line.value
+        thread = threading.Thread(target=self.worker, args=(inp_line_value,))
         thread.start()
-        return
     def clk_btn_cell(self, widget):
         return
     def clk_btn_clear(self, widget):
