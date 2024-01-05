@@ -23,22 +23,13 @@ def locate_now():
     print (f'data_range: {data_range}')
     return data_value
 
-def write_line_data(line_data):    
+def write_line_data(cell_data):    
     data_full = standardize_table_format()
     data_value = data_full['data']['valueRange']['values'][0][0]
     data_range = data_full['data']['valueRange']['range']
 
-    line_data = line_data + "\n" + str(data_value)
-    line_data = [[line_data]]
-    print (f'data_range 01042240: {data_range}')
-    print (f'line_data 01042240: {line_data}')
+    cell_data = [[cell_data + "\n" + str(data_value)]]
 
     api = FeishuOpenAPI()
-    test_data = api.get_sheet_data("9ba2f5!C28:C28")['data']['valueRange']['values']
-    print (f'test_data 01042257: {test_data}')
-
-    result = api.write_sheet_data(data_range, line_data)
-    full_cell = line_data
-    # result = api.write_sheet_data("9ba2f5!C29:C29", test_data)
-    return result, full_cell
-    # return data_value
+    response = api.write_sheet_data(data_range, cell_data)
+    return response, cell_data
