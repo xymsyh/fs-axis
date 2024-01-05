@@ -37,11 +37,9 @@ class fsaxis(toga.App):
         self.main_box = toga.Box(style=Pack(direction=COLUMN, padding=0))
 
         # Creating input fields with flex styling 使用 Flex 样式创建输入字段
-        self.inp_keyword = toga.TextInput(style=Pack(flex=1))
-        #self.inp_keyword = toga.TextInput(style=Pack(flex=1), set_on_change=self.change_content)
+        self.inp_keyword = toga.TextInput(style=Pack(flex=1), placeholder='keyword')
         self.inp_keyword.on_change = self.change_content
-        self.inp_content = toga.TextInput(style=Pack(flex=2))
-        #self.inp_content = toga.TextInput(style=Pack(flex=2), set_on_change=self.change_content)
+        self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content')
         self.inp_content.on_change = self.change_content
 
         # 创建时区与运行状态
@@ -110,14 +108,15 @@ class fsaxis(toga.App):
 
 
     # 定义main_box回调函数
-    def update_ui_with_result(self, result):
+    def update_ui_with_result(self, result, full_cell):
         """更新界面元素的值。"""
-        self.inp_cell.value = result
+        self.inp_cell.value = full_cell
+        self.running_status.value = str(result['msg']) + ": " + str(result['data']['updatedRange'])
 
     def worker(self, inp_line_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
-        result = api_methods.write_line_data(inp_line_value)
-        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(result))
+        result, full_cell = api_methods.write_line_data(inp_line_value)
+        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(result, full_cell))
 
     def change_content(self, widget):
         formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
@@ -128,7 +127,7 @@ class fsaxis(toga.App):
         # formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
         # self.inp_line.value = formatted_value
         formatted_value = self.inp_line.value
-        self.inp_cell.value = "写入中..."
+        self.running_status.value = "写入中..."
         threading.Thread(target=self.worker, args=(formatted_value,)).start()
 
     def clk_btn_cell(self, widget):

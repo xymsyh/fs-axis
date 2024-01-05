@@ -38,6 +38,7 @@ def write_line_data(line_data):
     print (f'test_data 01042257: {test_data}')
 
     result = api.write_sheet_data(data_range, line_data)
+    full_cell = line_data
     # result = api.write_sheet_data("9ba2f5!C29:C29", test_data)
-    return result
+    return result, full_cell
     # return data_value
