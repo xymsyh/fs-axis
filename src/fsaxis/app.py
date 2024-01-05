@@ -23,6 +23,7 @@ class fsaxis(toga.App):
         self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
         self.create_buttons_layout()
         #endregion
+        self.scroll_container = toga.ScrollContainer(content=self.keywords_box)
 
         #region# main_box
         # Refactored styling for reuse 重构样式以供重用
@@ -108,7 +109,7 @@ class fsaxis(toga.App):
 
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
-        self.main_window.content = self.keywords_box
+        self.main_window.content = self.scroll_container
 
 def main():
     return fsaxis()
