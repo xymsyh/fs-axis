@@ -1,3 +1,5 @@
+# api_methods.py
+
 import sys
 from pathlib import Path
 def add_project_root_to_sys_path(): # 本行默认收起
@@ -22,6 +24,18 @@ def locate_now():
     print (data_full)
     print (f'data_range: {data_range}')
     return data_value
+
+def write_cell_data(cell_data):  
+    if not cell_data:
+        return None, cell_data
+    
+    raw_data_full = standardize_table_format()
+    data_range = raw_data_full['data']['valueRange']['range']
+    
+    api = FeishuOpenAPI()
+    cell_data = [[cell_data]]
+    response = api.write_sheet_data(data_range, cell_data)
+    return response, cell_data
 
 def write_line_data(line_data):  
     # 检查cell_data是否为空
