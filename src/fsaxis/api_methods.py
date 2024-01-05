@@ -41,13 +41,14 @@ def write_line_data(cell_data):
                 # 删除结尾的 'None'
                 if cell.endswith('None'):
                     cell = cell[:-4]
-                data[i][j] = cell
                 # 删除结尾的 '\n'
                 cell = cell.rstrip('\n')
-
+                # 返回处理结果
+                data[i][j] = cell
         return data
     
     cell_data = process_data(cell_data)
+    print(f"处理后数据：{cell_data}")
 
     api = FeishuOpenAPI()
     response = api.write_sheet_data(data_range, cell_data)
