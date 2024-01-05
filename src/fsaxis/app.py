@@ -31,7 +31,7 @@ class fsaxis(toga.App):
         self.inp_content = toga.TextInput(style=Pack(flex=2))
 
         # 创建时区与运行状态
-        self.time_zone = toga.TextInput(style=Pack(flex=1))
+        self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time zone')
         self.running_status = toga.TextInput(style=Pack(flex=2))
 
         # Creating multi-line input fields
