@@ -19,20 +19,18 @@ import api_methods
 
 class fsaxis(toga.App):
     def startup(self):
-        #region 创建副页面
-        # 选择Keyword
-        self.keyword_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
-        new_label = toga.Label('这是一个新的页面')
-        self.keyword_box.add(new_label)
+        #region# keywords_box
+        self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
+        self.create_buttons_layout()
         #endregion
 
-        #region 创建主页面
+        #region# main_box
         # Refactored styling for reuse 重构样式以供重用
         row_style = Pack(direction=ROW, padding=5)
         column_style = Pack(direction=COLUMN, padding=0)
 
         # Creating the main layout box 创建主布局框
-        main_box = toga.Box(style=Pack(direction=COLUMN, padding=0))
+        self.main_box = toga.Box(style=Pack(direction=COLUMN, padding=0))
 
         # Creating input fields with flex styling 使用 Flex 样式创建输入字段
         self.inp_keyword = toga.TextInput(style=Pack(flex=1))
@@ -60,18 +58,35 @@ class fsaxis(toga.App):
         row4 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
 
         # Adding rows to the main layout box 将行添加到主布局框
-        main_box.add(row1)
-        main_box.add(row2)
-        main_box.add(row3)
-        main_box.add(row4)
+        self.main_box.add(row1)
+        self.main_box.add(row2)
+        self.main_box.add(row3)
+        self.main_box.add(row4)
         #endregion
 
         # Setting up the main window
         self.main_window = toga.MainWindow(title=self.formal_name)
-        self.main_window.content = main_box
+        self.main_window.content = self.main_box
         self.main_window.show()
 
-    # 定义回调函数
+    # 定义keywords_box回调函数
+    def create_buttons_layout(self):
+        for row in range(25):  # 创建5行
+            row_box = toga.Box(style=Pack(direction=ROW, padding=5))
+            for col in range(4):  # 每行创建4个按钮
+                button = toga.Button(f'按钮 {row*4 + col + 1}', on_press=self.on_button_press)
+                row_box.add(button)
+            self.keywords_box.add(row_box)
+
+    def on_button_press(self, widget):
+        # 更新 inp_keyword 的值为按钮的文本
+        self.inp_keyword.value = widget.text
+        self.main_window.content = self.main_box
+
+
+
+
+    # 定义main_box回调函数
     def update_ui_with_result(self, result):
         """更新界面元素的值。"""
         self.inp_cell.value = result
@@ -93,7 +108,7 @@ class fsaxis(toga.App):
 
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
-        self.main_window.content = self.keyword_box
+        self.main_window.content = self.keywords_box
 
 def main():
     return fsaxis()
