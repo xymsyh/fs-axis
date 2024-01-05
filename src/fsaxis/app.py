@@ -1,3 +1,5 @@
+# app.py
+
 import sys
 from pathlib import Path
 def add_project_root_to_sys_path(): # 本行默认收起
@@ -116,10 +118,15 @@ class fsaxis(toga.App):
         else:
             self.running_status.value = "line_data为空"
 
+    def worker2(self, inp_cell_value):
+        """在后台线程中执行耗时操作，并在完成后更新UI。"""
+        response, full_cell = api_methods.write_cell_data(inp_cell_value)
+        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
+
     def worker(self, inp_line_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
-        result, full_cell = api_methods.write_line_data(inp_line_value)
-        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(result, full_cell))
+        response, full_cell = api_methods.write_line_data(inp_line_value)
+        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
 
     def change_content(self, widget):
         formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
@@ -135,7 +142,9 @@ class fsaxis(toga.App):
 
     def clk_btn_cell(self, widget):
         """处理第二个按钮的点击（如果有实际功能，需要实现）。"""
-        pass
+        formatted_value = self.inp_cell.value
+        self.running_status.value = "写入中..."
+        threading.Thread(target=self.worker2, args=(formatted_value,)).start()
 
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
