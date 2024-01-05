@@ -17,6 +17,9 @@ from toga.style.pack import COLUMN, ROW
 import threading
 import api_methods
 
+import os
+print("工作目录 Current working directory:", os.getcwd())
+
 class fsaxis(toga.App):
     def startup(self):
         #region# keywords_box
@@ -71,14 +74,28 @@ class fsaxis(toga.App):
         self.main_window.show()
 
     # 定义keywords_box回调函数
+    
+
     def create_buttons_layout(self):
-        for row in range(25):  # 创建5行
-            # row_box = toga.Box(style=Pack(direction=ROW, padding=30))
-            row_box = toga.Box(style=Pack(direction=ROW, padding=5))
-            for col in range(4):  # 每行创建4个按钮
-                button = toga.Button(f'按钮呀 {row*4 + col + 1}', style=Pack(width=85), on_press=self.on_button_press)
-                row_box.add(button)
-            self.keywords_box.add(row_box)
+        # 遍历 class_text 字典中的每个类别
+        from class_text import class_text
+        # 为每个类别的每个按钮创建一个新行
+        for category_name, buttons in class_text.items():
+            # 创建并添加一个类别标签
+            category_label = toga.Label(category_name, style=Pack(padding_bottom=5))
+            self.keywords_box.add(category_label)
+
+            # 创建该类别下的所有按钮
+            row_box = None
+            for i, (button_name, _) in enumerate(buttons):
+                # 每四个按钮或在新类别开始时创建一个新行
+                if i % 4 == 0 or row_box is None:
+                    row_box = toga.Box(style=Pack(direction=ROW, padding=5))
+                    self.keywords_box.add(row_box)
+
+                if button_name:  # 确保按钮名称非空
+                    button = toga.Button(button_name, style=Pack(width=85), on_press=self.on_button_press)
+                    row_box.add(button)
 
     def on_button_press(self, widget):
         # 更新 inp_keyword 的值为按钮的文本
