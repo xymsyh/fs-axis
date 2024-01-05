@@ -19,6 +19,11 @@ import api_methods
 
 class fsaxis(toga.App):
     def startup(self):
+        # 创建一个新页面
+        self.new_page = toga.Box(style=Pack(direction=COLUMN, padding=5))
+        new_label = toga.Label('这是一个新的页面')
+        self.new_page.add(new_label)
+
         # Refactored styling for reuse
         row_style = Pack(direction=ROW, padding=5)
         column_style = Pack(direction=COLUMN, padding=0)
@@ -86,6 +91,7 @@ class fsaxis(toga.App):
     def clk_btn_cell(self, widget):
         return
     def clk_btn_clear(self, widget):
+        self.main_window.content = self.new_page
         return
 
 def main():
