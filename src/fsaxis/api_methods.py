@@ -33,6 +33,21 @@ def write_cell_data(cell_data):
     data_range = raw_data_full['data']['valueRange']['range']
     
     api = FeishuOpenAPI()
+    def clean_cell_data(cell_data_str):
+        # 检查并处理 "[[" 或 "[[\"" 开头
+        if cell_data_str.startswith('[["') or cell_data_str.startswith('[[\''):
+            cell_data_str = cell_data_str[3:]
+        elif cell_data_str.startswith('[['):
+            cell_data_str = cell_data_str[2:]
+
+        # 检查并处理 "]]" 或 "]]" 结尾
+        if cell_data_str.endswith('"]]') or cell_data_str.endswith('\']]'):
+            cell_data_str = cell_data_str[:-3]
+        elif cell_data_str.endswith(']]'):
+            cell_data_str = cell_data_str[:-2]
+
+        return cell_data_str
+    cell_data = clean_cell_data(cell_data)
     cell_data = [[cell_data]]
     response = api.write_sheet_data(data_range, cell_data)
     return response, cell_data
