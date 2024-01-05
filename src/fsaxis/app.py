@@ -19,19 +19,22 @@ import api_methods
 
 class fsaxis(toga.App):
     def startup(self):
-        # 创建一个新页面
-        self.new_page = toga.Box(style=Pack(direction=COLUMN, padding=5))
+        #region 创建副页面
+        # 选择Keyword
+        self.keyword_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
         new_label = toga.Label('这是一个新的页面')
-        self.new_page.add(new_label)
+        self.keyword_box.add(new_label)
+        #endregion
 
-        # Refactored styling for reuse
+        #region 创建主页面
+        # Refactored styling for reuse 重构样式以供重用
         row_style = Pack(direction=ROW, padding=5)
         column_style = Pack(direction=COLUMN, padding=0)
 
-        # Creating the main layout box
+        # Creating the main layout box 创建主布局框
         main_box = toga.Box(style=Pack(direction=COLUMN, padding=0))
 
-        # Creating input fields with flex styling
+        # Creating input fields with flex styling 使用 Flex 样式创建输入字段
         self.inp_keyword = toga.TextInput(style=Pack(flex=1))
         self.inp_content = toga.TextInput(style=Pack(flex=2))
 
@@ -39,29 +42,29 @@ class fsaxis(toga.App):
         self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time zone')
         self.running_status = toga.TextInput(style=Pack(flex=2))
 
-        # Creating multi-line input fields
+        # Creating multi-line input fields 创建多行输入字段
         self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=85))
         self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=155))
 
-        # Creating buttons
+        # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 20}
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_cell = toga.Button('✅cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
         self.btn_clear = toga.Button('清空', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
-        # region Organizing components into rows and columns
+        # Organizing components into rows and columns 将组件组织成行和列
         row1 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
         row2 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
         col1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_clear])
         row3 = toga.Box(style=row_style, children=[self.inp_cell, col1])
         row4 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
-        # endregion
 
-        # Adding rows to the main layout box
+        # Adding rows to the main layout box 将行添加到主布局框
         main_box.add(row1)
         main_box.add(row2)
         main_box.add(row3)
         main_box.add(row4)
+        #endregion
 
         # Setting up the main window
         self.main_window = toga.MainWindow(title=self.formal_name)
@@ -90,7 +93,7 @@ class fsaxis(toga.App):
 
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
-        self.main_window.content = self.new_page
+        self.main_window.content = self.keyword_box
 
 def main():
     return fsaxis()
