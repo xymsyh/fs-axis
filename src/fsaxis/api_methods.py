@@ -23,12 +23,17 @@ def locate_now():
     print (f'data_range: {data_range}')
     return data_value
 
-def write_line_data(cell_data):    
-    data_full = standardize_table_format()
-    data_value = data_full['data']['valueRange']['values'][0][0]
-    data_range = data_full['data']['valueRange']['range']
+def write_line_data(line_data):  
+    # 检查cell_data是否为空
+    if not line_data:
+        # response = {'msg': 'line_data为空', 'data': None}
+        return None, line_data
+      
+    raw_data_full = standardize_table_format()
+    raw_data_value = raw_data_full['data']['valueRange']['values'][0][0]
+    data_range = raw_data_full['data']['valueRange']['range']
 
-    cell_data = [[cell_data + "\n" + str(data_value)]]
+    cell_data = [[line_data + "\n" + str(raw_data_value)]]
 
     def process_data(data):
         for i, row in enumerate(data):

@@ -108,10 +108,13 @@ class fsaxis(toga.App):
 
 
     # 定义main_box回调函数
-    def update_ui_with_result(self, result, full_cell):
+    def update_ui_with_result(self, response, full_cell):
         """更新界面元素的值。"""
         self.inp_cell.value = full_cell
-        self.running_status.value = str(result['msg']) + ": " + str(result['data']['updatedRange'])
+        if response:
+            self.running_status.value = str(response['msg']) + ": " + str(response['data']['updatedRange'])
+        else:
+            self.running_status.value = "line_data为空"
 
     def worker(self, inp_line_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
