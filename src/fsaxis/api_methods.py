@@ -54,9 +54,9 @@ def write_cell_data(cell_data):
 
 def write_line_data(line_data):  
     # 检查cell_data是否为空
-    if not line_data:
+    """if not line_data:
         # response = {'msg': 'line_data为空', 'data': None}
-        return None, line_data
+        return None, line_data"""
       
     raw_data_full = standardize_table_format()
     raw_data_value = raw_data_full['data']['valueRange']['values'][0][0]
@@ -64,7 +64,10 @@ def write_line_data(line_data):
 
     from datetime import datetime
     timestamp = datetime.now().strftime("%m%d%H%M")
-    cell_data = [[line_data + f" [{timestamp}]" + "\n" + str(raw_data_value)]]
+    if line_data:
+        cell_data = [[line_data + f" [{timestamp}]" + "\n" + str(raw_data_value)]]
+    else:
+        cell_data = [[str(raw_data_value)]]
 
     def process_data(data):
         for i, row in enumerate(data):

@@ -116,7 +116,7 @@ class fsaxis(toga.App):
         if response:
             self.running_status.value = str(response['msg']) + ": " + str(response['data']['updatedRange'])
         else:
-            self.running_status.value = "line_data为空"
+            self.running_status.value = "write_data为空"
 
     def worker2(self, inp_cell_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
