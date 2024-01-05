@@ -49,12 +49,13 @@ class fsaxis(toga.App):
         self.btn_cell = toga.Button('✅cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
         self.btn_clear = toga.Button('清空', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
-        # Organizing components into rows and columns
+        # region Organizing components into rows and columns
         row1 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
         row2 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
         col1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_clear])
         row3 = toga.Box(style=row_style, children=[self.inp_cell, col1])
         row4 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
+        # endregion
 
         # Adding rows to the main layout box
         main_box.add(row1)
@@ -69,30 +70,27 @@ class fsaxis(toga.App):
 
     # 定义回调函数
     def update_ui_with_result(self, result):
-        # 这个方法会在主线程中被调用，用来更新UI
-        # 注意：确保这个方法是线程安全的
+        """更新界面元素的值。"""
         self.inp_cell.value = result
 
     def worker(self, inp_line_value):
-        # 这是在新线程中执行的方法
-        # result = api_methods.locate_now()
-        need_line_data = inp_line_value
-        result = api_methods.write_line_data(need_line_data)
-        # 一旦你得到了结果，调度 update_ui_with_result 在主线程中运行
-        # lambda 函数接受一个参数，即使它不会被使用
+        """在后台线程中执行耗时操作，并在完成后更新UI。"""
+        result = api_methods.write_line_data(inp_line_value)
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(result))
 
     def clk_btn_line(self, widget):
-        # 这个方法会启动一个新线程来运行api_methods.locate_now
-        self.inp_line.value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
-        inp_line_value = self.inp_line.value
-        thread = threading.Thread(target=self.worker, args=(inp_line_value,))
-        thread.start()
+        """处理按钮点击，启动后台线程。"""
+        formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
+        self.inp_line.value = formatted_value
+        threading.Thread(target=self.worker, args=(formatted_value,)).start()
+
     def clk_btn_cell(self, widget):
-        return
+        """处理第二个按钮的点击（如果有实际功能，需要实现）。"""
+        pass
+
     def clk_btn_clear(self, widget):
+        """切换到新页面。"""
         self.main_window.content = self.new_page
-        return
 
 def main():
     return fsaxis()
