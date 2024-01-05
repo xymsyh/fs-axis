@@ -30,6 +30,25 @@ def write_line_data(cell_data):
 
     cell_data = [[cell_data + "\n" + str(data_value)]]
 
+    def process_data(data):
+        for i, row in enumerate(data):
+            for j, cell in enumerate(row):
+                # 迭代替换 '\n\n' 为 '\n'
+                while '\n\n' in cell:
+                    cell = cell.replace('\n\n', '\n')
+                # 删除开头的 '\n'
+                cell = cell.lstrip('\n')
+                # 删除结尾的 'None'
+                if cell.endswith('None'):
+                    cell = cell[:-4]
+                data[i][j] = cell
+                # 删除结尾的 '\n'
+                cell = cell.rstrip('\n')
+
+        return data
+    
+    cell_data = process_data(cell_data)
+
     api = FeishuOpenAPI()
     response = api.write_sheet_data(data_range, cell_data)
     return response, cell_data
