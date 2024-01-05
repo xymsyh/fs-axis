@@ -73,9 +73,10 @@ class fsaxis(toga.App):
     # 定义keywords_box回调函数
     def create_buttons_layout(self):
         for row in range(25):  # 创建5行
+            # row_box = toga.Box(style=Pack(direction=ROW, padding=30))
             row_box = toga.Box(style=Pack(direction=ROW, padding=5))
             for col in range(4):  # 每行创建4个按钮
-                button = toga.Button(f'按钮 {row*4 + col + 1}', on_press=self.on_button_press)
+                button = toga.Button(f'按钮呀 {row*4 + col + 1}', style=Pack(width=85), on_press=self.on_button_press)
                 row_box.add(button)
             self.keywords_box.add(row_box)
 
