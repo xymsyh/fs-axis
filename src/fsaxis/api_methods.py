@@ -33,7 +33,9 @@ def write_line_data(line_data):
     raw_data_value = raw_data_full['data']['valueRange']['values'][0][0]
     data_range = raw_data_full['data']['valueRange']['range']
 
-    cell_data = [[line_data + "\n" + str(raw_data_value)]]
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%m%d%H%M")
+    cell_data = [[line_data + f" [{timestamp}]" + "\n" + str(raw_data_value)]]
 
     def process_data(data):
         for i, row in enumerate(data):
