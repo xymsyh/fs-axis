@@ -185,6 +185,21 @@ class fsaxis(toga.App):
         # 显示确认对话框
         self.main_window.content = confirm_box
 
+    def set_controls_enabled(self, enabled):
+        # 遍历主布局框中的所有子控件
+        for child in self.main_box.children:
+            # 检查子控件是否是 Box 类型（可能包含更多控件）
+            if isinstance(child, toga.Box):
+                for subchild in child.children:
+                    # 禁用或启用所有 TextInput 和 Button，除了 self.btn_new3
+                    if isinstance(subchild, (toga.TextInput, toga.Button)):
+                        if subchild != self.btn_new3:
+                            subchild.enabled = enabled
+            # 直接禁用或启用 TextInput 和 Button
+            elif isinstance(child, (toga.TextInput, toga.Button)):
+                if child != self.btn_new3:
+                    child.enabled = enabled
+
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
         # self.main_window.content = self.scroll_container
@@ -203,6 +218,9 @@ class fsaxis(toga.App):
         self.inp_content.enabled = True
         self.inp_line.enabled = True
         self.inp_cell.enabled = True
+
+        # self.set_controls_enabled(False)
+
 
 def main():
     return fsaxis()
