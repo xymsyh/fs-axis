@@ -49,15 +49,15 @@ class fsaxis(toga.App):
         self.running_status = toga.TextInput(style=Pack(flex=2), placeholder='status')
 
         # Creating multi-line input fields 创建多行输入字段
-        self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=84))
-        self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180))
+        self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=84), placeholder='inp_line')
+        self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180), placeholder='inp_cell')
 
         # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 20}
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
-        self.btn_cell = toga.Button('✅cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
+        self.btn_cell = toga.Button('cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
         button_style = {'width': 85, 'padding_top': 48}
-        self.btn_clear = toga.Button('清空', style=Pack(**button_style), on_press=self.clk_btn_clear)
+        self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
         # Add your new buttons here 新增按钮
         button_style2 = {'width': 85, 'padding_top': 0}
@@ -172,7 +172,7 @@ class fsaxis(toga.App):
 
         # 创建取消操作的处理函数
         def on_cancel(widget):
-            self.running_status.value = "操作已取消"
+            # self.running_status.value = "操作已取消"
             self.main_window.content = self.main_box
 
         # 创建确认对话框的内容
