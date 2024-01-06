@@ -56,14 +56,15 @@ class fsaxis(toga.App):
         button_style = {'width': 85, 'padding_top': 20}
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_cell = toga.Button('✅cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
+        button_style = {'width': 85, 'padding_top': 40}
         self.btn_clear = toga.Button('清空', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
         # Add your new buttons here 新增按钮
         button_style2 = {'width': 85, 'padding_top': 0}
-        self.btn_new1 = toga.Button('B1', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
-        self.btn_new2 = toga.Button('B2', style=Pack(**button_style2), on_press=self.clk_btn_clear)
-        self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.clk_btn_clear)
-        self.btn_new4 = toga.Button('B4', style=Pack(**button_style2), on_press=self.clk_btn_clear)
+        self.btn_new1 = toga.Button('仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new2 = toga.Button('历史', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new4 = toga.Button('B4', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
 
         # Organizing components into rows and columns 将组件组织成行和列
         row1 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
@@ -124,7 +125,7 @@ class fsaxis(toga.App):
 
     def on_btn_new1_press(self, widget):
         # 按钮被按下时激活 inp_keyword 输入框
-        self.inp_keyword.focus()
+        self.inp_content.focus()
 
     # 定义main_box回调函数
     def update_ui_with_result(self, response, full_cell):
@@ -167,7 +168,10 @@ class fsaxis(toga.App):
 
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
-        self.main_window.content = self.scroll_container
+        # self.main_window.content = self.scroll_container
+        self.inp_keyword.value = ''
+        self.inp_content.value = ''
+        self.inp_line.value = ''
 
 def main():
     return fsaxis()
