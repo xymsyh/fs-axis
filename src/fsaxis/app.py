@@ -161,7 +161,6 @@ class fsaxis(toga.App):
         threading.Thread(target=self.worker, args=(formatted_value,)).start()
 
     def clk_btn_cell(self, widget):
-        """处理第二个按钮的点击（如果有实际功能，需要实现）。"""
         formatted_value = self.inp_cell.value
         self.running_status.value = "写入中..."
         threading.Thread(target=self.worker2, args=(formatted_value,)).start()
