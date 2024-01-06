@@ -56,7 +56,7 @@ class fsaxis(toga.App):
         button_style = {'width': 85, 'padding_top': 20}
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_cell = toga.Button('✅cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
-        button_style = {'width': 85, 'padding_top': 40}
+        button_style = {'width': 85, 'padding_top': 48}
         self.btn_clear = toga.Button('清空', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
         # Add your new buttons here 新增按钮
@@ -162,8 +162,27 @@ class fsaxis(toga.App):
 
     def clk_btn_cell(self, widget):
         formatted_value = self.inp_cell.value
-        self.running_status.value = "写入中..."
-        threading.Thread(target=self.worker2, args=(formatted_value,)).start()
+
+        # 创建确认操作的处理函数
+        def on_confirm(widget):
+            self.running_status.value = "写入中..."
+            threading.Thread(target=self.worker2, args=(formatted_value,)).start()
+            self.main_window.content = self.main_box
+            
+
+        # 创建取消操作的处理函数
+        def on_cancel(widget):
+            self.running_status.value = "操作已取消"
+            self.main_window.content = self.main_box
+
+        # 创建确认对话框的内容
+        confirm_label = toga.Label('确认写入？')
+        confirm_button = toga.Button('确认', on_press=on_confirm)
+        cancel_button = toga.Button('取消', on_press=on_cancel)
+        confirm_box = toga.Box(children=[confirm_label, confirm_button, cancel_button])
+
+        # 显示确认对话框
+        self.main_window.content = confirm_box
 
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
