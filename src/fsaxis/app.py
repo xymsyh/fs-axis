@@ -192,5 +192,17 @@ class fsaxis(toga.App):
         self.inp_content.value = ''
         self.inp_line.value = ''
 
+        # 重新设置主界面
+        # 禁用再启用输入框来尝试使其失去焦点
+        self.inp_keyword.enabled = False
+        self.inp_content.enabled = False
+        self.inp_line.enabled = False
+        self.inp_cell.enabled = False
+
+        self.inp_keyword.enabled = True
+        self.inp_content.enabled = True
+        self.inp_line.enabled = True
+        self.inp_cell.enabled = True
+
 def main():
     return fsaxis()
