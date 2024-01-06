@@ -58,6 +58,13 @@ class fsaxis(toga.App):
         self.btn_cell = toga.Button('✅cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
         self.btn_clear = toga.Button('选择', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
+        # Add your new buttons here 新增按钮
+        button_style2 = {'width': 85, 'padding_top': 0}
+        self.btn_new1 = toga.Button('Button 1', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new2 = toga.Button('Button 2', style=Pack(**button_style2), on_press=self.clk_btn_clear)
+        self.btn_new3 = toga.Button('Button 3', style=Pack(**button_style2), on_press=self.clk_btn_clear)
+        self.btn_new4 = toga.Button('Button 4', style=Pack(**button_style2), on_press=self.clk_btn_clear)
+
         # Organizing components into rows and columns 将组件组织成行和列
         row1 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
         row2 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
@@ -65,11 +72,15 @@ class fsaxis(toga.App):
         row3 = toga.Box(style=row_style, children=[self.inp_cell, col1])
         row4 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
 
+        # New row for the new buttons 新按钮的行
+        row5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
+
         # Adding rows to the main layout box 将行添加到主布局框
         self.main_box.add(row1)
         self.main_box.add(row2)
         self.main_box.add(row3)
         self.main_box.add(row4)
+        self.main_box.add(row5)
         #endregion
 
         # Setting up the main window
@@ -107,7 +118,9 @@ class fsaxis(toga.App):
         self.main_window.content = self.main_box
 
 
-
+    def on_btn_new1_press(self, widget):
+        # 按钮被按下时激活 inp_keyword 输入框
+        self.inp_keyword.focus()
 
     # 定义main_box回调函数
     def update_ui_with_result(self, response, full_cell):
@@ -131,6 +144,8 @@ class fsaxis(toga.App):
     def change_content(self, widget):
         formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
         self.inp_line.value = formatted_value
+        if "。。" in formatted_value:
+            self.inp_line.focus()
 
     def clk_btn_line(self, widget):
         """处理按钮点击，启动后台线程。"""
