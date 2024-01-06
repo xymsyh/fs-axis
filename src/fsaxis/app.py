@@ -28,7 +28,7 @@ class fsaxis(toga.App):
         self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
         self.create_buttons_layout()
         #endregion
-        self.scroll_container = toga.ScrollContainer(content=self.keywords_box)
+        self.scroll_container = toga.ScrollContainer(content=self.keywords_box,style=Pack(height=200))
 
         #region# main_box
         # Refactored styling for reuse 重构样式以供重用
@@ -56,14 +56,14 @@ class fsaxis(toga.App):
         button_style = {'width': 85, 'padding_top': 20}
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_cell = toga.Button('✅cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
-        self.btn_clear = toga.Button('选择', style=Pack(**button_style), on_press=self.clk_btn_clear)
+        self.btn_clear = toga.Button('清空', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
         # Add your new buttons here 新增按钮
         button_style2 = {'width': 85, 'padding_top': 0}
-        self.btn_new1 = toga.Button('Button 1', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
-        self.btn_new2 = toga.Button('Button 2', style=Pack(**button_style2), on_press=self.clk_btn_clear)
-        self.btn_new3 = toga.Button('Button 3', style=Pack(**button_style2), on_press=self.clk_btn_clear)
-        self.btn_new4 = toga.Button('Button 4', style=Pack(**button_style2), on_press=self.clk_btn_clear)
+        self.btn_new1 = toga.Button('B1', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new2 = toga.Button('B2', style=Pack(**button_style2), on_press=self.clk_btn_clear)
+        self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.clk_btn_clear)
+        self.btn_new4 = toga.Button('B4', style=Pack(**button_style2), on_press=self.clk_btn_clear)
 
         # Organizing components into rows and columns 将组件组织成行和列
         row1 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
@@ -74,6 +74,7 @@ class fsaxis(toga.App):
 
         # New row for the new buttons 新按钮的行
         row5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
+        # row6 = toga.Box(style=row_style, children=[self.scroll_container])
 
         # Adding rows to the main layout box 将行添加到主布局框
         self.main_box.add(row1)
@@ -81,6 +82,9 @@ class fsaxis(toga.App):
         self.main_box.add(row3)
         self.main_box.add(row4)
         self.main_box.add(row5)
+        self.scroll_container.style = Pack(flex=1)
+
+        self.main_box.add(self.scroll_container)
         #endregion
 
         # Setting up the main window
@@ -115,7 +119,7 @@ class fsaxis(toga.App):
     def on_button_press(self, widget):
         # 更新 inp_keyword 的值为按钮的文本
         self.inp_keyword.value = widget.text
-        self.main_window.content = self.main_box
+        # self.main_window.content = self.main_box
 
 
     def on_btn_new1_press(self, widget):
