@@ -151,6 +151,7 @@ flatpak_sdk = "org.gnome.Sdk"
 [tool.briefcase.app.fsaxis.windows]
 requires = [
     "toga-winforms~=0.4.0",
+    "requests",
 ]
 
 # Mobile deployments
