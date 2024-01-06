@@ -46,11 +46,11 @@ class fsaxis(toga.App):
 
         # 创建时区与运行状态
         self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time zone')
-        self.running_status = toga.TextInput(style=Pack(flex=2))
+        self.running_status = toga.TextInput(style=Pack(flex=2), placeholder='status')
 
         # Creating multi-line input fields 创建多行输入字段
-        self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=85))
-        self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=155))
+        self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=84))
+        self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180))
 
         # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 20}
@@ -77,10 +77,10 @@ class fsaxis(toga.App):
         # row6 = toga.Box(style=row_style, children=[self.scroll_container])
 
         # Adding rows to the main layout box 将行添加到主布局框
-        self.main_box.add(row1)
-        self.main_box.add(row2)
-        self.main_box.add(row3)
         self.main_box.add(row4)
+        self.main_box.add(row3)
+        self.main_box.add(row2)
+        self.main_box.add(row1)
         self.main_box.add(row5)
         self.scroll_container.style = Pack(flex=1)
 
@@ -101,7 +101,7 @@ class fsaxis(toga.App):
         # 为每个类别的每个按钮创建一个新行
         for category_name, buttons in class_text.items():
             # 创建并添加一个类别标签
-            category_label = toga.Label(category_name, style=Pack(padding_bottom=5))
+            category_label = toga.Label(category_name, style=Pack(padding_bottom=0))
             self.keywords_box.add(category_label)
 
             # 创建该类别下的所有按钮
