@@ -17,7 +17,7 @@ from autom_tbl_inp import standardize_table_format
 from feishu_api import FeishuOpenAPI
 
 
-def locate_now():
+def locate_now(): # 这实际上不用了 (01062255)
     data_full = standardize_table_format()
     data_value = data_full['data']['valueRange']['values'][0][0]
     data_range = data_full['data']['valueRange']['range']
@@ -48,6 +48,7 @@ def write_cell_data(cell_data):
 
         return cell_data_str
     cell_data = clean_cell_data(cell_data)
+    cell_data = cell_data.replace("\\n", "\n")
     cell_data = [[cell_data]]
     response = api.write_sheet_data(data_range, cell_data)
     return response, cell_data
