@@ -136,6 +136,9 @@ class fsaxis(toga.App):
             self.running_status.value = str(response['msg']) + ": " + str(response['data']['updatedRange'])
         else:
             self.running_status.value = "write_data为空"
+        
+        self.btn_line.enabled = True
+        self.btn_cell.enabled = True
 
     def worker2(self, inp_cell_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
@@ -154,6 +157,8 @@ class fsaxis(toga.App):
             self.inp_line.focus()
 
     def clk_btn_line(self, widget):
+        self.btn_line.enabled = False
+        self.btn_cell.enabled = False
         """处理按钮点击，启动后台线程。"""
         # formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
         # self.inp_line.value = formatted_value
@@ -162,6 +167,8 @@ class fsaxis(toga.App):
         threading.Thread(target=self.worker, args=(formatted_value,)).start()
 
     def clk_btn_cell(self, widget):
+        self.btn_line.enabled = False
+        self.btn_cell.enabled = False
         formatted_value = self.inp_cell.value
 
         # 创建确认操作的处理函数
@@ -175,6 +182,8 @@ class fsaxis(toga.App):
         def on_cancel(widget):
             # self.running_status.value = "操作已取消"
             self.main_window.content = self.main_box
+            self.btn_line.enabled = True
+            self.btn_cell.enabled = True
 
         # 创建确认对话框的内容
         confirm_label = toga.Label('确认写入？')
