@@ -67,22 +67,23 @@ class fsaxis(toga.App):
         self.btn_new4 = toga.Button('B4', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
 
         # Organizing components into rows and columns 将组件组织成行和列
-        row1 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
-        row2 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
-        col1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_clear])
-        row3 = toga.Box(style=row_style, children=[self.inp_cell, col1])
-        row4 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
+        col_1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_clear])
+        row_1 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
+        row_2 = toga.Box(style=row_style, children=[self.inp_cell, col_1])
+        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
+        row_4 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
+        row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
+
 
         # New row for the new buttons 新按钮的行
-        row5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
         # row6 = toga.Box(style=row_style, children=[self.scroll_container])
 
         # Adding rows to the main layout box 将行添加到主布局框
-        self.main_box.add(row4)
-        self.main_box.add(row3)
-        self.main_box.add(row2)
-        self.main_box.add(row1)
-        self.main_box.add(row5)
+        self.main_box.add(row_1)
+        self.main_box.add(row_2)
+        self.main_box.add(row_3)
+        self.main_box.add(row_4)
+        self.main_box.add(row_5)
         self.scroll_container.style = Pack(flex=1)
 
         self.main_box.add(self.scroll_container)
