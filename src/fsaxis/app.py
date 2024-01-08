@@ -51,6 +51,7 @@ class fsaxis(toga.App):
         # Creating multi-line input fields 创建多行输入字段
         self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=84), placeholder='inp_line')
         self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180), placeholder='inp_cell')
+        self.inp_cell.enabled = False
 
         # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 20}
@@ -61,7 +62,7 @@ class fsaxis(toga.App):
 
         # Add your new buttons here 新增按钮
         button_style2 = {'width': 85, 'padding_top': 0}
-        self.btn_new1 = toga.Button('仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
         self.btn_new2 = toga.Button('历史', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
         self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
         self.btn_new4 = toga.Button('B4', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
@@ -126,8 +127,15 @@ class fsaxis(toga.App):
 
 
     def on_btn_new1_press(self, widget):
-        # 按钮被按下时激活 inp_keyword 输入框
-        self.inp_content.focus()
+        # 切换 inp_cell 的 enabled 状态
+        self.inp_cell.enabled = not self.inp_cell.enabled
+
+        # 更新按钮文本
+        if self.inp_cell.enabled == False:
+            self.btn_new1.text = "CL仅读"
+        else:
+            self.btn_new1.text = "CL可写"
+
 
     # 定义main_box回调函数
     def update_ui_with_result(self, response, full_cell):
