@@ -15,6 +15,7 @@ add_project_root_to_sys_path()
 
 from autom_tbl_inp import standardize_table_format
 from feishu_api import FeishuOpenAPI
+from datetime import datetime
 
 
 def locate_now(): # 这实际上不用了 (01062255)
@@ -27,8 +28,9 @@ def locate_now(): # 这实际上不用了 (01062255)
 
 def write_cell_data(cell_data):  
     if not cell_data:
-        return None, cell_data
-    
+        timestamp = datetime.now().strftime("%m%d%H%M")
+        cell_data = "清空" + f" [{timestamp}]"
+
     raw_data_full = standardize_table_format()
     data_range = raw_data_full['data']['valueRange']['range']
     
@@ -63,7 +65,6 @@ def write_line_data(line_data):
     raw_data_value = raw_data_full['data']['valueRange']['values'][0][0]
     data_range = raw_data_full['data']['valueRange']['range']
 
-    from datetime import datetime
     timestamp = datetime.now().strftime("%m%d%H%M")
     if line_data:
         cell_data = [[line_data + f" [{timestamp}]" + "\n" + str(raw_data_value)]]
