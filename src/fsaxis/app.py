@@ -57,7 +57,7 @@ class fsaxis(toga.App):
         button_style = {'width': 85, 'padding_top': 20}
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_cell = toga.Button('cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
-        button_style = {'width': 85, 'padding_top': 48}
+        button_style = {'width': 85, 'padding_top': 15}
         self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
         # Add your new buttons here 新增按钮
@@ -68,10 +68,10 @@ class fsaxis(toga.App):
         self.btn_new4 = toga.Button('B4', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
 
         # Organizing components into rows and columns 将组件组织成行和列
-        col_1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_clear])
+        col_1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_line])
         row_1 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
         row_2 = toga.Box(style=row_style, children=[self.inp_cell, col_1])
-        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
+        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_clear])
         row_4 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
         row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
 
@@ -227,7 +227,7 @@ class fsaxis(toga.App):
 
         # 重新设置主界面
         # 禁用再启用输入框来尝试使其失去焦点
-        self.inp_keyword.enabled = False
+        '''self.inp_keyword.enabled = False
         self.inp_content.enabled = False
         self.inp_line.enabled = False
         self.inp_cell.enabled = False
@@ -235,7 +235,7 @@ class fsaxis(toga.App):
         self.inp_keyword.enabled = True
         self.inp_content.enabled = True
         self.inp_line.enabled = True
-        self.inp_cell.enabled = True
+        self.inp_cell.enabled = True'''
 
         # self.set_controls_enabled(False)
 
