@@ -50,6 +50,8 @@ class fsaxis(toga.App):
 
         # Creating multi-line input fields 创建多行输入字段
         self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=84), placeholder='inp_line')
+        # self.inp_line.on_change = self.change_inp_line
+        # 需要每个输入框都是焦点时使用on_change才能正常，否则会冲突
         self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180), placeholder='inp_cell')
         self.inp_cell.enabled = False
 
@@ -173,6 +175,11 @@ class fsaxis(toga.App):
         self.inp_line.value = formatted_value
         """if "。。" in formatted_value:
             self.inp_line.focus()"""
+        
+    def change_inp_line(self, widget):
+        if not self.inp_keyword.value:
+            self.inp_content = self.inp_line.value
+
 
     def clk_btn_line(self, widget):
         global my_global_variable
