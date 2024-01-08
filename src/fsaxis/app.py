@@ -65,7 +65,7 @@ class fsaxis(toga.App):
         self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
         self.btn_new2 = toga.Button('历史', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
         self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
-        self.btn_new4 = toga.Button('B4', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
         col_1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_line])
@@ -149,6 +149,11 @@ class fsaxis(toga.App):
         self.btn_line.enabled = True
         self.btn_cell.enabled = True
 
+        global my_global_variable
+        if my_global_variable == self.inp_content.value:
+            self.inp_content.value = ''
+            self.inp_content.focus()
+
     def worker2(self, inp_cell_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
         response, full_cell = api_methods.write_cell_data(inp_cell_value)
@@ -170,6 +175,8 @@ class fsaxis(toga.App):
             self.inp_line.focus()"""
 
     def clk_btn_line(self, widget):
+        global my_global_variable
+        my_global_variable = self.inp_content.value
         self.btn_line.enabled = False
         self.btn_cell.enabled = False
         """处理按钮点击，启动后台线程。"""
@@ -226,9 +233,15 @@ class fsaxis(toga.App):
         """切换到新页面。"""
         # self.main_window.content = self.scroll_container
         back_content = self.inp_line.value
-        self.inp_keyword.value = ''
+        self.inp_content.focus()
+        
+        if self.inp_content.value == '': #如果inp_content为空 (意为二次点击)
+            self.inp_keyword.value = ''
+            self.inp_content.enabled = False
+            self.inp_content.enabled = True
+            # self.inp_content.focus()
         self.inp_content.value = ''
-        self.inp_line.value = back_content
+        self.inp_line.value = back_content #inp_line保持不变
 
         # 重新设置主界面
         # 禁用再启用输入框来尝试使其失去焦点
