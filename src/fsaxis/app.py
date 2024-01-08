@@ -96,7 +96,7 @@ class fsaxis(toga.App):
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = self.main_box
         self.main_window.show()
-        self.inp_line.focus()
+        self.inp_content.focus()
 
     # 定义keywords_box回调函数
     
@@ -160,7 +160,10 @@ class fsaxis(toga.App):
 
         global my_global_variable
         if my_global_variable == self.inp_content.value:
+            back_content2 = self.inp_line.value# 保持line的不变
             self.inp_content.value = ''
+            self.inp_line.value = back_content2# 保持line的不变
+
             self.inp_content.focus()
 
     def worker2(self, inp_cell_value):
