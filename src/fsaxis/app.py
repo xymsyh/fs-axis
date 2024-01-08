@@ -56,10 +56,10 @@ class fsaxis(toga.App):
         self.inp_cell.enabled = False
 
         # Creating buttons 创建按钮
-        button_style = {'width': 85, 'padding_top': 20}
+        button_style = {'width': 85, 'padding_top': 16}
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_cell = toga.Button('cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
-        button_style = {'width': 85, 'padding_top': 15}
+        button_style = {'width': 85, 'padding_top': 44}
         self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
 
         # Add your new buttons here 新增按钮
@@ -70,10 +70,10 @@ class fsaxis(toga.App):
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
-        col_1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_line])
+        col_1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_clear])
         row_1 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
         row_2 = toga.Box(style=row_style, children=[self.inp_cell, col_1])
-        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_clear])
+        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
         row_4 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
         row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
 
