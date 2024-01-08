@@ -65,8 +65,8 @@ class fsaxis(toga.App):
         # Add your new buttons here 新增按钮
         button_style2 = {'width': 85, 'padding_top': 0}
         self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
-        self.btn_new2 = toga.Button('历史', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
-        self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+        self.btn_new2 = toga.Button('历史', style=Pack(**button_style2), on_press=self.on_btn_new2_press)
+        self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
@@ -137,6 +137,13 @@ class fsaxis(toga.App):
             self.btn_new1.text = "CL仅读"
         else:
             self.btn_new1.text = "CL可写"
+    
+    def on_btn_new2_press(self, widget):
+        pass
+
+    def on_btn_new3_press(self, widget):
+        pass
+
 
 
     # 定义main_box回调函数
