@@ -160,10 +160,14 @@ class fsaxis(toga.App):
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
 
     def change_content(self, widget):
-        formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
+        if self.inp_keyword.value:
+            formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
+        else:
+            formatted_value = f'{self.inp_content.value}'
+
         self.inp_line.value = formatted_value
-        if "。。" in formatted_value:
-            self.inp_line.focus()
+        """if "。。" in formatted_value:
+            self.inp_line.focus()"""
 
     def clk_btn_line(self, widget):
         self.btn_line.enabled = False
@@ -221,9 +225,10 @@ class fsaxis(toga.App):
     def clk_btn_clear(self, widget):
         """切换到新页面。"""
         # self.main_window.content = self.scroll_container
+        back_content = self.inp_line.value
         self.inp_keyword.value = ''
         self.inp_content.value = ''
-        self.inp_line.value = ''
+        self.inp_line.value = back_content
 
         # 重新设置主界面
         # 禁用再启用输入框来尝试使其失去焦点
