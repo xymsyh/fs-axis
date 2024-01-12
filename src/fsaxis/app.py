@@ -300,6 +300,8 @@ class fsaxis(toga.App):
 
             self.inp_content.focus()
 
+        self.inp_content2.value = ""
+
     def worker2(self, inp_cell_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
         response, full_cell = api_methods.write_cell_data(inp_cell_value)
