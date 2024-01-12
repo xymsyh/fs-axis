@@ -1,3 +1,5 @@
+# 本可后删 (01121742)，目前仅用于参考
+
 import sys
 from pathlib import Path
 def add_project_root_to_sys_path(): # 本行默认收起

@@ -177,6 +177,12 @@ class fsaxis(toga.App):
         # 更改当前窗口的内容为新布局
         self.main_window.content = box
 
+        self.main_window.app.add_background_task(self.pick_image_direct)
+    
+    async def pick_image_direct(self, widget):
+        # 直接调用 pick_image 方法
+        await self.pick_image(widget)
+
     async def pick_image(self, widget):
         if sys.platform == 'win32':
             # Windows 环境下的逻辑
