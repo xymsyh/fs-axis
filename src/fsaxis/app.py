@@ -44,6 +44,9 @@ class fsaxis(toga.App):
         self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content')
         self.inp_content.on_change = self.change_content
 
+        # 图片上传界面的输入框
+        self.inp_content2 = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
+
         # 创建时区与运行状态
         self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time_zone')
         self.running_status = toga.TextInput(style=Pack(flex=2), placeholder='status')
@@ -159,7 +162,7 @@ class fsaxis(toga.App):
         action_button = toga.Button('上传图片', on_press=self.perform_action2, style=Pack(padding=5, flex=1))
 
         # 创建文本输入框
-        self.inp_content2 = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
+        # self.inp_content2 = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
 
         # 水平布局的容器，包括动作按钮和文本输入框
         row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, self.inp_content2])
@@ -251,7 +254,7 @@ class fsaxis(toga.App):
 
     def update_status(self, result):
         self.inp_content2.value = result
-        self.inp_content.value = f"{result} {self.inp_content.value}"
+        # self.inp_content.value = f"{result} {self.inp_content.value}"
 
     def perform_action(self, widget):
         self.main_window.content = self.original_content
@@ -272,7 +275,7 @@ class fsaxis(toga.App):
                 result[0] = process_image_data(self.image_data)
                 on_complete()
 
-            self.inp_content2.value = '写入中...'
+            self.inp_content2.value = '图片写入中...'
             threading.Thread(target=thread_function).start()
         else:
             self.main_window.error_dialog("PhotoApp", "No image has been selected.")
@@ -308,10 +311,17 @@ class fsaxis(toga.App):
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
 
     def change_content(self, widget):
-        if self.inp_keyword.value:
-            formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
+        # 检查 inp_content2 是否存在并且有值
+        if hasattr(self, 'inp_content2') and self.inp_content2.value:
+            if self.inp_keyword.value:
+                formatted_value = f'[{self.inp_keyword.value}[{self.inp_content2.value} {self.inp_content.value}]{self.inp_keyword.value}]'
+            else:
+                formatted_value = f'{self.inp_content2.value} {self.inp_content.value}'
         else:
-            formatted_value = f'{self.inp_content.value}'
+            if self.inp_keyword.value:
+                formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
+            else:
+                formatted_value = self.inp_content.value
 
         self.inp_line.value = formatted_value
         """if "。。" in formatted_value:
