@@ -148,25 +148,29 @@ class fsaxis(toga.App):
     def create_photo_view(self):
         from toga import ImageView, ScrollContainer
 
-        self.main_window = toga.MainWindow(title=self.formal_name)
-        self.main_window.size = (400, 600)
-
+        # 创建“选择图片”按钮
         pick_button = toga.Button('Pick Image', on_press=self.pick_image, style=Pack(padding=5))
+
+        # 创建“执行操作”按钮
         action_button = toga.Button('Perform Action', on_press=self.perform_action, style=Pack(padding=5, flex=1))
+
+        # 创建文本输入框
         self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content')
+
+        # 水平布局的容器，包括动作按钮和文本输入框
         row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, self.inp_content])
 
-
-
+        # 创建 ImageView，用于显示图片
         self.image_view = ImageView(style=Pack(width=400, height=300))
 
+        # 创建 ScrollView，用于滚动查看 ImageView
         scroll_container = ScrollContainer(content=self.image_view, style=Pack(flex=1))
 
-        box = toga.Box(children=[pick_button, scroll_container, row_1],
-                       style=Pack(direction=COLUMN, padding=10))
+        # 创建垂直布局的容器，包括所有组件
+        box = toga.Box(children=[pick_button, scroll_container, row_1], style=Pack(direction=COLUMN, padding=10))
 
+        # 更改当前窗口的内容为新布局
         self.main_window.content = box
-        self.main_window.show()
 
     async def pick_image(self, widget):
         if sys.platform == 'win32':
