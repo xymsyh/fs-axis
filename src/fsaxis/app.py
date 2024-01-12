@@ -66,7 +66,7 @@ class fsaxis(toga.App):
         button_style2 = {'width': 85, 'padding_top': 0}
         self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
         self.btn_new2 = toga.Button('历史', style=Pack(**button_style2), on_press=self.on_btn_new2_press)
-        self.btn_new3 = toga.Button('B3', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
+        self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
@@ -97,6 +97,8 @@ class fsaxis(toga.App):
         self.main_window.content = self.main_box
         self.main_window.show()
         self.inp_content.focus()
+
+        self.original_content = self.main_window.content
 
     # 定义keywords_box回调函数
     
@@ -152,13 +154,13 @@ class fsaxis(toga.App):
         pick_button = toga.Button('Pick Image', on_press=self.pick_image, style=Pack(padding=5))
 
         # 创建“执行操作”按钮
-        action_button = toga.Button('Perform Action', on_press=self.perform_action, style=Pack(padding=5, flex=1))
+        action_button = toga.Button('Perform Action', on_press=self.perform_action2, style=Pack(padding=5, flex=1))
 
         # 创建文本输入框
-        self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content')
+        self.inp_content2 = toga.TextInput(style=Pack(flex=2), placeholder='content')
 
         # 水平布局的容器，包括动作按钮和文本输入框
-        row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, self.inp_content])
+        row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, self.inp_content2])
 
         # 创建 ImageView，用于显示图片
         self.image_view = ImageView(style=Pack(width=400, height=300))
@@ -239,9 +241,14 @@ class fsaxis(toga.App):
         self.image_data = image_data
 
     def update_status(self, result):
-        self.inp_content.value = result
+        self.inp_content2.value = result
+        self.inp_content.value = f"{result} {self.inp_content.value}"
 
     def perform_action(self, widget):
+        self.main_window.content = self.original_content
+    
+    def perform_action2(self, widget):
+        self.main_window.content = self.original_content
         if self.image_view.image:
             from write_image import process_image_data
             import threading
@@ -256,7 +263,7 @@ class fsaxis(toga.App):
                 result[0] = process_image_data(self.image_data)
                 on_complete()
 
-            self.inp_content.value = '写入中...'
+            self.inp_content2.value = '写入中...'
             threading.Thread(target=thread_function).start()
         else:
             self.main_window.error_dialog("PhotoApp", "No image has been selected.")
@@ -316,6 +323,7 @@ class fsaxis(toga.App):
         # self.inp_line.value = formatted_value
         formatted_value = self.inp_line.value
         self.running_status.value = "写入中..."
+        # self.pick_image()
         threading.Thread(target=self.worker, args=(formatted_value,)).start()
 
     def clk_btn_cell(self, widget):
