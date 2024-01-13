@@ -45,8 +45,8 @@ class fsaxis(toga.App):
         self.inp_content.on_change = self.change_content
 
         # 图片上传界面的输入框
-        self.inp_content2 = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
-        self.inp_content2.on_change = self.change_content
+        self.picture_status = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
+        self.picture_status.on_change = self.change_content
 
         # 创建时区与运行状态
         self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time_zone')
@@ -166,7 +166,7 @@ class fsaxis(toga.App):
         # self.inp_content2 = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
 
         # 水平布局的容器，包括动作按钮和文本输入框
-        row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, self.inp_content2])
+        row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, self.picture_status])
         row_2 = toga.Box(style=Pack(direction=ROW, padding=5), children=[pick_button, back_button])
 
         # 创建 ImageView，用于显示图片
@@ -254,7 +254,7 @@ class fsaxis(toga.App):
         self.image_data = image_data
 
     def update_status(self, result):
-        self.inp_content2.value = result
+        self.picture_status.value = result
         # self.inp_content.value = f"{result} {self.inp_content.value}"
 
     def perform_action(self, widget):
@@ -276,7 +276,7 @@ class fsaxis(toga.App):
                 result[0] = process_image_data(self.image_data)
                 on_complete()
 
-            self.inp_content2.value = '图片写入中...'
+            self.picture_status.value = '图片写入中...'
             threading.Thread(target=thread_function).start()
         else:
             self.main_window.error_dialog("PhotoApp", "No image has been selected.")
@@ -301,7 +301,7 @@ class fsaxis(toga.App):
         if my_global_variable == self.inp_content.value:
             self.inp_content.value = ''
         
-        self.inp_content2.value = ""
+        self.picture_status.value = ""
         self.inp_line.value = back_content2 #还原inp_line值
         self.inp_content.focus()
 
@@ -326,13 +326,13 @@ class fsaxis(toga.App):
             return content
 
         # 检查 inp_content2 是否存在并且有值
-        if hasattr(self, 'inp_content2') and self.inp_content2.value:
+        if hasattr(self, 'inp_content2') and self.picture_status.value:
             content_value = handle_url(self.inp_content.value)
 
             if self.inp_keyword.value:
-                formatted_value = f'[{self.inp_keyword.value}[{self.inp_content2.value} {content_value}]{self.inp_keyword.value}]'
+                formatted_value = f'[{self.inp_keyword.value}[{self.picture_status.value} {content_value}]{self.inp_keyword.value}]'
             else:
-                formatted_value = f'{self.inp_content2.value} {content_value}'
+                formatted_value = f'{self.picture_status.value} {content_value}'
         else:
             content_value = handle_url(self.inp_content.value)
 
