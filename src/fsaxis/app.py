@@ -316,19 +316,34 @@ class fsaxis(toga.App):
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
 
     def change_content(self, widget):
+        # 定义一个帮助函数来检查并处理 URL
+        def handle_url(content):
+            # 检查内容是否包含 'http://', 'https://' 或 'www.'
+            if 'http://' in content or 'https://' in content or 'www.' in content:
+                # 如果包含上述任一子字符串，直接在末尾添加一个空格
+                return content + ' '
+            # 如果不包含，则返回原始内容
+            return content
+
         # 检查 inp_content2 是否存在并且有值
         if hasattr(self, 'inp_content2') and self.inp_content2.value:
+            content_value = handle_url(self.inp_content.value)
+
             if self.inp_keyword.value:
-                formatted_value = f'[{self.inp_keyword.value}[{self.inp_content2.value} {self.inp_content.value}]{self.inp_keyword.value}]'
+                formatted_value = f'[{self.inp_keyword.value}[{self.inp_content2.value} {content_value}]{self.inp_keyword.value}]'
             else:
-                formatted_value = f'{self.inp_content2.value} {self.inp_content.value}'
+                formatted_value = f'{self.inp_content2.value} {content_value}'
         else:
+            content_value = handle_url(self.inp_content.value)
+
             if self.inp_keyword.value:
-                formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
+                formatted_value = f'[{self.inp_keyword.value}[{content_value}]{self.inp_keyword.value}]'
             else:
-                formatted_value = self.inp_content.value
+                formatted_value = content_value
 
         self.inp_line.value = formatted_value
+
+        # 检测文本判断执行
         """if "。。" in formatted_value:
             self.inp_line.focus()"""
         
