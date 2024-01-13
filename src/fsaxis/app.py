@@ -212,8 +212,8 @@ class fsaxis(toga.App):
             self.image_view.refresh()
         else:
             # Android 环境下的代码保持不变
-            from android.content import Intent
-            from java import jarray, jbyte
+            from android.content import Intent # type: ignore
+            from java import jarray, jbyte # type: ignore
 
             intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -293,15 +293,16 @@ class fsaxis(toga.App):
         self.btn_line.enabled = True
         self.btn_cell.enabled = True
 
+        # --- 用于保持 inp_line 不变的方法 --- ↓
         global my_global_variable
+        back_content2 = self.inp_line.value #记录inp_line值
+
         if my_global_variable == self.inp_content.value:
-            back_content2 = self.inp_line.value# 保持line的不变
             self.inp_content.value = ''
-            self.inp_line.value = back_content2# 保持line的不变
-
-            self.inp_content.focus()
-
+        
         self.inp_content2.value = ""
+        self.inp_line.value = back_content2 #还原inp_line值
+        self.inp_content.focus()
 
     def worker2(self, inp_cell_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""

@@ -51,8 +51,8 @@ class PhotoApp(toga.App):
             self.image_view.refresh()
         else:
             # Android 环境下的代码保持不变
-            from android.content import Intent
-            from java import jarray, jbyte
+            from android.content import Intent # type: ignore
+            from java import jarray, jbyte # type: ignore
 
             intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
