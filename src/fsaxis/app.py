@@ -338,15 +338,17 @@ class fsaxis(toga.App):
         picture_status_value = self.picture_status.value
 
         if self.inp_keyword.value:
-            keyword_format = f'[{self.inp_keyword.value}]'
+            keyword_left = f'[{self.inp_keyword.value}['
+            keyword_right = f']{self.inp_keyword.value}]'
         else:
-            keyword_format = ''
+            keyword_left = ''
+            keyword_right = ''
 
         # 简化条件逻辑
         formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
 
         # 组合最终的格式化值
-        self.inp_line.value = f'{keyword_format}{formatted_value}{keyword_format}'
+        self.inp_line.value = f'{keyword_left}{formatted_value}{keyword_right}'
 
 
         # 检测文本判断执行
