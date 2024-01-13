@@ -316,44 +316,34 @@ class fsaxis(toga.App):
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
 
     def change_content(self, widget):
-        # 定义一个帮助函数来检查并处理 URL
         def handle_url(content):
-            # 检查内容是否包含 'http://', 'https://' 或 'www.'
-            if 'http://' in content or 'https://' in content or 'www.' in content:
-                # 如果包含上述任一子字符串，直接在末尾添加一个空格
+            # 使用更高效的方式来检查 URL
+            if any(substring in content for substring in ['http://', 'https://', 'www.']):
                 return content + ' '
-            # 如果不包含，则返回原始内容
             return content
 
-        # 检查 picture_status 是否存在并且有值
-        if hasattr(self, 'picture_status') and self.picture_status.value:
-
-            # --- 标准化处理 ---
+        def standardize_content():
+            # 提取重复代码到一个单独的函数
             content_value = handle_url(self.inp_content.value)
-            if not self.inp_keyword.value:
-                if any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
-                    self.inp_keyword.value = '日常药品'
-            # --- 标准化处理 ---
+            if not self.inp_keyword.value and any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
+                self.inp_keyword.value = '日常药品'
+            return content_value
 
-            if self.inp_keyword.value:
-                formatted_value = f'[{self.inp_keyword.value}[{self.picture_status.value} {content_value}]{self.inp_keyword.value}]'
-            else:
-                formatted_value = f'{self.picture_status.value} {content_value}'
+        content_value = standardize_content()
+        # picture_status_value = getattr(self, 'picture_status', None)
+        picture_status_value = self.picture_status.value
+
+        if self.inp_keyword.value:
+            keyword_format = f'[{self.inp_keyword.value}]'
         else:
+            keyword_format = ''
 
-            # --- 标准化处理 ---
-            content_value = handle_url(self.inp_content.value)
-            if not self.inp_keyword.value:
-                if any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
-                    self.inp_keyword.value = '日常药品'
-            # --- 标准化处理 ---
+        # 简化条件逻辑
+        formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
 
-            if self.inp_keyword.value:
-                formatted_value = f'[{self.inp_keyword.value}[{content_value}]{self.inp_keyword.value}]'
-            else:
-                formatted_value = content_value
+        # 组合最终的格式化值
+        self.inp_line.value = f'{keyword_format}{formatted_value}{keyword_format}'
 
-        self.inp_line.value = formatted_value
 
         # 检测文本判断执行
         """if "。。" in formatted_value:
