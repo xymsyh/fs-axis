@@ -57,7 +57,7 @@ class fsaxis(toga.App):
         # self.inp_line.on_change = self.change_inp_line
         # 需要每个输入框都是焦点时使用on_change才能正常，否则会冲突
         self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180), placeholder='inp_cell')
-        self.inp_cell.enabled = False
+        self.inp_cell.readonly = True
 
         # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 16}
@@ -135,14 +135,14 @@ class fsaxis(toga.App):
 
 
     def on_btn_new1_press(self, widget):
-        # 切换 inp_cell 的 enabled 状态
-        self.inp_cell.enabled = not self.inp_cell.enabled
+        # 切换 inp_cell 输入框的只读状态
+        self.inp_cell.readonly = not self.inp_cell.readonly
 
-        # 更新按钮文本
-        if self.inp_cell.enabled == False:
-            self.btn_new1.text = "CL仅读"
+        # 更新按钮文本以反映当前状态
+        if self.inp_cell.readonly:
+            self.btn_new1.text = 'CL仅读'
         else:
-            self.btn_new1.text = "CL可写"
+            self.btn_new1.text = '现可写'
     
     def on_btn_new2_press(self, widget):
         pass
