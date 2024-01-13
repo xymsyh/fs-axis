@@ -327,6 +327,10 @@ class fsaxis(toga.App):
             content_value = handle_url(self.inp_content.value)
             if not self.inp_keyword.value and any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
                 self.inp_keyword.value = '日常药品'
+            if not self.inp_keyword.value and any(keyword in content_value for keyword in ['瑜伽', '眼保健操', '瑜伽', '瑜伽', '瑜伽', '瑜伽']):
+                self.inp_keyword.value = '室内运动'
+            if not self.inp_keyword.value and any(keyword in content_value for keyword in ['跑步', '跑步', '跑步', '跑步', '跑步', '跑步']):
+                self.inp_keyword.value = '户外运动'
             return content_value
 
         content_value = standardize_content()
