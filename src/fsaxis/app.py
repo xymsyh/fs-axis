@@ -294,6 +294,7 @@ class fsaxis(toga.App):
         self.btn_cell.enabled = True
 
         # --- 用于保持 inp_line 不变的方法 --- ↓
+        # 注：下述7行方法于 01131540 进行了重构，未进行测试而直接发布了，后续出现相关问题可关注此
         global my_global_variable
         back_content2 = self.inp_line.value #记录inp_line值
 
