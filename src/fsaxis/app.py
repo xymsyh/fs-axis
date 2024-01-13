@@ -327,14 +327,26 @@ class fsaxis(toga.App):
 
         # 检查 picture_status 是否存在并且有值
         if hasattr(self, 'picture_status') and self.picture_status.value:
+
+            # --- 标准化处理 ---
             content_value = handle_url(self.inp_content.value)
+            if not self.inp_keyword.value:
+                if any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
+                    self.inp_keyword.value = '日常药品'
+            # --- 标准化处理 ---
 
             if self.inp_keyword.value:
                 formatted_value = f'[{self.inp_keyword.value}[{self.picture_status.value} {content_value}]{self.inp_keyword.value}]'
             else:
                 formatted_value = f'{self.picture_status.value} {content_value}'
         else:
+
+            # --- 标准化处理 ---
             content_value = handle_url(self.inp_content.value)
+            if not self.inp_keyword.value:
+                if any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
+                    self.inp_keyword.value = '日常药品'
+            # --- 标准化处理 ---
 
             if self.inp_keyword.value:
                 formatted_value = f'[{self.inp_keyword.value}[{content_value}]{self.inp_keyword.value}]'
