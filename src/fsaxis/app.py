@@ -46,6 +46,7 @@ class fsaxis(toga.App):
 
         # 图片上传界面的输入框
         self.inp_content2 = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
+        self.inp_content2.on_change = self.change_content
 
         # 创建时区与运行状态
         self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time_zone')
