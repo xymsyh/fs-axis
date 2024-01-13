@@ -325,8 +325,8 @@ class fsaxis(toga.App):
             # 如果不包含，则返回原始内容
             return content
 
-        # 检查 inp_content2 是否存在并且有值
-        if hasattr(self, 'inp_content2') and self.picture_status.value:
+        # 检查 picture_status 是否存在并且有值
+        if hasattr(self, 'picture_status') and self.picture_status.value:
             content_value = handle_url(self.inp_content.value)
 
             if self.inp_keyword.value:
