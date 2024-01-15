@@ -395,6 +395,7 @@ class fsaxis(toga.App):
         self.btn_cell.enabled = False
         
         self.running_status.value = "写入中..."
+        history_methods.write = ("line", self.inp_line.value)
         threading.Thread(target=self.worker, args=(self.inp_line.value,)).start()
 
     def clk_btn_cell(self, widget):
@@ -406,6 +407,7 @@ class fsaxis(toga.App):
         # 创建确认操作的处理函数
         def on_confirm(widget):
             self.running_status.value = "写入中..."
+            history_methods.write = ("cell", self.inp_cell.value)
             threading.Thread(target=self.worker2, args=(formatted_value,)).start()
             self.main_window.content = self.main_box
             
