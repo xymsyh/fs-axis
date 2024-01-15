@@ -358,10 +358,12 @@ class fsaxis(toga.App):
         picture_status_value = self.picture_status.value
 
         if self.inp_keyword.value:
-            keyword_left = f'[{self.inp_keyword.value}['
+            keyword_value = self.inp_keyword.value
+            
+            keyword_left = f'[{keyword_value}['
             keyword_left = keyword_left.replace("，", "[").replace("。", "[").replace("]", "[")
 
-            keyword_right = f']{self.inp_keyword.value}]'
+            keyword_right = f']{keyword_value}]'
             keyword_right = keyword_right.replace("，", "]").replace("。", "]").replace("[", "]")
         else:
             keyword_left = ''
