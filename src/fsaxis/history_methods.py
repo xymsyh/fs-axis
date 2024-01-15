@@ -43,3 +43,5 @@ if __name__ == "__main__":
     new_modification = "更新了单元格内容"
     write(record_type, new_modification)
     print(f"已添加新的修改记录 ({record_type}): {new_modification}")
+
+    print(read("line"))
