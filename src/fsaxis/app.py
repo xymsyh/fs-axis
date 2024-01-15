@@ -156,17 +156,17 @@ class fsaxis(toga.App):
         from toga import ImageView, ScrollContainer
 
         # 创建上传、选择、返回按钮
-        action_button = toga.Button('上传图片', on_press=self.perform_action2, style=Pack(padding=5, flex=1))
-        pick_button = toga.Button('重选图片', on_press=self.pick_image, style=Pack(padding=5, flex=1))
-        back_button = toga.Button('返回首页', on_press=self.perform_action, style=Pack(padding=5, flex=1))
+        action_button = toga.Button('上传所选图片', on_press=self.perform_action2, style=Pack(padding=0, flex=3))
+        # pick_button = toga.Button('重选', on_press=self.pick_image, style=Pack(padding=0, flex=1))
+        back_button = toga.Button('取消', on_press=self.perform_action, style=Pack(padding=0, flex=1))
 
-        action_button2 = toga.Button('上传图片', on_press=self.perform_action2, style=Pack(padding=5, flex=1))
-        pick_button2 = toga.Button('重选图片', on_press=self.pick_image, style=Pack(padding=5, flex=1))
-        back_button2 = toga.Button('返回首页', on_press=self.perform_action, style=Pack(padding=5, flex=1))
+        action_button2 = toga.Button('上传所选图片', on_press=self.perform_action2, style=Pack(padding=0, flex=3))
+        # pick_button2 = toga.Button('重选', on_press=self.pick_image, style=Pack(padding=0, flex=1))
+        back_button2 = toga.Button('取消', on_press=self.perform_action, style=Pack(padding=0, flex=1))
 
         # 水平布局的容器，包括动作按钮和文本输入框
-        row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, pick_button, back_button])
-        row_2 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button2, pick_button2, back_button2])
+        row_1 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button, back_button])
+        row_2 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button2, back_button2])
 
         # 创建 ImageView，用于显示图片
         self.image_view = ImageView(style=Pack(width=400, height=300))
