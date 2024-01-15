@@ -56,22 +56,22 @@ def write_cell_data(cell_data):
     return response, cell_data
 
 def write_line_data(line_data):  
-    # 检查cell_data是否为空
-    """if not line_data:
-        # response = {'msg': 'line_data为空', 'data': None}
-        return None, line_data"""
-      
-    raw_data_full = standardize_table_format()
-    raw_data_value = raw_data_full['data']['valueRange']['values'][0][0]
-    data_range = raw_data_full['data']['valueRange']['range']
+    # 01151408 重构 write_line_data 函数代码：删除不必要的代码；删除原来的空值直接返回 (现在的逻辑为空值重新读取cell内容)
+    
+    # 获取单元格 value 和 range
+    raw_cell_data_full = standardize_table_format()
+    rcd_value = raw_cell_data_full['data']['valueRange']['values'][0][0]
+    rcd_range = raw_cell_data_full['data']['valueRange']['range']
 
-    timestamp = datetime.now().strftime("%m%d%H%M")
     if line_data:
-        cell_data = [[line_data + f" [{timestamp}]" + "\n" + str(raw_data_value)]]
+        timestamp = datetime.now().strftime("%m%d%H%M")
+        new_cell_data = [[line_data + f" [{timestamp}]" + "\n" + str(rcd_value)]]
     else:
-        cell_data = [[str(raw_data_value)]]
+        new_cell_data = [[str(rcd_value)]]
 
-    def process_data(data):
+    def handling_two_dimensional_list_data(data):
+        # 该函数实际上可以处理形如 [[]] 这样的列表的列表的每一个单元格
+        # 允许的单元格范围为：1 ~ 正无穷
         for i, row in enumerate(data):
             for j, cell in enumerate(row):
                 # 迭代替换 '\n\n' 为 '\n'
@@ -88,9 +88,9 @@ def write_line_data(line_data):
                 data[i][j] = cell
         return data
     
-    cell_data = process_data(cell_data)
-    print(f"处理后数据：{cell_data}")
+    new_cell_data = handling_two_dimensional_list_data(new_cell_data)
+    print(f"处理后单元格数据：{new_cell_data}")
 
     api = FeishuOpenAPI()
-    response = api.write_sheet_data(data_range, cell_data)
-    return response, cell_data
+    response = api.write_sheet_data(rcd_range, new_cell_data)
+    return response, new_cell_data
