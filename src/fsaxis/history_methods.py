@@ -5,7 +5,7 @@ from datetime import datetime
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # 读取历史记录的函数，根据参数确定文件名
-def read_history(record_type):
+def read(record_type):
     file_name = f'history_{record_type}.md'  # 根据参数确定文件名
     file_path = os.path.join(script_dir, file_name)
     
@@ -18,7 +18,7 @@ def read_history(record_type):
         return []
 
 # 写入修改记录的函数，根据参数确定文件名
-def write_history(record_type, modification, time=None):
+def write(record_type, modification, time=None):
     file_name = f'history_{record_type}.md'  # 根据参数确定文件名
     file_path = os.path.join(script_dir, file_name)
 
@@ -32,12 +32,12 @@ def write_history(record_type, modification, time=None):
 if __name__ == "__main__":
     record_type = "cell"  # 指定记录类型，可以根据需要修改
     # 读取历史记录
-    history = read_history(record_type)
+    history = read(record_type)
     print(f"历史记录 ({record_type}):")
     for entry in history:
         print(entry.strip())
 
     # 添加新的修改记录
     new_modification = "更新了单元格内容"
-    write_history(record_type, new_modification)
+    write(record_type, new_modification)
     print(f"已添加新的修改记录 ({record_type}): {new_modification}")
