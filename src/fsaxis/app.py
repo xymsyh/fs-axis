@@ -158,7 +158,7 @@ class fsaxis(toga.App):
         # 创建上传、选择、返回按钮
         action_button = toga.Button('上传图片', on_press=self.perform_action2, style=Pack(padding=5, flex=1))
         pick_button = toga.Button('选择图片', on_press=self.pick_image, style=Pack(padding=5, flex=1))
-        back_button = toga.Button('返回主页', on_press=self.perform_action, style=Pack(padding=5, flex=1))
+        back_button = toga.Button('返回首页', on_press=self.perform_action, style=Pack(padding=5, flex=1))
 
 
         # 水平布局的容器，包括动作按钮和文本输入框
