@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 # 获取当前脚本所在目录
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -17,9 +18,12 @@ def read_history(record_type):
         return []
 
 # 写入修改记录的函数，根据参数确定文件名
-def write_history(record_type, time, modification):
+def write_history(record_type, modification, time=None):
     file_name = f'history_{record_type}.md'  # 根据参数确定文件名
     file_path = os.path.join(script_dir, file_name)
+
+    if time is None:
+        time = datetime.now().strftime("%Y-%m-%d %H:%M")  # 使用当前时间
 
     with open(file_path, 'a', encoding='utf-8') as file:
         file.write(f'\n{time}: {modification}')
@@ -34,7 +38,6 @@ if __name__ == "__main__":
         print(entry.strip())
 
     # 添加新的修改记录
-    new_time = "2024-01-15 14:30"
     new_modification = "更新了单元格内容"
-    write_history(record_type, new_time, new_modification)
-    print(f"已添加新的修改记录 ({record_type}): {new_time}: {new_modification}")
+    write_history(record_type, new_modification)
+    print(f"已添加新的修改记录 ({record_type}): {new_modification}")
