@@ -359,7 +359,9 @@ class fsaxis(toga.App):
 
         if self.inp_keyword.value:
             keyword_value = self.inp_keyword.value
-            
+            if keyword_value in ["v", "hy", "kg", "ab"]: # 转大写
+                keyword_value = keyword_value.upper()
+
             keyword_left = f'[{keyword_value}['
             keyword_left = keyword_left.replace("，", "[").replace("。", "[").replace("]", "[")
 
