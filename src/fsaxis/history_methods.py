@@ -19,6 +19,8 @@ def read(record_type):
 
 # 写入修改记录的函数，根据参数确定文件名
 def write(record_type, modification, time=None):
+    print("历史记录写入中……")
+
     file_name = f'history_{record_type}.md'  # 根据参数确定文件名
     file_path = os.path.join(script_dir, file_name)
 
