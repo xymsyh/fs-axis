@@ -63,7 +63,10 @@ def write_line_data(line_data):
     rcd_value = raw_cell_data_full['data']['valueRange']['values'][0][0]
     rcd_range = raw_cell_data_full['data']['valueRange']['range']
 
+    print(f"当前line_data数据：{line_data}")
+
     if line_data:
+        line_data = insert_current_time(line_data) #判断入睡起床
         timestamp = datetime.now().strftime("%m%d%H%M")
         new_cell_data = [[line_data + f" [{timestamp}]" + "\n" + str(rcd_value)]]
     else:
@@ -94,3 +97,11 @@ def write_line_data(line_data):
     api = FeishuOpenAPI()
     response = api.write_sheet_data(rcd_range, new_cell_data)
     return response, new_cell_data
+
+def insert_current_time(line_data):
+    current_time = datetime.now().strftime("%H:%M")
+    
+    if line_data == "[起床[]起床]" or line_data == "[入睡[]入睡]":
+        line_data = line_data.replace("[]", f"[{current_time}]")
+    
+    return line_data
