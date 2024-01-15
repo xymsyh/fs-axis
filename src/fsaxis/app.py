@@ -19,6 +19,7 @@ from toga.style.pack import COLUMN, ROW
 import threading
 import api_methods
 import history_methods
+import history_layout
 
 import os
 print("工作目录 Current working directory:", os.getcwd())
@@ -146,7 +147,7 @@ class fsaxis(toga.App):
             self.btn_new1.text = '现可写'
     
     def on_btn_new2_press(self, widget):
-        pass
+        history_layout.build()
 
     def on_btn_new3_press(self, widget):
         # 创建并显示图片选择和显示界面
