@@ -295,13 +295,12 @@ class fsaxis(toga.App):
         # --- 用于保持 inp_line 不变的方法 --- ↓
         # 注：下述7行方法于 01131540 进行了重构，未进行测试而直接发布了，后续出现相关问题可关注此
         global my_global_variable
-        back_content2 = self.inp_line.value #记录inp_line值
-
-        if my_global_variable == self.inp_content.value:
-            self.inp_content.value = ''
+        if my_global_variable == self.inp_content.value: #判断用户在写入期间是否操作inp_content值
+            back_content2 = self.inp_line.value #记录inp_line值
+            self.inp_content.value = '' #由于on_change函数的存在，会导致inp_line值变化
+            self.inp_line.value = back_content2 #还原inp_line值
         
         self.picture_status.value = ""
-        self.inp_line.value = back_content2 #还原inp_line值
         self.inp_content.focus()
 
     def worker2(self, inp_cell_value):
@@ -387,8 +386,9 @@ class fsaxis(toga.App):
 
 
     def clk_btn_line(self, widget):
+        # 01152032：优化clk_btn_line函数
         global my_global_variable
-        my_global_variable = self.inp_content.value
+        my_global_variable = self.inp_content.value # 用于后续判断用户是否更改inp_content值
         self.btn_line.enabled = False
         self.btn_cell.enabled = False
         """处理按钮点击，启动后台线程。"""
