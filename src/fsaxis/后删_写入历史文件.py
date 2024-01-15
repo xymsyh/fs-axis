@@ -22,7 +22,7 @@ def write_history(record_type, time, modification):
     file_path = os.path.join(script_dir, file_name)
 
     with open(file_path, 'a', encoding='utf-8') as file:
-        file.write(f'{time}: {modification}\n')
+        file.write(f'\n{time}: {modification}')
 
 # 示例使用
 if __name__ == "__main__":
