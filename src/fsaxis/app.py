@@ -339,10 +339,10 @@ class fsaxis(toga.App):
 
         if self.inp_keyword.value:
             keyword_left = f'[{self.inp_keyword.value}['
-            keyword_left = keyword_left.replace("，", "[").replace("。", "[")
+            keyword_left = keyword_left.replace("，", "[").replace("。", "[").replace("]", "[")
 
             keyword_right = f']{self.inp_keyword.value}]'
-            keyword_right = keyword_right.replace("，", "]").replace("。", "]")
+            keyword_right = keyword_right.replace("，", "]").replace("。", "]").replace("[", "]")
         else:
             keyword_left = ''
             keyword_right = ''
