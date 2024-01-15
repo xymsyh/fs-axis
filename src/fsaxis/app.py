@@ -399,6 +399,7 @@ class fsaxis(toga.App):
     def clk_btn_cell(self, widget):
         self.btn_line.enabled = False
         self.btn_cell.enabled = False
+        self.inp_cell.readonly = True
         formatted_value = self.inp_cell.value
 
         # 创建确认操作的处理函数
