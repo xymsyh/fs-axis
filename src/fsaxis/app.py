@@ -18,6 +18,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 import threading
 import api_methods
+import history_methods
 
 import os
 print("工作目录 Current working directory:", os.getcwd())
