@@ -322,7 +322,7 @@ class fsaxis(toga.App):
                 return content + ' '
             return content
 
-        def standardize_content():
+        def auto_complete_keyword_logic():
             
             content_value = handle_url(self.inp_content.value) #提取content值
             
@@ -353,7 +353,7 @@ class fsaxis(toga.App):
 
             return content_value
 
-        content_value = standardize_content()
+        content_value = auto_complete_keyword_logic()
         # picture_status_value = getattr(self, 'picture_status', None)
         picture_status_value = self.picture_status.value
 
