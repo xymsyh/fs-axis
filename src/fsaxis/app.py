@@ -389,15 +389,12 @@ class fsaxis(toga.App):
         # 01152032：优化clk_btn_line函数
         global my_global_variable
         my_global_variable = self.inp_content.value # 用于后续判断用户是否更改inp_content值
+
         self.btn_line.enabled = False
         self.btn_cell.enabled = False
-        """处理按钮点击，启动后台线程。"""
-        # formatted_value = f'[{self.inp_keyword.value}[{self.inp_content.value}]{self.inp_keyword.value}]'
-        # self.inp_line.value = formatted_value
-        formatted_value = self.inp_line.value
+        
         self.running_status.value = "写入中..."
-        # self.pick_image()
-        threading.Thread(target=self.worker, args=(formatted_value,)).start()
+        threading.Thread(target=self.worker, args=(self.inp_line.value,)).start()
 
     def clk_btn_cell(self, widget):
         self.btn_line.enabled = False
