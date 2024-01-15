@@ -97,7 +97,7 @@ class fsaxis(toga.App):
         #endregion
 
         # Setting up the main window
-        self.main_window = toga.MainWindow(title=self.formal_name)
+        self.main_window = toga.MainWindow(title=self.formal_name, size=(550, 750))
         self.main_window.content = self.main_box
         self.main_window.show()
         self.inp_content.focus()
