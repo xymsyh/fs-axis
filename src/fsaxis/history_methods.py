@@ -23,7 +23,7 @@ def write(record_type, modification, time=None):
     file_path = os.path.join(script_dir, file_name)
 
     if time is None:
-        time = datetime.now().strftime("%Y-%m-%d %H:%M")  # 使用当前时间
+        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # 使用当前时间，包括秒
 
     with open(file_path, 'a', encoding='utf-8') as file:
         file.write(f'\n{time}: {modification}')
