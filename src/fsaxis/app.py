@@ -323,14 +323,34 @@ class fsaxis(toga.App):
             return content
 
         def standardize_content():
-            # 提取重复代码到一个单独的函数
-            content_value = handle_url(self.inp_content.value)
+            
+            content_value = handle_url(self.inp_content.value) #提取content值
+            
+            # 简单判断
             if not self.inp_keyword.value and any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
                 self.inp_keyword.value = '日常药品'
             if not self.inp_keyword.value and any(keyword in content_value for keyword in ['瑜伽', '眼保健操', '瑜伽', '瑜伽', '瑜伽', '瑜伽']):
                 self.inp_keyword.value = '室内运动'
             if not self.inp_keyword.value and any(keyword in content_value for keyword in ['跑步', '跑步', '跑步', '跑步', '跑步', '跑步']):
                 self.inp_keyword.value = '户外运动'
+            
+            # 简单判断 + 时间判断
+            food_keywords = ['鸡腿', '汉堡', '汉堡包', '米饭', '韭菜面', '溜溜梅', '吉香居酸豆角', '旺仔牛奶', '鸭掌', '火鸡面', 
+                     '牛肉串', '天地一号', '柚子', '小辣条', '可乐', '鸡蛋葱面', '八宝粥', '橙子', '肯德基全鸡', 
+                     '团购券', '鸡米花', '面包', '卡士酸奶', '乌江榨菜']
+
+            if not self.inp_keyword.value and any(keyword in content_value for keyword in food_keywords):
+                from datetime import datetime
+                current_hour = datetime.now().hour
+                if 6 <= current_hour < 11:
+                    self.inp_keyword.value = '早餐'
+                elif 11 <= current_hour < 15:
+                    self.inp_keyword.value = '中餐'
+                elif 15 <= current_hour <= 23:
+                    self.inp_keyword.value = '晚餐'
+                elif 0 <= current_hour < 6:
+                    self.inp_keyword.value = '夜餐'
+
             return content_value
 
         content_value = standardize_content()
