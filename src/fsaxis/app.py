@@ -147,7 +147,9 @@ class fsaxis(toga.App):
             self.btn_new1.text = '现可写'
     
     def on_btn_new2_press(self, widget):
-        history_layout.build()
+
+        history_layout_box = history_layout.build(None)
+        self.main_window.content = history_layout_box
 
     def on_btn_new3_press(self, widget):
         # 创建并显示图片选择和显示界面
