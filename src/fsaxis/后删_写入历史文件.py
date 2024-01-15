@@ -1,29 +1,40 @@
-import json
+import os
 
-# 函数用于记录单元格的历史修改记录
-def record_history_cell(cell_id, modification):
-    history = {'Cell ID': cell_id, 'Modification': modification}
-    with open('history_cell.json', 'a') as file:
-        json.dump(history, file)
-        file.write('\n')
+# 获取当前脚本所在目录
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# 函数用于读取历史记录
-def read_history_cell():
-    history = []
-    with open('history_cell.json', 'r') as file:
-        for line in file:
-            entry = json.loads(line)
-            history.append(entry)
-    return history
-
-# 示例用法
-if __name__ == '__main__':
-    cell_id = 1  # 单元格的唯一标识符
-    modification = '修改内容：添加新数据'
+# 读取历史记录的函数，根据参数确定文件名
+def read_history(record_type):
+    file_name = f'history_{record_type}.md'  # 根据参数确定文件名
+    file_path = os.path.join(script_dir, file_name)
     
-    record_history_cell(cell_id, modification)
-    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            history = file.readlines()
+        return history
+    except FileNotFoundError:
+        print(f"文件 {file_name} 不存在")
+        return []
+
+# 写入修改记录的函数，根据参数确定文件名
+def write_history(record_type, time, modification):
+    file_name = f'history_{record_type}.md'  # 根据参数确定文件名
+    file_path = os.path.join(script_dir, file_name)
+
+    with open(file_path, 'a', encoding='utf-8') as file:
+        file.write(f'{time}: {modification}\n')
+
+# 示例使用
+if __name__ == "__main__":
+    record_type = "cell"  # 指定记录类型，可以根据需要修改
     # 读取历史记录
-    history = read_history_cell()
+    history = read_history(record_type)
+    print(f"历史记录 ({record_type}):")
     for entry in history:
-        print(f'Cell ID: {entry["Cell ID"]}, Modification: {entry["Modification"]}')
+        print(entry.strip())
+
+    # 添加新的修改记录
+    new_time = "2024-01-15 14:30"
+    new_modification = "更新了单元格内容"
+    write_history(record_type, new_time, new_modification)
+    print(f"已添加新的修改记录 ({record_type}): {new_time}: {new_modification}")
