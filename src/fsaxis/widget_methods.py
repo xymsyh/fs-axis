@@ -73,29 +73,13 @@ class on_press:
 
     @staticmethod
     def clear(self, widget):
-        """切换到新页面。"""
-        # self.main_window.content = self.scroll_container
-        back_content = self.inp_line.value
-        self.inp_content.focus()
+        # 01162244 修改clear按钮为：Clear改为简单的清空keyword中的内容，不执行焦点转移操作
+
+        back_content = self.inp_line.value #保持inp_line不变
         
-        if self.inp_content.value == '': #如果inp_content为空 (意为二次点击)
-            self.inp_keyword.value = ''
-            self.inp_content.enabled = False
-            self.inp_content.enabled = True
-            # self.inp_content.focus()
-        self.inp_content.value = ''
-        self.inp_line.value = back_content #inp_line保持不变
+        #如果inp_keyword为空 (意为二次点击)：将inp_content内容清空
+        if self.inp_keyword.value == '':
+            self.inp_content.value = ''
+        self.inp_keyword.value = ''
 
-        # 重新设置主界面
-        # 禁用再启用输入框来尝试使其失去焦点
-        '''self.inp_keyword.enabled = False
-        self.inp_content.enabled = False
-        self.inp_line.enabled = False
-        self.inp_cell.enabled = False
-
-        self.inp_keyword.enabled = True
-        self.inp_content.enabled = True
-        self.inp_line.enabled = True
-        self.inp_cell.enabled = True'''
-
-        # self.set_controls_enabled(False)
+        self.inp_line.value = back_content #保持inp_line不变
