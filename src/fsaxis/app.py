@@ -441,7 +441,7 @@ class fsaxis(toga.App):
             # self.running_status.value = "操作已取消"
             self.main_window.content = self.main_box
             self.btn_line.enabled = True
-            # self.btn_cell.enabled = True
+            self.btn_cell.enabled = True
 
         # 创建确认对话框的内容
         confirm_label = toga.Label('确认回退至以下版本？')
