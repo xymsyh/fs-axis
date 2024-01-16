@@ -2,6 +2,22 @@
 import toga
 from toga.style import Pack
 from toga.constants import COLUMN, ROW
+import re
+
+def keyword_extraction(text):
+    pattern_step1 = r"\[.*?\]"
+    result_step1 = re.search(pattern_step1, text).group()
+
+    # 第二步：贪婪匹配result_step1中的最后一个[之前的所有内容
+    # 在第一步的结果中，寻找最后一个出现的"["及其后的所有字符。这里的.*表示贪婪匹配，尽可能多的匹配字符。
+    pattern_step2 = r"\[.*\["
+    result_step2 = re.search(pattern_step2, result_step1).group()
+
+    # 第三步：删除result_step2前后的[
+    # 从第二步的结果中去除两端的"["，以得到最终结果。
+    result_final = result_step2.strip('[')
+
+    return result_final
 
 def build(app, log_data=None, fsaxis_instance=None):
     # 创建一个垂直排列的盒子来放置所有控件
@@ -36,7 +52,8 @@ def build(app, log_data=None, fsaxis_instance=None):
 
         def on_button_press(widget, text_input=text_input, fsaxis_instance=fsaxis_instance):
             if fsaxis_instance and hasattr(fsaxis_instance, 'inp_keyword'):
-                fsaxis_instance.inp_keyword.value = text_input.value
+                keyword_content = keyword_extraction(text_input.value)
+                fsaxis_instance.inp_keyword.value = keyword_content
                 fsaxis_instance.perform_action(None)
             print("按钮被点击，输入框内容已赋值")
             print(fsaxis_instance.inp_keyword.value)
