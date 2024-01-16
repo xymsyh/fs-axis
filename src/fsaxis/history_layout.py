@@ -3,7 +3,7 @@ import toga
 from toga.style import Pack
 from toga.constants import COLUMN, ROW
 
-def build(app, log_data=None):
+def build(app, log_data=None, fsaxis_instance=None):
     # 创建一个垂直排列的盒子来放置所有控件
     main_box = toga.Box(style=Pack(direction=COLUMN))
 
@@ -33,10 +33,19 @@ def build(app, log_data=None):
     for log in log_data:
         row_box = toga.Box(style=Pack(direction=ROW, padding=5))
         text_input = toga.TextInput(style=Pack(flex=1), readonly=False, value=log.strip())
-        button = toga.Button('按钮', on_press=lambda widget: print("按钮被点击"))
+
+        def on_button_press(widget, text_input=text_input, fsaxis_instance=fsaxis_instance):
+            if fsaxis_instance and hasattr(fsaxis_instance, 'inp_keyword'):
+                fsaxis_instance.inp_keyword.value = text_input.value
+                fsaxis_instance.perform_action(None)
+            print("按钮被点击，输入框内容已赋值")
+            print(fsaxis_instance.inp_keyword.value)
+
+        button = toga.Button('按钮', on_press=on_button_press)
         row_box.add(text_input)
         row_box.add(button)
         main_box.add(row_box)
+
 
     # 添加底部按钮
     bottom_buttons_box = toga.Box(style=Pack(direction=ROW, padding=5))

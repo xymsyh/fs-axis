@@ -151,7 +151,7 @@ class fsaxis(toga.App):
         log_data = history_methods.time_formatting(log_data)
         log_data = log_data[-20:][::-1]
 
-        history_layout_box = history_layout.build(None, log_data)
+        history_layout_box = history_layout.build(None, log_data, fsaxis_instance = self)
         self.main_window.content = history_layout_box
 
     def on_btn_new3_press(self, widget):
