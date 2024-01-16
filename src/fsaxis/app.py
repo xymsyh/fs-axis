@@ -411,6 +411,7 @@ class fsaxis(toga.App):
         self.btn_cell.enabled = False
         self.inp_cell.readonly = True
         formatted_value = self.inp_cell.value
+        cell_history_data = history_methods.read("cell")
 
         # 创建确认操作的处理函数
         def on_confirm(widget):
@@ -428,13 +429,26 @@ class fsaxis(toga.App):
             # self.btn_cell.enabled = True
 
         # 创建确认对话框的内容
-        confirm_label = toga.Label('确认写入？')
+        confirm_label = toga.Label('确认回退至以下版本？')
         confirm_button = toga.Button('确认', on_press=on_confirm)
         cancel_button = toga.Button('取消', on_press=on_cancel)
         confirm_box = toga.Box(children=[confirm_label, confirm_button, cancel_button])
 
+        # 创建cell历史记录显示框
+        cell_history_show = toga.MultilineTextInput(style=Pack(flex=1))
+        cell_history_show.value = "【此时内容】" + cell_history_data[-1]
+
+        cell_history_show2 = toga.MultilineTextInput(style=Pack(flex=1))
+        cell_history_show2.value = "【回退目标】" + cell_history_data[-2]
+
+        # 新box
+        confirm_box_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
+        confirm_box_box.add(confirm_box)
+        confirm_box_box.add(cell_history_show)
+        confirm_box_box.add(cell_history_show2)
+
         # 显示确认对话框
-        self.main_window.content = confirm_box
+        self.main_window.content = confirm_box_box
 
     def set_controls_enabled(self, enabled):
         # 遍历主布局框中的所有子控件
