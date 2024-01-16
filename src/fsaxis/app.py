@@ -44,6 +44,8 @@ class fsaxis(toga.App):
         # Creating input fields with flex styling 使用 Flex 样式创建输入字段
         self.inp_keyword = toga.TextInput(style=Pack(flex=1), placeholder='keyword')
         self.inp_keyword.on_change = lambda widget: widget_methods.on_change(self, widget)
+        self.inp_keyword.on_lose_focus = lambda widget: widget_methods.on_lose_focus(self, widget)
+
         self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content')
         self.inp_content.on_change = lambda widget: widget_methods.on_change(self, widget)
 
