@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+import sys
 
 # 获取当前脚本所在目录
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -34,7 +35,13 @@ def write(record_type, modification, time=None):
     with open(file_path, 'a', encoding='utf-8') as file:
         file.write(f'\n{time}: {modification}')
 
-# 示例使用
+# 示例使用1
+if __name__ == "__main__":
+    history22 = read("line")
+    print(history22)
+
+sys.exit()
+# 示例使用2
 if __name__ == "__main__":
     record_type = "cell"  # 指定记录类型，可以根据需要修改
     # 读取历史记录
