@@ -68,3 +68,34 @@ def on_change(self, widget=None):
     # 检测文本判断执行
     """if "。。" in formatted_value:
         self.inp_line.focus()"""
+
+class on_press:
+
+    @staticmethod
+    def clear(self, widget):
+        """切换到新页面。"""
+        # self.main_window.content = self.scroll_container
+        back_content = self.inp_line.value
+        self.inp_content.focus()
+        
+        if self.inp_content.value == '': #如果inp_content为空 (意为二次点击)
+            self.inp_keyword.value = ''
+            self.inp_content.enabled = False
+            self.inp_content.enabled = True
+            # self.inp_content.focus()
+        self.inp_content.value = ''
+        self.inp_line.value = back_content #inp_line保持不变
+
+        # 重新设置主界面
+        # 禁用再启用输入框来尝试使其失去焦点
+        '''self.inp_keyword.enabled = False
+        self.inp_content.enabled = False
+        self.inp_line.enabled = False
+        self.inp_cell.enabled = False
+
+        self.inp_keyword.enabled = True
+        self.inp_content.enabled = True
+        self.inp_line.enabled = True
+        self.inp_cell.enabled = True'''
+
+        # self.set_controls_enabled(False)
