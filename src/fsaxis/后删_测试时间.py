@@ -1,4 +1,4 @@
-def process_log_time(log_data):
+def time_formatting(log_data):
     from datetime import datetime, timedelta
 
     # Current time for reference
@@ -41,4 +41,4 @@ log_data = [
     '2024-01-16 15:48:36: 测试\n',
 ]
 
-process_log_time(log_data)
+time_formatting(log_data)

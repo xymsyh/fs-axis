@@ -148,6 +148,9 @@ class fsaxis(toga.App):
     
     def on_btn_new2_press(self, widget):
         log_data = history_methods.read("line")
+        log_data = history_methods.time_formatting(log_data)
+        log_data = log_data[-20:][::-1]
+
         history_layout_box = history_layout.build(None, log_data)
         self.main_window.content = history_layout_box
 
