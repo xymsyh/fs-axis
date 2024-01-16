@@ -288,6 +288,8 @@ class fsaxis(toga.App):
     def update_ui_with_result(self, response, full_cell):
         """更新界面元素的值。"""
         self.inp_cell.value = full_cell
+        history_methods.write("cell", full_cell)
+
         if response:
             self.running_status.value = str(response['msg']) + ": " + str(response['data']['updatedRange'])
         else:
