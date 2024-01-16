@@ -147,8 +147,8 @@ class fsaxis(toga.App):
             self.btn_new1.text = '现可写'
     
     def on_btn_new2_press(self, widget):
-
-        history_layout_box = history_layout.build(None)
+        log_data = history_methods.read("line")
+        history_layout_box = history_layout.build(None, log_data)
         self.main_window.content = history_layout_box
 
     def on_btn_new3_press(self, widget):
