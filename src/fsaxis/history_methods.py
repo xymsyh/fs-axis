@@ -33,7 +33,7 @@ def write(record_type, modification, time=None):
         modification = modification.replace('\n', '\\n')  # 将换行符替换为字符形式「\n」
 
     with open(file_path, 'a', encoding='utf-8') as file:
-        file.write(f'\n{time}: {modification}')
+        file.write(f'{time}: {modification}\n')
 
 def delete_last_lines(record_type, num_lines):
     print("正在删除历史记录……")
@@ -46,7 +46,7 @@ def delete_last_lines(record_type, num_lines):
             lines = file.readlines()
 
         # 检查是否有足够的行来删除
-        if num_lines > len(lines):
+        if num_lines >= len(lines):
             print(f"错误：文件只有 {len(lines)} 行，无法删除 {num_lines} 行")
             return
 

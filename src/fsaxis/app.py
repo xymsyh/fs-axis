@@ -106,6 +106,8 @@ class fsaxis(toga.App):
 
         self.original_content = self.main_window.content
 
+        self.my_global_variable = None
+
     # 定义keywords_box回调函数
     
 
@@ -288,10 +290,12 @@ class fsaxis(toga.App):
             self.main_window.error_dialog("PhotoApp", "No image has been selected.")
 
     # 定义main_box回调函数
-    def update_ui_with_result(self, response, full_cell):
+    def update_ui_with_result(self, response, full_cell, no_write_history = False):
         """更新界面元素的值。"""
         self.inp_cell.value = full_cell
-        history_methods.write("cell", full_cell)
+
+        if no_write_history == False:
+            history_methods.write("cell", full_cell)
 
         if response:
             self.running_status.value = str(response['msg']) + ": " + str(response['data']['updatedRange'])
@@ -303,8 +307,8 @@ class fsaxis(toga.App):
 
         # --- 用于保持 inp_line 不变的方法 --- ↓
         # 注：下述7行方法于 01131540 进行了重构，未进行测试而直接发布了，后续出现相关问题可关注此
-        global my_global_variable
-        if my_global_variable == self.inp_content.value: #判断用户在写入期间是否操作inp_content值
+        # global my_global_variable
+        if self.my_global_variable == self.inp_content.value: #判断用户在写入期间是否操作inp_content值
             back_content2 = self.inp_line.value #记录inp_line值
             self.inp_content.value = '' #由于on_change函数的存在，会导致inp_line值变化
             self.inp_line.value = back_content2 #还原inp_line值
@@ -312,10 +316,15 @@ class fsaxis(toga.App):
         self.picture_status.value = ""
         self.inp_content.focus()
 
-    def worker2(self, inp_cell_value):
+    def worker2(self, inp_cell_value, no_write_history = False):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
         response, full_cell = api_methods.write_cell_data(inp_cell_value)
-        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
+
+        if no_write_history == True:
+            toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell, no_write_history == True))
+
+        else:
+            toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
 
     def worker(self, inp_line_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
@@ -396,8 +405,8 @@ class fsaxis(toga.App):
 
     def clk_btn_line(self, widget):
         # 01152032：优化clk_btn_line函数
-        global my_global_variable
-        my_global_variable = self.inp_content.value # 用于后续判断用户是否更改inp_content值
+        # global my_global_variable
+        self.my_global_variable = self.inp_content.value # 用于后续判断用户是否更改inp_content值
 
         self.btn_line.enabled = False
         self.btn_cell.enabled = False
@@ -410,14 +419,20 @@ class fsaxis(toga.App):
         self.btn_line.enabled = False
         self.btn_cell.enabled = False
         self.inp_cell.readonly = True
-        formatted_value = self.inp_cell.value
         cell_history_data = history_methods.read("cell")
 
         # 创建确认操作的处理函数
         def on_confirm(widget):
-            self.running_status.value = "写入中..."
-            history_methods.write("cell", self.inp_cell.value)
-            threading.Thread(target=self.worker2, args=(formatted_value,)).start()
+            self.running_status.value = "回退中..."
+            
+            # [-2] 为上次提交内容
+            # .split(": ", 1)[1] 为剔除前面的时间
+            rollback_content = cell_history_data[-2].split(": ", 1)[1]
+            history_methods.delete_last_lines("cell", 1)
+
+            no_write_history = True
+
+            threading.Thread(target=self.worker2, args=(rollback_content, no_write_history, )).start()
             self.main_window.content = self.main_box
             
 
