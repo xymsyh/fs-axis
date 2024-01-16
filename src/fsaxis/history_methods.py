@@ -40,7 +40,7 @@ if __name__ == "__main__":
     history22 = read("line")
     print(history22)
 
-sys.exit()
+'''sys.exit()
 # 示例使用2
 if __name__ == "__main__":
     record_type = "cell"  # 指定记录类型，可以根据需要修改
@@ -55,4 +55,4 @@ if __name__ == "__main__":
     write(record_type, new_modification)
     print(f"已添加新的修改记录 ({record_type}): {new_modification}")
 
-    print(read("line"))
+    print(read("line"))'''
