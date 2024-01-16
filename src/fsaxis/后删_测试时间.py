@@ -9,8 +9,8 @@ log_data = [
     '2024-01-15 22:03:19: 测试\n',
     '2024-01-15 22:03:24: 测试\n',
     '2024-01-15 22:07:30: 测试\n',
-    '2024-01-15 22:07:33: 测试\n',
-    '2024-01-15 22:07:36: 测试'
+    '2024-01-16 15:39:36: 测试\n',
+    '2024-01-16 15:33:36: 测试\n',
 ]
 
 # Function to convert time to a relative time string
@@ -19,13 +19,13 @@ def time_ago(time):
     seconds = diff.total_seconds()
 
     if seconds < 60:
-        return f"{int(seconds)} seconds ago"
+        return f"{int(seconds)}秒前"
     elif seconds < 3600:
-        return f"{int(seconds // 60)} minutes ago"
+        return f"{int(seconds // 60)}分钟前"
     elif seconds < 86400:
-        return f"{int(seconds // 3600)} hours ago"
+        return f"{int(seconds // 3600)}小时前"
     else:
-        return f"{int(seconds // 86400)} days ago"
+        return f"{int(seconds // 86400)}天前"
 
 # Processing the log data to convert times
 converted_log_data = []
