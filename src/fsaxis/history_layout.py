@@ -60,6 +60,9 @@ def build(app, log_data=None, fsaxis_instance=None):
             if fsaxis_instance and hasattr(fsaxis_instance, 'inp_keyword'):
                 keyword_content = keyword_extraction(text_input.value)
                 fsaxis_instance.inp_keyword.value = keyword_content
+
+                fsaxis_instance.inp_line.value = text_input.value.split(": ", 1)[1]
+
                 fsaxis_instance.perform_action(None)
             print("按钮被点击，输入框内容已赋值")
             print(fsaxis_instance.inp_keyword.value)
