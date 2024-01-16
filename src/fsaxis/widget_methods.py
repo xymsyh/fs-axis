@@ -2,7 +2,7 @@ def on_lose_focus(self):
     # self.
     pass
 
-def change_content(self, widget):
+def on_change(self, widget=None):
     def handle_url(content):
         # 使用更高效的方式来检查 URL
         if any(substring in content for substring in ['http://', 'https://', 'www.']):
