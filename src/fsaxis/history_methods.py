@@ -27,6 +27,10 @@ def write(record_type, modification, time=None):
     if time is None:
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # 使用当前时间，包括秒
 
+    # 检查modification是否为多行文本
+    if '\n' in modification:
+        modification = modification.replace('\n', '\\n')  # 将换行符替换为字符形式「\n」
+
     with open(file_path, 'a', encoding='utf-8') as file:
         file.write(f'\n{time}: {modification}')
 
