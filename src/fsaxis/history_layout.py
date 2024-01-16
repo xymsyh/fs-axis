@@ -1,3 +1,4 @@
+# 此版本完全等价于在LocNow中测试的app.py代码，并且可以单独运行，这很棒！
 import toga
 from toga.style import Pack
 from toga.constants import COLUMN, ROW
