@@ -7,6 +7,9 @@ def build(app):
     # 创建一个垂直排列的盒子来放置所有控件
     main_box = toga.Box(style=Pack(direction=COLUMN))
 
+    #状态输入栏：配合on_change回调函数实现功能的调用
+    inp_status = toga.TextInput(style=Pack(flex=1), placeholder='inp_status')
+
     # 添加顶部按钮
     top_buttons_box = toga.Box(style=Pack(direction=ROW, padding=5))
     for i in range(4):
