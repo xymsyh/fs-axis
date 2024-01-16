@@ -35,7 +35,11 @@ def build(app, log_data=None, fsaxis_instance=None):
     # 添加顶部按钮
     top_buttons_box = toga.Box(style=Pack(direction=ROW, padding=5))
     for i in range(4):
-        button = toga.Button(f'顶部按钮 {i+1}', on_press=lambda widget: print(f"顶部按钮 {i+1} 被点击"))
+
+        def on_button_press2(widget, fsaxis_instance=fsaxis_instance):
+            fsaxis_instance.perform_action(None)
+
+        button = toga.Button(f'返回 {i+1}', on_press=on_button_press2)
         top_buttons_box.add(button)
     main_box.add(top_buttons_box)
 
@@ -76,7 +80,7 @@ def build(app, log_data=None, fsaxis_instance=None):
     # 添加底部按钮
     bottom_buttons_box = toga.Box(style=Pack(direction=ROW, padding=5))
     for i in range(4):
-        button = toga.Button(f'底部按钮 {i+1}', on_press=lambda widget: print(f"底部按钮 {i+1} 被点击"))
+        button = toga.Button(f'返回 {i+1}', on_press=on_button_press2)
         bottom_buttons_box.add(button)
     main_box.add(bottom_buttons_box)
 
