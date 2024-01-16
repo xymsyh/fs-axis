@@ -35,6 +35,32 @@ def write(record_type, modification, time=None):
     with open(file_path, 'a', encoding='utf-8') as file:
         file.write(f'\n{time}: {modification}')
 
+def delete_last_lines(record_type, num_lines):
+    print("正在删除历史记录……")
+
+    file_name = f'history_{record_type}.md'  # 根据参数确定文件名
+    file_path = os.path.join(script_dir, file_name)
+
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+
+        # 检查是否有足够的行来删除
+        if num_lines > len(lines):
+            print(f"错误：文件只有 {len(lines)} 行，无法删除 {num_lines} 行")
+            return
+
+        # 删除最后num_lines行
+        new_lines = lines[:-num_lines]
+
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.writelines(new_lines)
+
+        print(f"成功删除了最后 {num_lines} 行")
+
+    except FileNotFoundError:
+        print(f"文件 {file_name} 不存在")
+
 def time_formatting(log_data):
     from datetime import datetime, timedelta
 
