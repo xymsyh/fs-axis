@@ -188,16 +188,19 @@ class fsaxis(toga.App):
         scroll_container = ScrollContainer(content=self.image_view, style=Pack(flex=1))
 
         # 创建垂直布局的容器，包括所有组件
-        photo_view_box = toga.Box(children=[row_1, scroll_container, row_2], style=Pack(direction=COLUMN, padding=10))
+        self.photo_view_box = toga.Box(children=[row_1, scroll_container, row_2], style=Pack(direction=COLUMN, padding=10))
 
         # 更改当前窗口的内容为新布局
-        self.main_window.content = photo_view_box
+        
 
         self.main_window.app.add_background_task(self.pick_image_direct)
+
+        
     
     async def pick_image_direct(self, widget):
         # 直接调用 pick_image 方法
         await self.pick_image(widget)
+        self.main_window.content = self.photo_view_box
 
     async def pick_image(self, widget):
         if sys.platform == 'win32':
