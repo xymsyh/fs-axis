@@ -1,7 +1,7 @@
 import subprocess
 import shutil
 import os
-from datetime import datetime
+from datetime import datetime #本及前未测试，若有问题回退前前版即可
 
 def get_latest_git_commit_message():
     """ 获取最新的 Git 提交描述 """
