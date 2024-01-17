@@ -327,6 +327,11 @@ class fsaxis(toga.App):
             threading.Thread(target=self.worker3, args=()).start()
             pass
             
+        threading.Thread(target=self.worker4, args=(full_cell,)).start()
+    def worker4(self, message):
+        print("message 01172159 01172159 01172159")
+        print(message)
+        response = api_methods.send_imessage(str(message))
     def worker3(self):
         response = api_methods.standardize_table_format()
 

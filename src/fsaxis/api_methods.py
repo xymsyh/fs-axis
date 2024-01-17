@@ -19,7 +19,12 @@ from feishu_api import FeishuOpenAPI
 from datetime import datetime
 
 
-
+def send_imessage(message, user_id=None):
+    if not user_id:
+        user_id = "Yao"
+    
+    api = FeishuOpenAPI()
+    api.send_message(user_id, message)
 
 def write_cell_data(cell_data):  
     if not cell_data:
@@ -100,3 +105,6 @@ def insert_current_time(line_data):
         line_data = line_data.replace("[]", f"[{current_time}]")
     
     return line_data
+
+if __name__ == "__main__":
+    send_imessage("test 222")
