@@ -13,26 +13,20 @@ def add_project_root_to_sys_path(): # 本行默认收起
     sys.path.append(str(project_root))
 add_project_root_to_sys_path()
 
-from autom_tbl_inp import standardize_table_format
+from autom_tbl_inp import output_current_data
 from feishu_api import FeishuOpenAPI
 from datetime import datetime
 
 
-def locate_now(): # 这实际上不用了 (01062255)
-    data_full = standardize_table_format()
-    data_value = data_full['data']['valueRange']['values'][0][0]
-    data_range = data_full['data']['valueRange']['range']
-    print (data_full)
-    print (f'data_range: {data_range}')
-    return data_value
+
 
 def write_cell_data(cell_data):  
     if not cell_data:
         timestamp = datetime.now().strftime("%m%d%H%M")
         cell_data = "清空" + f" [{timestamp}]"
 
-    raw_data_full = standardize_table_format()
-    data_range = raw_data_full['data']['valueRange']['range']
+    current_data = output_current_data()
+    data_range = current_data['data']['valueRange']['range']
     
     api = FeishuOpenAPI()
     def clean_cell_data(cell_data_str):
@@ -59,7 +53,7 @@ def write_line_data(line_data):
     # 01151408 重构 write_line_data 函数代码：删除不必要的代码；删除原来的空值直接返回 (现在的逻辑为空值重新读取cell内容)
     
     # 获取单元格 value 和 range
-    raw_cell_data_full = standardize_table_format()
+    raw_cell_data_full = output_current_data()
     rcd_value = raw_cell_data_full['data']['valueRange']['values'][0][0]
     rcd_range = raw_cell_data_full['data']['valueRange']['range']
 
