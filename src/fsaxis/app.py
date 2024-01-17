@@ -46,7 +46,7 @@ class fsaxis(toga.App):
         self.inp_keyword.on_change = lambda widget: widget_methods.on_change(self, widget)
         self.inp_keyword.on_lose_focus = lambda widget: widget_methods.on_lose_focus(self, widget)
 
-        self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content')
+        self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content', on_confirm=self.clk_btn_line)
         self.inp_content.on_change = lambda widget: widget_methods.on_change(self, widget)
 
         # 图片上传界面的输入框
