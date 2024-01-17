@@ -323,6 +323,13 @@ class fsaxis(toga.App):
         self.picture_status.value = ""
         self.inp_content.focus()
 
+        if sys.platform == 'win32':
+            threading.Thread(target=self.worker3, args=()).start()
+            pass
+            
+    def worker3(self):
+        response = api_methods.standardize_table_format()
+
     def worker2(self, inp_cell_value, no_write_history = False):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
         response, full_cell = api_methods.write_cell_data(inp_cell_value)

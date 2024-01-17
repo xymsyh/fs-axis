@@ -14,6 +14,7 @@ def add_project_root_to_sys_path(): # 本行默认收起
 add_project_root_to_sys_path()
 
 from autom_tbl_inp import output_current_data
+from autom_tbl_inp import standardize_table_format
 from feishu_api import FeishuOpenAPI
 from datetime import datetime
 
