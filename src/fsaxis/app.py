@@ -321,7 +321,7 @@ class fsaxis(toga.App):
             self.inp_line.value = back_content2 #还原inp_line值
         
         self.picture_status.value = ""
-        self.inp_content.focus()
+        # self.inp_content.focus() # 该会导致在电脑上窗口激活，而我不希望激活
 
         if sys.platform == 'win32':
             threading.Thread(target=self.worker3, args=()).start()
