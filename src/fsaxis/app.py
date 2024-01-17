@@ -297,11 +297,12 @@ class fsaxis(toga.App):
             self.main_window.error_dialog("PhotoApp", "No image has been selected.")
 
     # 定义main_box回调函数
-    def update_ui_with_result(self, response, full_cell, no_write_history = False):
+    def update_ui_with_result(self, response, full_cell, no_write_history = False, old_cell_data=None):
         """更新界面元素的值。"""
         self.inp_cell.value = full_cell
 
         if no_write_history == False:
+            history_methods.write("cell", old_cell_data)
             history_methods.write("cell", full_cell)
 
         if response:
@@ -337,18 +338,21 @@ class fsaxis(toga.App):
 
     def worker2(self, inp_cell_value, no_write_history = False):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
-        response, full_cell = api_methods.write_cell_data(inp_cell_value)
+        response, full_cell, old_cell_data = api_methods.write_cell_data(inp_cell_value)
 
         if no_write_history == True:
-            toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell, no_write_history == True))
+            toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
+                response, full_cell, no_write_history == True, old_cell_data = old_cell_data))
 
         else:
-            toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
+            toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
+                response, full_cell, old_cell_data = old_cell_data))
 
     def worker(self, inp_line_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
-        response, full_cell = api_methods.write_line_data(inp_line_value)
-        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(response, full_cell))
+        response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value)
+        toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
+            response, full_cell, old_cell_data = old_cell_data))
 
         
     def change_inp_line(self, widget):

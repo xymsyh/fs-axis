@@ -31,8 +31,10 @@ def write_cell_data(cell_data):
         timestamp = datetime.now().strftime("%m%d%H%M")
         cell_data = "清空" + f" [{timestamp}]"
 
-    current_data = output_current_data()
-    data_range = current_data['data']['valueRange']['range']
+    raw_cell_data_full = output_current_data()
+    rcd_value = raw_cell_data_full['data']['valueRange']['values'][0][0]
+    old_cell_data = [[str(rcd_value)]]
+    data_range = raw_cell_data_full['data']['valueRange']['range']
     
     api = FeishuOpenAPI()
     def clean_cell_data(cell_data_str):
@@ -53,7 +55,7 @@ def write_cell_data(cell_data):
     cell_data = cell_data.replace("\\n", "\n")
     cell_data = [[cell_data]]
     response = api.write_sheet_data(data_range, cell_data)
-    return response, cell_data
+    return response, cell_data, old_cell_data
 
 def write_line_data(line_data):  
     # 01151408 重构 write_line_data 函数代码：删除不必要的代码；删除原来的空值直接返回 (现在的逻辑为空值重新读取cell内容)
@@ -61,6 +63,7 @@ def write_line_data(line_data):
     # 获取单元格 value 和 range
     raw_cell_data_full = output_current_data()
     rcd_value = raw_cell_data_full['data']['valueRange']['values'][0][0]
+    old_cell_data = [[str(rcd_value)]]
     rcd_range = raw_cell_data_full['data']['valueRange']['range']
 
     print(f"当前line_data数据：{line_data}")
@@ -96,7 +99,7 @@ def write_line_data(line_data):
 
     api = FeishuOpenAPI()
     response = api.write_sheet_data(rcd_range, new_cell_data)
-    return response, new_cell_data
+    return response, new_cell_data, old_cell_data
 
 def insert_current_time(line_data):
     current_time = datetime.now().strftime("%H:%M")
