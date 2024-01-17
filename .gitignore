@@ -60,3 +60,6 @@ var/
 
 # Briefcase log files
 logs/
+
+src/fsaxis/history_cell.md
+src/fsaxis/history_line.md
