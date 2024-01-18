@@ -436,10 +436,33 @@ class fsaxis(toga.App):
 
         # 创建cell历史记录显示框
         cell_history_show = toga.MultilineTextInput(style=Pack(flex=1))
-        cell_history_show.value = "【此时内容】" + cell_history_data[-1]
-
         cell_history_show2 = toga.MultilineTextInput(style=Pack(flex=1))
-        cell_history_show2.value = "【回退目标】" + cell_history_data[-2]
+
+        # 定义原始文本 ---------------------------------------------------
+        latest_1 = cell_history_data[-1]
+        latest_2 = cell_history_data[-2]
+
+        # 提取时间戳
+        latest_1_time = latest_1[:19]  # 时间戳的格式为 "YYYY-MM-DD HH:MM:SS"
+        latest_2_time = latest_2[:19]
+
+        # 计算开始和结束切片的位置
+        start_slice = len("2024-01-18 18:02:XX: [['")
+        end_slice = len("']]")
+
+        # 处理两个文本
+        processed_text1 = latest_1[start_slice:-end_slice]
+        processed_text2 = latest_2[start_slice:-end_slice]
+
+        # 寻找不同部分
+        difference = processed_text1.replace(processed_text2, '').strip()
+
+        # 打印时间戳和差异部分
+        # latest_1_time, latest_2_time, difference, latest_2
+        # 定义原始文本 ---------------------------------------------------
+
+        cell_history_show.value = "【移除内容】" + latest_1_time + "\n" + difference
+        cell_history_show2.value = "【回退结果】" + latest_2_time + "\n" + processed_text2
 
         # 新box
         confirm_box_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
