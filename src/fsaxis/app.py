@@ -28,7 +28,7 @@ print("工作目录 Current working directory:", os.getcwd())
 class fsaxis(toga.App):
     def startup(self):
         #region# keywords_box
-        self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
+        self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=(0, 5, 0, 5)))
         self.create_buttons_layout()
         #endregion
         self.scroll_container = toga.ScrollContainer(content=self.keywords_box,style=Pack(height=200))
@@ -145,7 +145,7 @@ class fsaxis(toga.App):
             for i, (button_name, _) in enumerate(buttons):
                 # 每四个按钮或在新类别开始时创建一个新行
                 if i % 4 == 0 or row_box is None:
-                    row_box = toga.Box(style=Pack(direction=ROW, padding=5))
+                    row_box = toga.Box(style=Pack(direction=ROW, padding=(0, 5, 0, 5)))
                     self.keywords_box.add(row_box)
 
                 if button_name:  # 确保按钮名称非空
