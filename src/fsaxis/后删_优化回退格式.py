@@ -2,8 +2,11 @@
 latest_1 = "2024-01-18 18:02:10: [['测试333 [01181802]\n测试222 [01181802]']]"
 latest_2 = "2024-01-18 18:02:09: [['测试222 [01181802]']]"
 
-# 去除开始和结尾的特定部分
-# 假设时间戳和格式固定，我们可以直接通过字符数来切片
+# 提取时间戳
+latest_1_time = latest_1[:19]  # 时间戳的格式为 "YYYY-MM-DD HH:MM:SS"
+latest_2_time = latest_2[:19]
+
+# 计算开始和结束切片的位置
 start_slice = len("2024-01-18 18:02:XX: [['")
 end_slice = len("']]")
 
@@ -14,5 +17,6 @@ processed_text2 = latest_2[start_slice:-end_slice]
 # 寻找不同部分
 difference = processed_text1.replace(processed_text2, '').strip()
 
-print(difference)
+# 打印时间戳和差异部分
+latest_1_time, latest_2_time, difference
 
