@@ -1,4 +1,8 @@
 
+import json
+from datetime import datetime
+import os
+
 def on_change(self, widget=None):
     def handle_url(content):
         # 使用更高效的方式来检查 URL
@@ -7,24 +11,23 @@ def on_change(self, widget=None):
         return content
 
     def auto_complete_keyword_logic():
-        
-        content_value = handle_url(self.inp_content.value) #提取content值
-        
-        # 简单判断
-        if not self.inp_keyword.value and any(keyword in content_value for keyword in ['维生素', '眼药水', 'eds', 'EDS', '甲硝唑凝胶', '甲硝']):
-            self.inp_keyword.value = '日常药品'
-        if not self.inp_keyword.value and any(keyword in content_value for keyword in ['瑜伽', '眼保健操', '瑜伽', '瑜伽', '瑜伽', '瑜伽']):
-            self.inp_keyword.value = '室内运动'
-        if not self.inp_keyword.value and any(keyword in content_value for keyword in ['跑步', '跑步', '跑步', '跑步', '跑步', '跑步']):
-            self.inp_keyword.value = '户外运动'
-        
-        # 简单判断 + 时间判断
-        food_keywords = ['鸡腿', '汉堡', '汉堡包', '米饭', '韭菜面', '溜溜梅', '吉香居酸豆角', '旺仔牛奶', '鸭掌', '火鸡面', 
-                    '牛肉串', '天地一号', '柚子', '小辣条', '可乐', '鸡蛋葱面', '八宝粥', '橙子', '肯德基全鸡', 
-                    '团购券', '鸡米花', '面包', '卡士酸奶', '乌江榨菜']
+        content_value = handle_url(self.inp_content.value)  # 提取content值
 
-        if not self.inp_keyword.value and any(keyword in content_value for keyword in food_keywords):
-            from datetime import datetime
+        # 从JSON文件中读取关键词
+        script_dir = os.path.dirname(__file__)
+        self.config_path = os.path.join(script_dir, 'config_keywords.json')
+        with open(self.config_path, 'r', encoding='utf-8') as file:
+            keywords_data = json.load(file)
+
+        # 检查普通关键词
+        for category, keywords in keywords_data.items():
+            if category != "就餐记录" and not self.inp_keyword.value:
+                if any(keyword in content_value for keyword in keywords):
+                    self.inp_keyword.value = category
+                    break
+
+        # 检查就餐记录关键词
+        if not self.inp_keyword.value and any(food in content_value for food in keywords_data["就餐记录"]):
             current_hour = datetime.now().hour
             if 6 <= current_hour < 11:
                 self.inp_keyword.value = '早餐'
@@ -79,12 +82,19 @@ class on_press:
             self.inp_line.value = ''
             back_content = ''
 
-        #如果inp_keyword为空 (意为二次点击)：将inp_content内容清空
+        """#如果inp_keyword为空 (意为二次点击)：将inp_content内容清空
         if self.inp_keyword.value == '':
             self.inp_content.value = ''
 
         #如果什么都不判定 (意为首次点击)：将inp_keyword内容清空
-        self.inp_keyword.value = ''
+        self.inp_keyword.value = ''"""
+
+        #如果inp_content为空 (意为二次点击)：将inp_keyword内容清空
+        if self.inp_content.value == '':
+            self.inp_keyword.value = ''
+
+        #如果什么都不判定 (意为首次点击)：将inp_content内容清空
+        self.inp_content.value = ''
 
         self.inp_line.value = back_content #保持inp_line不变
 
