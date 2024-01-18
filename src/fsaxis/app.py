@@ -44,10 +44,12 @@ class fsaxis(toga.App):
         # Creating input fields with flex styling 使用 Flex 样式创建输入字段
         self.inp_keyword = toga.TextInput(style=Pack(flex=1), placeholder='keyword')
         self.inp_keyword.on_change = lambda widget: widget_methods.on_change(self, widget)
-        self.inp_keyword.on_lose_focus = lambda widget: widget_methods.on_lose_focus(self, widget)
+        self.inp_keyword.on_lose_focus = lambda widget: widget_methods.on_lose_focus.inp_keyword(self, widget)
 
         self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content', on_confirm=self.clk_btn_line)
         self.inp_content.on_change = lambda widget: widget_methods.on_change(self, widget)
+        # self.inp_content.on_lose_focus = lambda widget: widget_methods.on_lose_focus.inp_content(self, widget)
+        self.inp_content.on_gain_focus = lambda widget: widget_methods.on_lose_focus.inp_content(self, widget)
 
         # 图片上传界面的输入框
         self.picture_status = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
@@ -59,6 +61,8 @@ class fsaxis(toga.App):
 
         # Creating multi-line input fields 创建多行输入字段
         self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=84), placeholder='inp_line')
+        # self.inp_line.on_change = lambda widget: widget_methods.on_lose_focus.inp_line(self, widget)
+        
         # self.inp_line.on_change = self.change_inp_line
         # 需要每个输入框都是焦点时使用on_change才能正常，否则会冲突
         self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180), placeholder='inp_cell')
