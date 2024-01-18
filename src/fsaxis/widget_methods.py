@@ -95,7 +95,8 @@ class on_lose_focus:
 
     @staticmethod
     def inp_content(self, widgett=None):
-        # print('dddddddddddddddddddddddd')
-        if self.inp_keyword.value == '' and self.inp_content.value == '':
+        if (self.inp_keyword.value == ''
+                and self.inp_content.value == ''
+                and "图片写入中..." not in self.inp_line.value):
             self.inp_content.value = self.inp_line.value
             
