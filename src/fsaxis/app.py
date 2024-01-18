@@ -461,8 +461,28 @@ class fsaxis(toga.App):
         # latest_1_time, latest_2_time, difference, latest_2
         # 定义原始文本 ---------------------------------------------------
 
-        cell_history_show.value = "【移除内容】" + latest_1_time + "\n" + difference
-        cell_history_show2.value = "【回退结果】" + latest_2_time + "\n" + processed_text2
+        def time_ago(time_str):
+            from datetime import datetime
+            current_time = datetime.now()
+            time = datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
+
+            diff = current_time - time
+            seconds = diff.total_seconds()
+
+            if seconds < 60:
+                return f"{int(seconds)}秒前"
+            elif seconds < 3600:
+                return f"{int(seconds // 60)}分钟前"
+            elif seconds < 86400:
+                return f"{int(seconds // 3600)}小时前"
+            else:
+                return f"{int(seconds // 86400)}天前"
+
+        latest_1_time = time_ago(latest_1_time)
+        latest_2_time = time_ago(latest_2_time)
+
+        cell_history_show.value = "【即将移除 (" + latest_1_time + ")：】\n" + difference.replace('\\n', '\n')
+        cell_history_show2.value = "【结果预览 (" + latest_2_time + ")：】\n" + processed_text2.replace('\\n', '\n')
 
         # 新box
         confirm_box_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
