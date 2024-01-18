@@ -71,11 +71,11 @@ class fsaxis(toga.App):
         # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 12} #靠顶风格
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
-        self.btn_clear = toga.Button('往事', style=Pack(**button_style), on_press=self.on_btn_new2_press)
+        self.btn_clear = toga.Button('随风', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
         button_style = {'width': 85, 'padding_top': 25} #第二风格
         # self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
         
-        self.btn_cell = toga.Button('随风', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget)) #####################
+        self.btn_cell = toga.Button('往事', style=Pack(**button_style), on_press=self.on_btn_new2_press) #####################
 
         # Add your new buttons here 新增按钮
 
