@@ -69,27 +69,28 @@ class fsaxis(toga.App):
         self.inp_cell.readonly = True
 
         # Creating buttons 创建按钮
-        button_style = {'width': 85, 'padding_top': 16}
+        button_style = {'width': 85, 'padding_top': 16} #靠顶风格
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
-        self.btn_cell = toga.Button('cell', style=Pack(**button_style), on_press=self.clk_btn_cell)
-        button_style = {'width': 85, 'padding_top': 44}
+        self.btn_clear = toga.Button('随风', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
+        button_style = {'width': 85, 'padding_top': 44} #第二风格
         # self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
-        self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
+        
+        self.btn_cell = toga.Button('往事', style=Pack(**button_style), on_press=self.on_btn_new2_press) #####################
 
         # Add your new buttons here 新增按钮
         button_style2 = {'width': 85, 'padding_top': 0}
         self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
-        self.btn_new2 = toga.Button('历史', style=Pack(**button_style2), on_press=self.on_btn_new2_press)
+        self.btn_new2 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell) ############
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
-        col_1 = toga.Box(style=column_style, children=[self.btn_cell, self.btn_clear])
+        col_1 = toga.Box(style=column_style, children=[self.btn_line, self.btn_cell]) #########
         row_1 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
         row_2 = toga.Box(style=row_style, children=[self.inp_cell, col_1])
-        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_line])
+        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_clear]) ######
         row_4 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
-        row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
+        row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new3, self.btn_new2, self.btn_new4])
 
 
         # New row for the new buttons 新按钮的行
