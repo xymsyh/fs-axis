@@ -91,7 +91,8 @@ class on_press:
 class on_lose_focus:
     @staticmethod
     def inp_keyword(self, widget=None):
-        self.inp_keyword.value = self.inp_keyword.value.replace("，", "/").replace("。", "/").replace("[", "/")
+        if self.inp_keyword.value != '':
+            self.inp_keyword.value = self.inp_keyword.value.replace("，", "/").replace("。", "/").replace("[", "/")
 
     @staticmethod
     def inp_content(self, widgett=None):
