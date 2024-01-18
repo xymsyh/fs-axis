@@ -115,6 +115,7 @@ class fsaxis(toga.App):
         self.original_content = self.main_window.content
 
         self.my_global_variable = None
+        self.history_layout_box = None
 
     # 定义keywords_box回调函数
     
@@ -156,13 +157,27 @@ class fsaxis(toga.App):
         else:
             self.btn_new1.text = '现可写'
     
-    def on_btn_new2_press(self, widget):
-        log_data = history_methods.read("line")
-        log_data = history_methods.time_formatting(log_data)
-        log_data = log_data[-20:][::-1]
+    
 
-        self.history_layout_box = history_layout.build(None, log_data, fsaxis_instance = self)
-        self.main_window.content = self.history_layout_box
+    def on_btn_new2_press(self, widget = None, assistive_calling = False):
+
+        print('on_btn_new2_press 被调用')
+
+        if assistive_calling == True or self.history_layout_box is None:
+            log_data = history_methods.read("line")
+            log_data = history_methods.time_formatting(log_data)
+            log_data = log_data[-20:][::-1]
+            self.history_layout_box = history_layout.build(None, log_data, fsaxis_instance = self)
+            print('on_btn_new2_press 被调用222')
+
+        if assistive_calling == False:
+
+            # self.original_content = self.main_window.content
+            self.main_window.content = self.history_layout_box
+            
+            print('on_btn_new2_press 被调用333')
+
+        
 
     def on_btn_new3_press(self, widget):
         # 创建并显示图片选择和显示界面
@@ -333,10 +348,19 @@ class fsaxis(toga.App):
             pass
             
         threading.Thread(target=self.worker4, args=(full_cell,)).start()
+
+        # threading.Thread(target=self.on_btn_new2_press, args=(True,)).start()
+
+        # threading.Thread(target=self.on_btn_new2_press, kwargs={'assistive_calling': True}).start()
+
+        self.on_btn_new2_press(assistive_calling=True)
+
     def worker4(self, message):
         print("message 01172159 01172159 01172159")
         print(message)
         response = api_methods.send_imessage(str(message))
+
+        # self.on_btn_new2_press(assistive_calling=True)
     def worker3(self):
         response = api_methods.standardize_table_format()
 
