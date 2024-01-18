@@ -83,20 +83,20 @@ class fsaxis(toga.App):
         button_style2 = {'width': 85, 'padding': (0, 0, 0, 0)}
         button_style3 = {'width': 85, 'padding': (0, 0, 0, 5)}
         self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
-        self.btn_new2 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell) ############
+        self.btn_new2 = toga.Button('往事', style=Pack(**button_style2), on_press=self.on_btn_new2_press) 
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         self.btn_new5 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
-        self.btn_new6 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell) ############
-        self.btn_new7 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
+        self.btn_new6 = toga.Button('随风', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear(self, widget)) 
+        self.btn_new7 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell)  ###################
         self.btn_new8 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
-        col_1 = toga.Box(style=column_style, children=[self.btn_line, self.btn_cell]) #########
+        col_1 = toga.Box(style=column_style, children=[self.btn_line, self.btn_cell]) 
         row_1 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
         row_2 = toga.Box(style=row_style, children=[self.inp_cell, col_1])
-        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_clear]) ######
+        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_clear]) 
         row_4 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
         row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new3, self.btn_new2, self.btn_new4])
         row_6 = toga.Box(style=row_style, children=[self.btn_new5, self.btn_new7, self.btn_new6, self.btn_new8])
