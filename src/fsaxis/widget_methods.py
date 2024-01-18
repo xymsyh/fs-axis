@@ -1,6 +1,3 @@
-def on_lose_focus(self, widget=None):
-    self.inp_keyword.value = self.inp_keyword.value.replace("，", "/").replace("。", "/").replace("[", "/")
-    
 
 def on_change(self, widget=None):
     def handle_url(content):
@@ -90,3 +87,15 @@ class on_press:
         self.inp_keyword.value = ''
 
         self.inp_line.value = back_content #保持inp_line不变
+
+class on_lose_focus:
+    @staticmethod
+    def inp_keyword(self, widget=None):
+        self.inp_keyword.value = self.inp_keyword.value.replace("，", "/").replace("。", "/").replace("[", "/")
+
+    @staticmethod
+    def inp_content(self, widgett=None):
+        # print('dddddddddddddddddddddddd')
+        if self.inp_keyword.value == '' and self.inp_content.value == '':
+            self.inp_content.value = self.inp_line.value
+            
