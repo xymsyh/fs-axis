@@ -35,7 +35,7 @@ class fsaxis(toga.App):
 
         #region# main_box
         # Refactored styling for reuse 重构样式以供重用
-        row_style = Pack(direction=ROW, padding=5)
+        row_style = Pack(direction=ROW, padding=(0, 5, 0, 5))
         column_style = Pack(direction=COLUMN, padding=0)
 
         # Creating the main layout box 创建主布局框
@@ -60,29 +60,37 @@ class fsaxis(toga.App):
         self.running_status = toga.TextInput(style=Pack(flex=2), placeholder='status')
 
         # Creating multi-line input fields 创建多行输入字段
-        self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=84), placeholder='inp_line')
+        self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=95), placeholder='inp_line')
         # self.inp_line.on_change = lambda widget: widget_methods.on_lose_focus.inp_line(self, widget)
         
         # self.inp_line.on_change = self.change_inp_line
         # 需要每个输入框都是焦点时使用on_change才能正常，否则会冲突
-        self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=180), placeholder='inp_cell')
+        self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=150), placeholder='inp_cell')
         self.inp_cell.readonly = True
 
         # Creating buttons 创建按钮
-        button_style = {'width': 85, 'padding_top': 16} #靠顶风格
+        button_style = {'width': 85, 'padding_top': 12} #靠顶风格
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_clear = toga.Button('往事', style=Pack(**button_style), on_press=self.on_btn_new2_press)
-        button_style = {'width': 85, 'padding_top': 44} #第二风格
+        button_style = {'width': 85, 'padding_top': 25} #第二风格
         # self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
         
         self.btn_cell = toga.Button('随风', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget)) #####################
 
         # Add your new buttons here 新增按钮
-        button_style2 = {'width': 85, 'padding_top': 0}
-        self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style2), on_press=self.on_btn_new1_press)
+
+        
+        button_style2 = {'width': 85, 'padding': (0, 0, 0, 0)}
+        button_style3 = {'width': 85, 'padding': (0, 0, 0, 5)}
+        self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
         self.btn_new2 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell) ############
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
+
+        self.btn_new5 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
+        self.btn_new6 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell) ############
+        self.btn_new7 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
+        self.btn_new8 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
         col_1 = toga.Box(style=column_style, children=[self.btn_line, self.btn_cell]) #########
@@ -91,6 +99,7 @@ class fsaxis(toga.App):
         row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_clear]) ######
         row_4 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
         row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new3, self.btn_new2, self.btn_new4])
+        row_6 = toga.Box(style=row_style, children=[self.btn_new5, self.btn_new7, self.btn_new6, self.btn_new8])
 
 
         # New row for the new buttons 新按钮的行
@@ -102,6 +111,7 @@ class fsaxis(toga.App):
         self.main_box.add(row_3)
         self.main_box.add(row_4)
         self.main_box.add(row_5)
+        self.main_box.add(row_6)
         self.scroll_container.style = Pack(flex=1)
 
         self.main_box.add(self.scroll_container)

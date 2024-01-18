@@ -33,13 +33,16 @@ def build(app, log_data=None, fsaxis_instance=None):
     inp_status = toga.TextInput(style=Pack(flex=1), placeholder='inp_status')
 
     # 添加顶部按钮
-    top_buttons_box = toga.Box(style=Pack(direction=ROW, padding=5))
+
+    top_buttons_box_style = Pack(direction=ROW, padding=5, flex=1)
+    top_buttons_box = toga.Box(style=top_buttons_box_style)
     for i in range(4):
 
         def on_button_press2(widget, fsaxis_instance=fsaxis_instance):
             fsaxis_instance.perform_action(None)
 
-        button = toga.Button(f'返回 {i+1}', on_press=on_button_press2)
+        button = toga.Button(f'返回 {i+1}', on_press=on_button_press2, style=Pack(flex=1))
+        # button = toga.Button(f'返回 {i+1}', on_press=on_button_press2)
         top_buttons_box.add(button)
     main_box.add(top_buttons_box)
 
@@ -53,7 +56,7 @@ def build(app, log_data=None, fsaxis_instance=None):
         ]
 
     # 创建一个滚动容器
-    scroll_box = toga.ScrollContainer(content=main_box, style=Pack(flex=1))
+    scroll_box = toga.ScrollContainer(content=main_box, style=Pack(flex=1), horizontal=False)
 
     # 为每条日志创建一个输入框和按钮
     for log in log_data:
@@ -71,16 +74,17 @@ def build(app, log_data=None, fsaxis_instance=None):
             print("按钮被点击，输入框内容已赋值")
             print(fsaxis_instance.inp_keyword.value)
 
-        button = toga.Button('按钮', on_press=on_button_press)
+        button = toga.Button('使用', on_press=on_button_press, style=Pack(width=85)) ######################################
         row_box.add(text_input)
         row_box.add(button)
         main_box.add(row_box)
 
 
     # 添加底部按钮
-    bottom_buttons_box = toga.Box(style=Pack(direction=ROW, padding=5))
+    bottom_buttons_box = toga.Box(style=top_buttons_box_style)
     for i in range(4):
-        button = toga.Button(f'返回 {i+1}', on_press=on_button_press2)
+        button = toga.Button(f'返回 {i+1}', on_press=on_button_press2, style=Pack(flex=1))
+        # button = toga.Button(f'返回 {i+1}', on_press=on_button_press2)
         bottom_buttons_box.add(button)
     main_box.add(bottom_buttons_box)
 
