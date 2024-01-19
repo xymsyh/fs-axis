@@ -21,6 +21,7 @@ import api_methods
 import history_methods
 import history_layout
 import widget_methods
+import json
 
 import os
 print("工作目录 Current working directory:", os.getcwd())
@@ -132,17 +133,24 @@ class fsaxis(toga.App):
     
 
     def create_buttons_layout(self):
-        # 遍历 class_text 字典中的每个类别
-        from class_text import class_text
-        # 为每个类别的每个按钮创建一个新行
-        for category_name, buttons in class_text.items():
+        # 获取配置文件路径
+        script_dir = os.path.dirname(__file__)
+        config_path = os.path.join(script_dir, 'config_keywords.json')
+
+        # 从JSON文件中读取关键词
+        with open(config_path, 'r', encoding='utf-8') as file:
+            keywords_data = json.load(file)
+
+        # 遍历所有类别
+        for category_name, buttons in keywords_data.items():
             # 创建并添加一个类别标签
             category_label = toga.Label(category_name, style=Pack(padding_bottom=0))
             self.keywords_box.add(category_label)
 
             # 创建该类别下的所有按钮
             row_box = None
-            for i, (button_name, _) in enumerate(buttons):
+            for i, button_data in enumerate(buttons):
+                button_name = button_data["keyword"]
                 # 每四个按钮或在新类别开始时创建一个新行
                 if i % 4 == 0 or row_box is None:
                     row_box = toga.Box(style=Pack(direction=ROW, padding=(0, 5, 0, 5)))
