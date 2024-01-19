@@ -8,11 +8,7 @@ import os
 from datetime import datetime
 
 def on_change(self, widget=None):
-    def handle_url(content):
-        # 使用更高效的方式来检查 URL
-        if any(substring in content for substring in ['http://', 'https://', 'www.']):
-            return content + ' '
-        return content
+    
 
     def auto_complete_keyword_logic():
         content_value = self.inp_content.value
@@ -55,6 +51,13 @@ def on_change(self, widget=None):
         return content_value
 
     auto_complete_keyword_logic()
+
+    def handle_url(content):
+        # 使用更高效的方式来检查 URL
+        if any(substring in content for substring in ['http://', 'https://', 'www.']):
+            return content + ' '
+        return content
+    
     content_value = handle_url(self.inp_content.value)
     # picture_status_value = getattr(self, 'picture_status', None)
     picture_status_value = self.picture_status.value
