@@ -3,6 +3,10 @@ import json
 from datetime import datetime
 import os
 
+import json
+import os
+from datetime import datetime
+
 def on_change(self, widget=None):
     def handle_url(content):
         # 使用更高效的方式来检查 URL
@@ -15,28 +19,30 @@ def on_change(self, widget=None):
 
         # 从JSON文件中读取关键词
         script_dir = os.path.dirname(__file__)
-        self.config_path = os.path.join(script_dir, 'config_keywords.json')
-        with open(self.config_path, 'r', encoding='utf-8') as file:
+        config_path = os.path.join(script_dir, 'json_keywords.json')
+        with open(config_path, 'r', encoding='utf-8') as file:
             keywords_data = json.load(file)
 
-        # 检查普通关键词
-        for category, data in keywords_data.items():
-            if category != "就餐记录" and not self.inp_keyword.value:
-                if any(keyword in content_value for keyword in data["inp_content"]):
-                    self.inp_keyword.value = category
+        # 遍历所有类别
+        for category in keywords_data.values():
+            for item in category:
+                # 检查普通关键词
+                if not self.inp_keyword.value and any(keyword in content_value for keyword in item["inp_content"]):
+                    self.inp_keyword.value = item["keyword"]
                     break
 
-        # 检查就餐记录关键词
-        if not self.inp_keyword.value and "就餐记录" in keywords_data and any(food in content_value for food in keywords_data["就餐记录"]["inp_content"]):
-            current_hour = datetime.now().hour
-            if 6 <= current_hour < 11:
-                self.inp_keyword.value = '早餐'
-            elif 11 <= current_hour < 15:
-                self.inp_keyword.value = '中餐'
-            elif 15 <= current_hour <= 23:
-                self.inp_keyword.value = '晚餐'
-            elif 0 <= current_hour < 6:
-                self.inp_keyword.value = '夜餐'
+                # 特别检查就餐记录关键词
+                if item["keyword"] == "就餐记录" and not self.inp_keyword.value:
+                    current_hour = datetime.now().hour
+                    if 6 <= current_hour < 11:
+                        self.inp_keyword.value = '早餐'
+                    elif 11 <= current_hour < 15:
+                        self.inp_keyword.value = '中餐'
+                    elif 15 <= current_hour <= 23:
+                        self.inp_keyword.value = '晚餐'
+                    elif 0 <= current_hour < 6:
+                        self.inp_keyword.value = '夜餐'
+                    break
 
         return content_value
 
