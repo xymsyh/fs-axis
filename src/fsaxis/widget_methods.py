@@ -15,7 +15,7 @@ def on_change(self, widget=None):
         return content
 
     def auto_complete_keyword_logic():
-        content_value = handle_url(self.inp_content.value)  # 提取content值
+        content_value = self.inp_content.value
 
         # 从JSON文件中读取关键词
         script_dir = os.path.dirname(__file__)
@@ -54,7 +54,8 @@ def on_change(self, widget=None):
 
         return content_value
 
-    content_value = auto_complete_keyword_logic()
+    auto_complete_keyword_logic()
+    content_value = handle_url(self.inp_content.value)
     # picture_status_value = getattr(self, 'picture_status', None)
     picture_status_value = self.picture_status.value
 
