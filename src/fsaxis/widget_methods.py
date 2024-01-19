@@ -48,8 +48,6 @@ def on_change(self, widget=None):
                 elif 0 <= current_hour < 6:
                     self.inp_keyword.value = '夜餐'
 
-        return content_value
-
     auto_complete_keyword_logic()
 
     def handle_url(content):
