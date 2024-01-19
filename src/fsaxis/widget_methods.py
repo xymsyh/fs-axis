@@ -19,40 +19,30 @@ def on_change(self, widget=None):
         with open(config_path, 'r', encoding='utf-8') as file:
             keywords_data = json.load(file)
 
-        # 标记是否找到匹配项
-        found_match = False
-
         # 遍历所有类别
         for category in keywords_data.values():
             for item in category:
                 # 检查普通关键词，确保'inp_content'键存在
                 if 'inp_content' in item and not self.inp_keyword.value:
                     if any(keyword in content_value for keyword in item["inp_content"]):
-                        self.inp_keyword.value = item["keyword"]
-                        found_match = True
+                        # self.inp_keyword.value = item["keyword"]
+                        self_inp_keyword_value = item["keyword"]
                         break
-
-            # 如果已找到匹配项，则退出循环
-            if found_match:
-                break
-
-        # 如果没有找到匹配项且类别为"就餐记录"
-        if not found_match:
-            for item in keywords_data.get("class_kfc", []):
-                if item.get("keyword") == "就餐记录":
-                    meal_keywords = item.get("inp_content", [])
-                    if any(food in content_value for food in meal_keywords):
-                        current_hour = datetime.now().hour
-                        if 6 <= current_hour < 11:
-                            self.inp_keyword.value = '早餐'
-                        elif 11 <= current_hour < 15:
-                            self.inp_keyword.value = '中餐'
-                        elif 15 <= current_hour <= 23:
-                            self.inp_keyword.value = '晚餐'
-                        elif 0 <= current_hour < 6:
-                            self.inp_keyword.value = '夜餐'
-                    break
-
+       
+            
+        if self_inp_keyword_value == "就餐记录":
+            
+                current_hour = datetime.now().hour
+                if 6 <= current_hour < 11:
+                    self_inp_keyword_value = '早餐'
+                elif 11 <= current_hour < 15:
+                    self_inp_keyword_value = '中餐'
+                elif 15 <= current_hour <= 23:
+                    self_inp_keyword_value = '晚餐'
+                elif 0 <= current_hour < 6:
+                    self_inp_keyword_value = '夜餐'
+                    
+        self.inp_keyword.value = self_inp_keyword_value
     auto_complete_keyword_logic()
 
     def handle_url(content):
