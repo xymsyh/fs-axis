@@ -354,7 +354,8 @@ class fsaxis(toga.App):
         self.picture_status.value = ""
         # self.inp_content.focus() # 该会导致在电脑上窗口激活，而我不希望激活
 
-        if sys.platform == 'win32':
+        # if sys.platform == 'win32':
+        if 1 == 1:
             threading.Thread(target=self.worker3, args=()).start()
             pass
             
