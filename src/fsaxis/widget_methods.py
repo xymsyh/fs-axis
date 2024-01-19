@@ -23,26 +23,34 @@ def on_change(self, widget=None):
         with open(config_path, 'r', encoding='utf-8') as file:
             keywords_data = json.load(file)
 
+        # 标记是否找到匹配项
+        found_match = False
+
         # 遍历所有类别
         for category in keywords_data.values():
             for item in category:
                 # 检查普通关键词
                 if not self.inp_keyword.value and any(keyword in content_value for keyword in item["inp_content"]):
                     self.inp_keyword.value = item["keyword"]
+                    found_match = True
                     break
 
-                # 特别检查就餐记录关键词
-                if item["keyword"] == "就餐记录" and not self.inp_keyword.value:
-                    current_hour = datetime.now().hour
-                    if 6 <= current_hour < 11:
-                        self.inp_keyword.value = '早餐'
-                    elif 11 <= current_hour < 15:
-                        self.inp_keyword.value = '中餐'
-                    elif 15 <= current_hour <= 23:
-                        self.inp_keyword.value = '晚餐'
-                    elif 0 <= current_hour < 6:
-                        self.inp_keyword.value = '夜餐'
-                    break
+            # 如果已找到匹配项，则退出循环
+            if found_match:
+                break
+
+        # 如果没有找到匹配项且类别为"就餐记录"
+        if not found_match and "就餐记录" in [item["keyword"] for sublist in keywords_data.values() for item in sublist]:
+            if any(food in content_value for food in keywords_data["class_kfc"][1]["inp_content"]):
+                current_hour = datetime.now().hour
+                if 6 <= current_hour < 11:
+                    self.inp_keyword.value = '早餐'
+                elif 11 <= current_hour < 15:
+                    self.inp_keyword.value = '中餐'
+                elif 15 <= current_hour <= 23:
+                    self.inp_keyword.value = '晚餐'
+                elif 0 <= current_hour < 6:
+                    self.inp_keyword.value = '夜餐'
 
         return content_value
 
