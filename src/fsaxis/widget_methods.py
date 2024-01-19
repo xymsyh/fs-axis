@@ -20,14 +20,14 @@ def on_change(self, widget=None):
             keywords_data = json.load(file)
 
         # 检查普通关键词
-        for category, keywords in keywords_data.items():
+        for category, data in keywords_data.items():
             if category != "就餐记录" and not self.inp_keyword.value:
-                if any(keyword in content_value for keyword in keywords):
+                if any(keyword in content_value for keyword in data["inp_content"]):
                     self.inp_keyword.value = category
                     break
 
         # 检查就餐记录关键词
-        if not self.inp_keyword.value and any(food in content_value for food in keywords_data["就餐记录"]):
+        if not self.inp_keyword.value and "就餐记录" in keywords_data and any(food in content_value for food in keywords_data["就餐记录"]["inp_content"]):
             current_hour = datetime.now().hour
             if 6 <= current_hour < 11:
                 self.inp_keyword.value = '早餐'
