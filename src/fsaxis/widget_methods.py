@@ -31,7 +31,8 @@ def on_change(self, widget=None):
                         break
        
             
-        if self_inp_keyword_value == "就餐记录":
+        if self_inp_keyword_value:
+            if self_inp_keyword_value == "就餐记录":
             
                 current_hour = datetime.now().hour
                 if 6 <= current_hour < 11:
@@ -43,7 +44,7 @@ def on_change(self, widget=None):
                 elif 0 <= current_hour < 6:
                     self_inp_keyword_value = '夜餐'
                     
-        self.inp_keyword.value = self_inp_keyword_value
+            self.inp_keyword.value = self_inp_keyword_value
     auto_complete_keyword_logic()
 
     def handle_url(content):
@@ -139,9 +140,9 @@ class on_lose_focus:
         
                 
             
-                        
-            self.inp_keyword.value = self_inp_keyword_value
-        # auto_complete_keyword_logic()
+            if self_inp_keyword_value:
+                self.inp_keyword.value = self_inp_keyword_value
+        auto_complete_keyword_logic()
 
 
     @staticmethod
