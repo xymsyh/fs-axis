@@ -11,6 +11,7 @@ def on_change(self, widget=None):
     
 
     def auto_complete_keyword_logic():
+        self_inp_keyword_value = None  # 在这里初始化变量
         content_value = self.inp_content.value
 
         # 从JSON文件中读取关键词
@@ -57,8 +58,8 @@ def on_change(self, widget=None):
 
     if self.inp_keyword.value:
         keyword_value = self.inp_keyword.value
-        if keyword_value in ["v", "hy", "kg", "ab"]: # 转大写
-            keyword_value = keyword_value.upper()
+        # if keyword_value in ["v", "hy", "kg", "ab"]: # 转大写
+            # keyword_value = keyword_value.upper()
 
         keyword_left = f'[{keyword_value}['
         keyword_left = keyword_left.replace("，", "[").replace("。", "[").replace("]", "[").replace("/", "[")
