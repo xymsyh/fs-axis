@@ -116,6 +116,34 @@ class on_lose_focus:
         if self.inp_keyword.value != '':
             self.inp_keyword.value = self.inp_keyword.value.replace("，", "/").replace("。", "/").replace("[", "/")
 
+        def auto_complete_keyword_logic():
+            self_inp_keyword_value = None  # 在这里初始化变量
+            keyword_value = self.inp_keyword.value
+
+            # 从JSON文件中读取关键词
+            script_dir = os.path.dirname(__file__)
+            config_path = os.path.join(script_dir, 'json_keywords.json')
+            with open(config_path, 'r', encoding='utf-8') as file:
+                keywords_data = json.load(file)
+
+            # 遍历所有类别
+            for category in keywords_data.values():
+                for item in category:
+                    # 检查普通关键词，确保'inp_content'键存在
+                    if 'inp_keyword' in item:
+                    # if 'inp_keyword' in item and not self.inp_keyword.value:
+                        if any(keyword in keyword_value for keyword in item["inp_keyword"]):
+                            # self.inp_keyword.value = item["keyword"]
+                            self_inp_keyword_value = item["keyword"]
+                            break
+        
+                
+            
+                        
+            self.inp_keyword.value = self_inp_keyword_value
+        # auto_complete_keyword_logic()
+
+
     @staticmethod
     def inp_content(self, widgett=None):
         if (self.inp_keyword.value == ''
