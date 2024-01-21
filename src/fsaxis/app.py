@@ -89,7 +89,7 @@ class fsaxis(toga.App):
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
-        self.btn_new5 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
+        self.btn_new5 = toga.Button(text = '已同步', style=Pack(**button_style3), on_press=self.on_btn_new11_press)
         self.btn_new6 = toga.Button('随风', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear(self, widget)) 
         self.btn_new7 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell)  ###################
         self.btn_new8 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
@@ -139,20 +139,32 @@ class fsaxis(toga.App):
     def compare_keyword_data(self):
         # 从 API 获取数据
         api = feishu_api.FeishuOpenAPI()
-        sheet_data = api.get_sheet_data('70fPAj!B1:B2')['data']['valueRange']['values'][0][0]  # 假设 api_methods 是您用来调用 API 的模块
+        self.sheet_data_json = api.get_sheet_data('70fPAj!B1:B2')['data']['valueRange']['values'][0][0]  # 假设 api_methods 是您用来调用 API 的模块
 
         # 从 json 文件读取关键词
         script_dir = os.path.dirname(__file__)
         config_path = os.path.join(script_dir, 'json_keywords.json')
         with open(config_path, 'r', encoding='utf-8') as file:
-            keywords_data = json.load(file)
+            self.keywords_data = json.load(file)
 
-        sheet_data = json.loads(sheet_data)
+        self.sheet_data_json = json.loads(self.sheet_data_json)
 
         # 比对数据（这里假设 keywords_data 是一个字典）
-        is_same = sheet_data == keywords_data
+        is_same = self.sheet_data_json == self.keywords_data
         print('-------------------------比对结果------------------')
         print(is_same)
+
+        if is_same == False:
+            with open(config_path, 'w', encoding='utf-8') as file:
+                json.dump(self.sheet_data_json, file, ensure_ascii=False, indent=4)
+            print('json_keywords.json 文件已更新')
+            toga.App.app.add_background_task(self.update_button_text)
+            is_same = True
+    
+    def update_button_text(self, widget):
+        self.btn_new5.text = "⚠️待重启" 
+        self.inp_cell.value = self.sheet_data_json
+        self.inp_line.value = self.keywords_data
 
     def create_buttons_layout(self):
         # 获取配置文件路径
@@ -198,7 +210,9 @@ class fsaxis(toga.App):
         else:
             self.btn_new1.text = '现可写'
     
-    
+    def on_btn_new11_press(self, widget):
+        self.exit()
+        # pass
 
     def on_btn_new2_press(self, widget = None, assistive_calling = False):
 
