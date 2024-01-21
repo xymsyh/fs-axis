@@ -22,6 +22,7 @@ import history_methods
 import history_layout
 import widget_methods
 import json
+import feishu_api
 
 import os
 print("工作目录 Current working directory:", os.getcwd())
@@ -129,8 +130,29 @@ class fsaxis(toga.App):
         self.my_global_variable = None
         self.history_layout_box = None
 
+        threading.Thread(target=self.compare_keyword_data).start()
+
+
     # 定义keywords_box回调函数
     
+
+    def compare_keyword_data(self):
+        # 从 API 获取数据
+        api = feishu_api.FeishuOpenAPI()
+        sheet_data = api.get_sheet_data('70fPAj!B1:B2')['data']['valueRange']['values'][0][0]  # 假设 api_methods 是您用来调用 API 的模块
+
+        # 从 json 文件读取关键词
+        script_dir = os.path.dirname(__file__)
+        config_path = os.path.join(script_dir, 'json_keywords.json')
+        with open(config_path, 'r', encoding='utf-8') as file:
+            keywords_data = json.load(file)
+
+        sheet_data = json.loads(sheet_data)
+
+        # 比对数据（这里假设 keywords_data 是一个字典）
+        is_same = sheet_data == keywords_data
+        print('-------------------------比对结果------------------')
+        print(is_same)
 
     def create_buttons_layout(self):
         # 获取配置文件路径
