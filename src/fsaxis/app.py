@@ -23,6 +23,7 @@ import history_layout
 import widget_methods
 import json
 import feishu_api
+api = feishu_api.FeishuOpenAPI()
 
 import os
 print("工作目录 Current working directory:", os.getcwd())
@@ -143,8 +144,8 @@ class fsaxis(toga.App):
 
         # 从 json 文件读取关键词
         script_dir = os.path.dirname(__file__)
-        config_path = os.path.join(script_dir, 'json_keywords.json')
-        with open(config_path, 'r', encoding='utf-8') as file:
+        self.jk_config_path = os.path.join(script_dir, 'json_keywords.json')
+        with open(self.jk_config_path, 'r', encoding='utf-8') as file:
             self.keywords_data = json.load(file)
 
         self.sheet_data_json = json.loads(self.sheet_data_json)
@@ -155,8 +156,15 @@ class fsaxis(toga.App):
         print(is_same)
 
         if is_same == False:
-            with open(config_path, 'w', encoding='utf-8') as file:
-                json.dump(self.sheet_data_json, file, ensure_ascii=False, indent=4)
+            sheet_data_str = json.dumps(self.sheet_data_json, ensure_ascii=False, indent=4)
+
+            # 写入文件
+            try:
+                with open(self.jk_config_path, 'w', encoding='utf-8') as file:
+                    file.write(sheet_data_str)
+                print('json_keywords.json 文件已更新')
+            except IOError as e:
+                print(f"文件写入错误: {e}")
             print('json_keywords.json 文件已更新')
             toga.App.app.add_background_task(self.update_button_text)
             is_same = True
@@ -164,6 +172,9 @@ class fsaxis(toga.App):
     def update_button_text(self, widget):
         self.btn_new5.text = "⚠️待重启" 
         self.inp_cell.value = self.sheet_data_json
+        with open(self.jk_config_path, 'r', encoding='utf-8') as file:
+            js_file_data = json.load(file)
+        # self.inp_line.value = api.cached.get('locate_now_time')
         self.inp_line.value = self.keywords_data
 
     def create_buttons_layout(self):
