@@ -143,12 +143,12 @@ class fsaxis(toga.App):
         self.sheet_data_json = api.get_sheet_data('70fPAj!B1:B2')['data']['valueRange']['values'][0][0]  # 假设 api_methods 是您用来调用 API 的模块
 
         self.sheet_data_json = json.loads(self.sheet_data_json)
-        toga.App.app.add_background_task(self.create_buttons_layout())
+        toga.App.app.add_background_task(self.create_buttons_layout)
 
     # 定义keywords_box回调函数
     
 
-    def create_buttons_layout(self):
+    def create_buttons_layout(self, *args, **kwargs):
         
         keywords_data = self.sheet_data_json
 
