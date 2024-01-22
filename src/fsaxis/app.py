@@ -91,7 +91,7 @@ class fsaxis(toga.App):
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
-        self.btn_new5 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
+        self.btn_new5 = toga.Button(text = '重写', style=Pack(**button_style3), on_press=self.rewrite_keywords_json)
         self.btn_new6 = toga.Button('随风', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear(self, widget)) 
         self.btn_new7 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell)  ###################
         self.btn_new8 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
@@ -177,6 +177,9 @@ class fsaxis(toga.App):
         self.inp_keyword.value = widget.text
         # self.main_window.content = self.main_box
 
+
+    def rewrite_keywords_json(self, widget):
+        threading.Thread(target=self.compare_keyword_data).start()
 
     def on_btn_new1_press(self, widget):
         # 切换 inp_cell 输入框的只读状态
