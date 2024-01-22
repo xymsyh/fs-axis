@@ -14,11 +14,7 @@ def on_change(self, widget=None):
         self_inp_keyword_value = None  # 在这里初始化变量
         content_value = self.inp_content.value
 
-        # 从JSON文件中读取关键词
-        script_dir = os.path.dirname(__file__)
-        config_path = os.path.join(script_dir, 'json_keywords.json')
-        with open(config_path, 'r', encoding='utf-8') as file:
-            keywords_data = json.load(file)
+        keywords_data = self.sheet_data_json
 
         # 遍历所有类别
         for category in keywords_data.values():
@@ -121,11 +117,7 @@ class on_lose_focus:
             self_inp_keyword_value = None  # 在这里初始化变量
             keyword_value = self.inp_keyword.value
 
-            # 从JSON文件中读取关键词
-            script_dir = os.path.dirname(__file__)
-            config_path = os.path.join(script_dir, 'json_keywords.json')
-            with open(config_path, 'r', encoding='utf-8') as file:
-                keywords_data = json.load(file)
+            keywords_data = self.sheet_data_json
 
             # 遍历所有类别
             for category in keywords_data.values():
