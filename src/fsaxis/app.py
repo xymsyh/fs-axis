@@ -91,7 +91,7 @@ class fsaxis(toga.App):
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
-        self.btn_new5 = toga.Button(text = '重写', style=Pack(**button_style3), on_press=self.rewrite_keywords_json)
+        self.btn_new5 = toga.Button(text = '更新JS', style=Pack(**button_style3), on_press=self.rewrite_keywords_json)
         self.btn_new6 = toga.Button('随风', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear(self, widget)) 
         self.btn_new7 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell)  ###################
         self.btn_new8 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
@@ -150,10 +150,12 @@ class fsaxis(toga.App):
     
 
     def create_buttons_layout(self, *args, **kwargs):
-        
-        keywords_data = self.sheet_data_json
+        # 首先清除 keywords_box 中的所有现有子元素
+        for child in list(self.keywords_box.children):
+            self.keywords_box.remove(child)
 
-        # 遍历所有类别
+        # 接着使用最新的数据重新创建按钮
+        keywords_data = self.sheet_data_json
         for category_name, category_items in keywords_data.items():
             # 创建并添加一个类别标签
             category_label = toga.Label(category_name, style=Pack(padding_bottom=0))
@@ -163,7 +165,6 @@ class fsaxis(toga.App):
             row_box = None
             for i, item in enumerate(category_items):
                 button_name = item["keyword"]
-                # 每四个按钮或在新类别开始时创建一个新行
                 if i % 4 == 0 or row_box is None:
                     row_box = toga.Box(style=Pack(direction=ROW, padding=(0, 5, 0, 5)))
                     self.keywords_box.add(row_box)
