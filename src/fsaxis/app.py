@@ -53,6 +53,7 @@ class fsaxis(toga.App):
         self.inp_content.on_change = lambda widget: widget_methods.on_change(self, widget)
         # self.inp_content.on_lose_focus = lambda widget: widget_methods.on_lose_focus.inp_content(self, widget)
         self.inp_content.on_gain_focus = lambda widget: widget_methods.on_lose_focus.inp_content(self, widget)
+        self.inp_keyword.on_gain_focus = lambda widget: widget_methods.on_lose_focus.inp_content(self, widget)
 
         # 图片上传界面的输入框
         self.picture_status = toga.TextInput(style=Pack(padding=5, flex=1), placeholder='status')
