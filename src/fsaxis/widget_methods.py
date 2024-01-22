@@ -125,7 +125,7 @@ class on_lose_focus:
                     # 检查普通关键词，确保'inp_content'键存在
                     if 'inp_keyword' in item:
                     # if 'inp_keyword' in item and not self.inp_keyword.value:
-                        if any(keyword in keyword_value for keyword in item["inp_keyword"]):
+                        if any(keyword == keyword_value for keyword in item["inp_keyword"]):
                             # self.inp_keyword.value = item["keyword"]
                             self_inp_keyword_value = item["keyword"]
                             break
