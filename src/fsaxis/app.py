@@ -75,7 +75,7 @@ class fsaxis(toga.App):
         # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 12} #靠顶风格
         self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
-        self.btn_clear = toga.Button('随风', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
+        self.btn_clear = toga.Button('🗑️内容', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
         button_style = {'width': 85, 'padding_top': 25} #第二风格
         # self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
         
@@ -92,7 +92,7 @@ class fsaxis(toga.App):
         self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         self.btn_new5 = toga.Button(text = '更新JS', style=Pack(**button_style3), on_press=self.rewrite_keywords_json)
-        self.btn_new6 = toga.Button('随风', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear(self, widget)) 
+        self.btn_new6 = toga.Button('🔄关键', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear_keyword(self, widget)) 
         self.btn_new7 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell)  ###################
         self.btn_new8 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
 

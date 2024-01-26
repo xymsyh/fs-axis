@@ -106,6 +106,33 @@ class on_press:
         self.inp_content.value = ''
 
         self.inp_line.value = back_content #保持inp_line不变
+    
+    @staticmethod
+    def clear_keyword(self, widget):
+        # 01162244 修改clear按钮为：Clear改为简单的清空keyword中的内容，不执行焦点转移操作
+
+        back_content = self.inp_line.value #保持inp_line不变
+        
+        #如果inp_keywordh和inp_content为空 (意为三次点击)：将inp_line内容清空
+        if self.inp_keyword.value == '' and self.inp_content.value == '':
+            self.inp_line.value = ''
+            back_content = ''
+
+        """#如果inp_keyword为空 (意为二次点击)：将inp_content内容清空
+        if self.inp_keyword.value == '':
+            self.inp_content.value = ''
+
+        #如果什么都不判定 (意为首次点击)：将inp_keyword内容清空
+        self.inp_keyword.value = ''"""
+
+        #如果inp_content为空 (意为二次点击)：将inp_keyword内容清空
+        if self.inp_keyword.value == '':
+            self.inp_content.value = ''
+
+        #如果什么都不判定 (意为首次点击)：将inp_content内容清空
+        self.inp_keyword.value = ''
+
+        self.inp_line.value = back_content #保持inp_line不变
 
 class on_lose_focus:
     @staticmethod
