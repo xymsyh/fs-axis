@@ -57,11 +57,11 @@ def write_cell_data(cell_data):
     response = api.write_sheet_data(data_range, cell_data)
     return response, cell_data, old_cell_data
 
-def write_line_data(line_data):  
+def write_line_data(line_data, keep_5_clock=False):  
     # 01151408 重构 write_line_data 函数代码：删除不必要的代码；删除原来的空值直接返回 (现在的逻辑为空值重新读取cell内容)
     
     # 获取单元格 value 和 range
-    raw_cell_data_full = output_current_data()
+    raw_cell_data_full = output_current_data(keep_5_clock=keep_5_clock)
     rcd_value = raw_cell_data_full['data']['valueRange']['values'][0][0]
     old_cell_data = [[str(rcd_value)]]
     rcd_range = raw_cell_data_full['data']['valueRange']['range']
