@@ -2,6 +2,8 @@
 import json
 from datetime import datetime
 import os
+import re
+
 
 import json
 import os
@@ -71,7 +73,22 @@ def on_change(self, widget=None):
     formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
 
     # 组合最终的格式化值
-    self.inp_line.value = f'{keyword_left}{formatted_value}{keyword_right}'
+    def format_value(keyword_left, formatted_value, keyword_right):
+        # 检查keyword_left是否包含"支出"
+        if "支出" in keyword_left:
+            # 使用正则表达式提取数字和文本部分
+            match = re.match(r"(\d+)(.*)", formatted_value)
+            if match:
+                # 将数字和文本部分分别提取出来
+                numbers = match.group(1)
+                text = match.group(2)
+                # 按新格式组合
+                return f"{keyword_left}{numbers}{keyword_right}{text}"
+        # 如果不包含"支出"或者没有匹配到格式，返回原始格式
+        return f"{keyword_left}{formatted_value}{keyword_right}"
+    
+    result = format_value(keyword_left, formatted_value, keyword_right)
+    self.inp_line.value = result
 
 
     # 检测文本判断执行
