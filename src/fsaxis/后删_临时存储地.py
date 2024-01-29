@@ -1,20 +1,20 @@
-import re
+def format_line(keyword_left, formatted_value, keyword_right):
+    # 检测是否包含"支出"
+    if "支出" in keyword_left:
+        # 检测是否符合「数字+文本」格式
+        if formatted_value[0].isdigit():
+            # 分离数字和文本
+            digit_part = ''.join(filter(str.isdigit, formatted_value))
+            text_part = ''.join(filter(lambda x: not x.isdigit(), formatted_value))
+            # 重新组合字符串
+            return f'{keyword_left}{digit_part}{keyword_right}{text_part}'
+    # 如果不包含"支出"或不符合格式，保持原样
+    return f'{keyword_left}{formatted_value}{keyword_right}'
 
-# 原始文本
-text = "[测试1[测试2[测试3]测试1]测试2]"
+# 示例
+keyword_left = "[支出类别["
+formatted_value = "11文本"
+keyword_right = "]支出类别]"
 
-# 第一步：非贪婪匹配首个[]中的内容
-# 使用正则表达式匹配第一个括号内的内容。这里的.*?表示非贪婪匹配，即尽可能少的匹配字符。
-pattern_step1 = r"\[.*?\]"
-result_step1 = re.search(pattern_step1, text).group()
-
-# 第二步：贪婪匹配result_step1中的最后一个[之前的所有内容
-# 在第一步的结果中，寻找最后一个出现的"["及其后的所有字符。这里的.*表示贪婪匹配，尽可能多的匹配字符。
-pattern_step2 = r"\[.*\["
-result_step2 = re.search(pattern_step2, result_step1).group()
-
-# 第三步：删除result_step2前后的[
-# 从第二步的结果中去除两端的"["，以得到最终结果。
-result_final = result_step2.strip('[')
-
-result_final
+result = format_line(keyword_left, formatted_value, keyword_right)
+print(result)
