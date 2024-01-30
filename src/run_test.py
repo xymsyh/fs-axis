@@ -17,7 +17,7 @@ def main(app_name):
 
     # 复制 APK 文件
     apk_source = work_dir + f"\\dist\\{app_name}-0.0.1.debug.apk"
-    apk_dest = f"C:\\Users\\Ran\\Desktop\\测试apk留档\\{app_name}-0.0.1.debug_" + timestamp + ".apk"
+    apk_dest = f"C:\\Users\\Ran\\Desktop\\测试apk留档\\{app_name}-0.0.1.debug_" + timestamp + ".apk" #请修改这部分的逻辑。在测试apk留档下面，新建一个名为当前日期的文件夹，然后再进行后续操作
     shutil.copy(apk_source, apk_dest)
 
     # 执行 briefcase package android -p apk -u
