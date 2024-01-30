@@ -414,7 +414,7 @@ class fsaxis(toga.App):
 
     def worker(self, inp_line_value):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
-        response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value)
+        response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value) 
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
             response, full_cell, old_cell_data = old_cell_data))
 
@@ -425,7 +425,7 @@ class fsaxis(toga.App):
 
 
     def clk_btn_line(self, widget): 
-        widget_methods.on_lose_focus.inp_content(self, widget) #获取焦点用于更新关键词框中的内容
+        widget_methods.on_lose_focus.inp_keyword(self, widget) #使用失去焦点方法。用于更新关键词框中的内容
         # 01152032：优化clk_btn_line函数
         # global my_global_variable
         self.my_global_variable = self.inp_content.value # 用于后续判断用户是否更改inp_content值
