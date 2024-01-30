@@ -1,23 +1,21 @@
-import re
+def parse_time_zone_string(time_zone_str):
+            # 如果字符串为空，返回默认值0
+            if not time_zone_str:
+                return 0
 
-def format_value(keyword_left, formatted_value, keyword_right):
-    # 检查keyword_left是否包含"支出"
-    if "支出" in keyword_left:
-        # 使用正则表达式提取数字和文本部分
-        match = re.match(r"(\d+)(.*)", formatted_value)
-        if match:
-            # 将数字和文本部分分别提取出来
-            numbers = match.group(1)
-            text = match.group(2)
-            # 按新格式组合
-            return f"{keyword_left}{numbers}{keyword_right}{text}"
-    # 如果不包含"支出"或者没有匹配到格式，返回原始格式
-    return f"{keyword_left}{formatted_value}{keyword_right}"
+            # 验证字符串是否只包含数字、加号和减号
+            if all(c in '0123456789+-' for c in time_zone_str):
+                try:
+                    # 计算表达式的值
+                    time_zone_value = eval(time_zone_str)
+                    return time_zone_value
+                except Exception as e:
+                    # 如果表达式无效或计算过程中发生错误
+                    print(f"无法解析时区字符串: {time_zone_str}. 错误: {e}")
+                    return None
+            else:
+                print(f"时区字符串包含无效字符: {time_zone_str}")
+                return None
 
-# 示例
-keyword_left = "[支出类别["
-formatted_value = "11222 文本99"
-keyword_right = "]支出类别]"
-
-result = format_value(keyword_left, formatted_value, keyword_right)
-print(result)
+time_zone = parse_time_zone_string("-3+3") #待修改完毕
+print(time_zone)

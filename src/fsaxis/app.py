@@ -412,9 +412,11 @@ class fsaxis(toga.App):
             toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
                 response, full_cell, old_cell_data = old_cell_data))
 
-    def worker(self, inp_line_value):
+    def worker(self, inp_line_value, time_zone):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
-        response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value) 
+        # time_zone = self.time_zone.value
+        # time_zone = int(time_zone)
+        response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value, time_zone=time_zone)  
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
             response, full_cell, old_cell_data = old_cell_data))
 
@@ -424,7 +426,7 @@ class fsaxis(toga.App):
             self.inp_content = self.inp_line.value
 
 
-    def clk_btn_line(self, widget): 
+    def clk_btn_line(self, widget):  
         widget_methods.on_lose_focus.inp_keyword(self, widget) #使用失去焦点方法。用于更新关键词框中的内容
         # 01152032：优化clk_btn_line函数
         # global my_global_variable
@@ -435,7 +437,28 @@ class fsaxis(toga.App):
         
         self.running_status.value = "写入中..."
         history_methods.write("line", self.inp_line.value)
-        threading.Thread(target=self.worker, args=(self.inp_line.value,)).start()
+
+        def parse_time_zone_string(time_zone_str):
+            # 如果字符串为空，返回默认值0
+            if not time_zone_str:
+                return 0
+
+            # 验证字符串是否只包含数字、加号和减号
+            if all(c in '0123456789+-' for c in time_zone_str):
+                try:
+                    # 计算表达式的值
+                    time_zone_value = eval(time_zone_str)
+                    return time_zone_value
+                except Exception as e:
+                    # 如果表达式无效或计算过程中发生错误
+                    print(f"无法解析时区字符串: {time_zone_str}. 错误: {e}")
+                    return None
+            else:
+                print(f"时区字符串包含无效字符: {time_zone_str}")
+                return None
+        time_zone = parse_time_zone_string(self.time_zone.value) #待修改完毕
+        # time_zone = int(self.time_zone.value)
+        threading.Thread(target=self.worker, args=(self.inp_line.value, time_zone,)).start()
 
     def clk_btn_cell(self, widget):
         self.btn_line.enabled = False
