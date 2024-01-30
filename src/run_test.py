@@ -10,7 +10,8 @@ def main(app_name):
     os.chdir(work_dir)
 
     # 生成时间戳
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    # timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    timestamp = datetime.now().strftime("%H%M%S")
 
     # 执行 briefcase package android -p debug-apk
     subprocess.run(["briefcase", "package", "android", "-p", "debug-apk"], check=True)
