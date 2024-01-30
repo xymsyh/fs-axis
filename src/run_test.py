@@ -53,3 +53,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     main(args.app_name)
+
+# 对于判断哈希值以确认是否真实写入文件还有待进一步的研究，目前01301103先搁置：
+# 参考链接：https://chat.openai.com/c/e6169b13-cddd-4293-ae65-18678f653769
