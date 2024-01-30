@@ -424,7 +424,8 @@ class fsaxis(toga.App):
             self.inp_content = self.inp_line.value
 
 
-    def clk_btn_line(self, widget):
+    def clk_btn_line(self, widget): 
+        widget_methods.on_lose_focus.inp_content(self, widget) #获取焦点用于更新关键词框中的内容
         # 01152032：优化clk_btn_line函数
         # global my_global_variable
         self.my_global_variable = self.inp_content.value # 用于后续判断用户是否更改inp_content值
