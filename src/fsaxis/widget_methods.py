@@ -74,7 +74,7 @@ def on_change(self, widget=None):
 
     # 组合最终的格式化值
     def format_value(keyword_left, formatted_value, keyword_right):
-        # 检查keyword_left是否包含"支出"
+        # 检查keyword_left是否包含"支出" [支出]
         if "支出" in keyword_left:
             # 使用正则表达式提取数字和文本部分
             match = re.match(r"(\d+(\.\d+)?)(.*)", formatted_value)
