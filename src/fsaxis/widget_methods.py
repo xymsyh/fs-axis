@@ -182,9 +182,12 @@ class on_lose_focus:
 
 
     @staticmethod
-    def inp_content(self, widgett=None):
+    def inp_content(self, widget=None):
         if (self.inp_keyword.value == ''
                 and self.inp_content.value == ''
                 and "图片写入中..." not in self.inp_line.value):
             self.inp_content.value = self.inp_line.value
+        
+        if widget == self.inp_keyword:
+            self.rewrite_keywords_json(widget)
             

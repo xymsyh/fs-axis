@@ -131,6 +131,7 @@ class fsaxis(toga.App):
 
         self.my_global_variable = None
         self.history_layout_box = None
+        self.used_data_json = None
 
         threading.Thread(target=self.compare_keyword_data).start()
 
@@ -150,13 +151,16 @@ class fsaxis(toga.App):
     
 
     def create_buttons_layout(self, *args, **kwargs):
+        if self.used_data_json == self.sheet_data_json:
+            return
+
         # 首先清除 keywords_box 中的所有现有子元素
         for child in list(self.keywords_box.children):
             self.keywords_box.remove(child)
 
         # 接着使用最新的数据重新创建按钮
-        keywords_data = self.sheet_data_json
-        for category_name, category_items in keywords_data.items():
+        self.used_data_json = self.sheet_data_json
+        for category_name, category_items in self.used_data_json.items():
             # 创建并添加一个类别标签
             category_label = toga.Label(category_name, style=Pack(padding_bottom=0))
             self.keywords_box.add(category_label)
