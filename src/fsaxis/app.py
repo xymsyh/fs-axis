@@ -61,6 +61,7 @@ class fsaxis(toga.App):
 
         # 创建时区与运行状态
         self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time_zone')
+        self.time_zone.on_change = self.self_time_zone_on_change
         self.running_status = toga.TextInput(style=Pack(flex=2), placeholder='status')
 
         # Creating multi-line input fields 创建多行输入字段
@@ -136,7 +137,17 @@ class fsaxis(toga.App):
         threading.Thread(target=self.compare_keyword_data).start()
 
 
-    # 定义keywords_box回调函数
+    # 定义相关回调函数
+        
+    def self_time_zone_on_change(self, widget):
+        if self.time_zone.value != "":
+            self.btn_line.text = '🕔zone'
+            self.btn_new4.text = '🕔zone'
+            self.btn_new8.text = '🕔zone'
+        if self.time_zone.value == "":
+            self.btn_line.text = '✅line'
+            self.btn_new4.text = '✅line'
+            self.btn_new8.text = '✅line'
     
 
     def compare_keyword_data(self):
