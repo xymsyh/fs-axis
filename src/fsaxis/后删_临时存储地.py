@@ -1,23 +1,15 @@
-def parse_time_zone_string(time_zone_str):
-            # 如果字符串为空，返回默认值0
-            if not time_zone_str:
-                return 0
+import socket
+import psutil
 
-            # 验证字符串是否只包含数字、加号和减号
-            if all(c in '0123456789+-' for c in time_zone_str):
-                try:
-                    # 计算表达式的值
-                    time_zone_value = eval(time_zone_str)
-                    return time_zone_value
-                except Exception as e:
-                    # 如果表达式无效或计算过程中发生错误
-                    print(f"无法解析时区字符串: {time_zone_str}. 错误: {e}")
-                    return None
-            else:
-                print(f"时区字符串包含无效字符: {time_zone_str}")
-                return None
+def get_ipv4_address(adapter_name):
+    adapters = psutil.net_if_addrs()
+    for name, snics in adapters.items():
+        if name == adapter_name:
+            for snic in snics:
+                if snic.family == socket.AF_INET:
+                    return snic.address
+    return "Adapter not found or doesn't have an IPv4 address."
 
-time_zone = parse_time_zone_string("-3+3") #待修改完毕
-print(time_zone)
-
-# 测试git钩子
+# Replace 'WLAN' with the exact name of your wireless adapter
+ipv4_address = get_ipv4_address('WLAN')
+print("IPv4 Address:", ipv4_address)
