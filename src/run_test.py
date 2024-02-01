@@ -7,6 +7,8 @@ import sys
 
 import socket
 import requests
+import psutil
+
 
 def get_ipv4_address_no(): #02011142 不使用这个函数，因为它会返回公网IPv4地址，而不是局域网IPv4地址
     try:
@@ -17,23 +19,26 @@ def get_ipv4_address_no(): #02011142 不使用这个函数，因为它会返回�
         ipv4_address = socket.gethostbyname(socket.gethostname())
     return ipv4_address
 
-def get_ipv4_address():
-    # 获取局域网IPv4地址
-    ipv4_address = socket.gethostbyname(socket.getfqdn())
-    print('ipv4_address =', ipv4_address)
-    return ipv4_address
+def get_ipv4_address(adapter_name):
+    adapters = psutil.net_if_addrs()
+    for name, snics in adapters.items():
+        if name == adapter_name:
+            for snic in snics:
+                if snic.family == socket.AF_INET:
+                    return snic.address
+    return "Adapter not found or doesn't have an IPv4 address."
 
 def write_ipv4_address_to_file(file_path, ipv4_address):
     with open(file_path, 'w') as file:
         file.write(f'IPv4 = "{ipv4_address}"\n')
 
 # 获取当前的IPv4地址
-ipv4_address = get_ipv4_address()
+ipv4_address = get_ipv4_address('WLAN')
 
 # 将IPv4地址写入到指定的文件中
 write_ipv4_address_to_file('C:\\Users\\Ran\\Desktop\\qkinp\\src\\qkinp\\config.py', ipv4_address)
 
-sys.exit()
+# sys.exit()
 
 def main(app_name):
     # 设置工作目录
