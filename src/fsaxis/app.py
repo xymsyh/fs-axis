@@ -32,6 +32,11 @@ print("工作目录 Current working directory:", os.getcwd())
 
 class fsaxis(toga.App):
     def startup(self):
+        self.lineButton_state_read = '📡读取'
+        self.lineButton_state_write = '✅写入'
+        self.lineButton_state_read_icon = '📡'
+        self.lineButton_state_write_icon = '✅'
+
         #region# keywords_box
         self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=(0, 5, 0, 5)))
         
@@ -63,21 +68,21 @@ class fsaxis(toga.App):
 
         # 创建时区与运行状态
         self.time_zone = toga.TextInput(style=Pack(flex=1), placeholder='time_zone')
-        self.time_zone.on_change = self.self_time_zone_on_change
+        self.time_zone.on_change = self.change_btnLine_status_byTZ
         self.running_status = toga.TextInput(style=Pack(flex=2), placeholder='status')
 
         # Creating multi-line input fields 创建多行输入字段
         self.inp_line = toga.MultilineTextInput(style=Pack(flex=1, height=95), placeholder='inp_line')
         # self.inp_line.on_change = lambda widget: widget_methods.on_lose_focus.inp_line(self, widget)
         
-        # self.inp_line.on_change = self.change_inp_line
+        self.inp_line.on_change = self.change_btnLine_status
         # 需要每个输入框都是焦点时使用on_change才能正常，否则会冲突
         self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=150), placeholder='inp_cell')
         self.inp_cell.readonly = True
 
         # Creating buttons 创建按钮
         button_style = {'width': 85, 'padding_top': 12} #靠顶风格
-        self.btn_line = toga.Button('✅line', style=Pack(**button_style), on_press=self.clk_btn_line)
+        self.btn_line = toga.Button(self.lineButton_state_read, style=Pack(**button_style), on_press=self.clk_btn_line)
         self.btn_clear = toga.Button('🗑️内容', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
         button_style = {'width': 85, 'padding_top': 25} #第二风格
         # self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
@@ -92,12 +97,12 @@ class fsaxis(toga.App):
         self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
         self.btn_new2 = toga.Button('往事', style=Pack(**button_style2), on_press=self.on_btn_new2_press) 
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
-        self.btn_new4 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
+        self.btn_new4 = toga.Button(self.lineButton_state_read, style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         self.btn_new5 = toga.Button(text = '更新JS', style=Pack(**button_style3), on_press=self.rewrite_keywords_json)
         self.btn_new6 = toga.Button('🔄关键', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear_keyword(self, widget)) 
         self.btn_new7 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell)  ###################
-        self.btn_new8 = toga.Button('✅line', style=Pack(**button_style2), on_press=self.clk_btn_line)
+        self.btn_new8 = toga.Button(self.lineButton_state_read, style=Pack(**button_style2), on_press=self.clk_btn_line)
 
         # Organizing components into rows and columns 将组件组织成行和列
         col_1 = toga.Box(style=column_style, children=[self.btn_line, self.btn_cell]) 
@@ -160,19 +165,22 @@ class fsaxis(toga.App):
     @staticmethod
     def format_text(hour):
         # 格式化文本为"01点"、"02点"……"23点"
-        return f'{hour:02d}点'
+        # return f'{hour:02d}点'
+        return f'{hour:02d}'
 
-    def update_button_state(self, enabled, text=None):
+    def update_lineButton_state(self, enabled, text=None):
         for btn in [self.btn_line, self.btn_new4, self.btn_new8]:
             btn.enabled = enabled
             if text:
                 btn.text = text
 
-    def self_time_zone_on_change(self, widget):
+    def change_btnLine_status_byTZ(self, widget):
+
         if self.time_zone.value == "":
-            self.update_button_state(True, '✅line')
+            self.update_lineButton_state(True)
+            self.change_btnLine_status(widget)
         elif self.time_zone.value == "-":
-            self.update_button_state(False)
+            self.update_lineButton_state(False)
         else:
             try:
                 time_zone_offset = int(self.time_zone.value)
@@ -180,9 +188,12 @@ class fsaxis(toga.App):
                 adjusted_time = current_utc_time + timedelta(hours=time_zone_offset)
                 icon = self.get_clock_icon(adjusted_time.hour, adjusted_time.minute)
                 text = self.format_text(adjusted_time.hour)
-                self.update_button_state(True, f'{icon}{text}')
+                if self.inp_line.value:
+                    self.update_lineButton_state(True, f'{self.lineButton_state_write_icon}{icon}{text}')
+                else:
+                    self.update_lineButton_state(True, f'{self.lineButton_state_read_icon}{icon}{text}')
             except ValueError:
-                self.update_button_state(False, '❓❓')
+                self.update_lineButton_state(False, '❓❓')
 
     def compare_keyword_data(self):
         # 从 API 获取数据
@@ -470,9 +481,17 @@ class fsaxis(toga.App):
             response, full_cell, old_cell_data = old_cell_data))
 
         
-    def change_inp_line(self, widget):
-        if not self.inp_keyword.value:
-            self.inp_content = self.inp_line.value
+    def change_btnLine_status(self, widget):
+        '''if not self.inp_keyword.value:
+            self.inp_content = self.inp_line.value''' # 于02010935注释
+        
+        if self.time_zone.value == "":
+            if self.inp_line.value == "":
+                self.update_lineButton_state(True, self.lineButton_state_read)
+            if self.inp_line.value != "":
+                self.update_lineButton_state(True, self.lineButton_state_write)
+        else:
+            self.change_btnLine_status_byTZ(widget)
 
 
     def clk_btn_line(self, widget):  
@@ -487,7 +506,7 @@ class fsaxis(toga.App):
         self.btn_line.enabled = False
         self.btn_cell.enabled = False
         
-        self.running_status.value = "写入中..."
+        self.running_status.value = "执行中..."
         history_methods.write("line", self.inp_line.value)
 
         def parse_time_zone_string(time_zone_str):
