@@ -140,6 +140,7 @@ class fsaxis(toga.App):
     # 定义相关回调函数
         
     def self_time_zone_on_change(self, widget):
+        #可以正常根据时间切换图标的功能已实现接下来优化一下这一段的代码，使其更优雅。
 
         from datetime import datetime, timedelta
         def get_clock_icon(hour, minute):
