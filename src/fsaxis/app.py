@@ -25,6 +25,8 @@ import json
 import feishu_api
 api = feishu_api.FeishuOpenAPI()
 
+from datetime import datetime, timedelta
+
 import os
 print("工作目录 Current working directory:", os.getcwd())
 
@@ -139,60 +141,48 @@ class fsaxis(toga.App):
 
     # 定义相关回调函数
         
+    @staticmethod
+    def get_clock_icon(hour, minute):
+        # 根据小时和分钟确定图标
+        icons = {
+            0: '🕛', 0.5: '🕧', 1: '🕐', 1.5: '🕜',
+            2: '🕑', 2.5: '🕝', 3: '🕒', 3.5: '🕞',
+            4: '🕓', 4.5: '🕟', 5: '🕔', 5.5: '🕠',
+            6: '🕕', 6.5: '🕡', 7: '🕖', 7.5: '🕢',
+            8: '🕗', 8.5: '🕣', 9: '🕘', 9.5: '🕤',
+            10: '🕙', 10.5: '🕥', 11: '🕚', 11.5: '🕦',
+        }
+        # 计算对应的键值
+        key = hour % 12 + (0.5 if minute >= 30 else 0)
+        # 返回对应的图标
+        return icons.get(key, '❓')
+
+    @staticmethod
+    def format_text(hour):
+        # 格式化文本为"01点"、"02点"……"23点"
+        return f'{hour:02d}点'
+
+    def update_button_state(self, enabled, text=None):
+        for btn in [self.btn_line, self.btn_new4, self.btn_new8]:
+            btn.enabled = enabled
+            if text:
+                btn.text = text
+
     def self_time_zone_on_change(self, widget):
-        #可以正常根据时间切换图标的功能已实现接下来优化一下这一段的代码，使其更优雅。
-
-        from datetime import datetime, timedelta
-        def get_clock_icon(hour, minute):
-            # 根据小时和分钟确定图标
-            icons = {
-                0: '🕛', 0.5: '🕧', 1: '🕐', 1.5: '🕜',
-                2: '🕑', 2.5: '🕝', 3: '🕒', 3.5: '🕞',
-                4: '🕓', 4.5: '🕟', 5: '🕔', 5.5: '🕠',
-                6: '🕕', 6.5: '🕡', 7: '🕖', 7.5: '🕢',
-                8: '🕗', 8.5: '🕣', 9: '🕘', 9.5: '🕤',
-                10: '🕙', 10.5: '🕥', 11: '🕚', 11.5: '🕦',
-            }
-            # 计算对应的键值
-            key = hour % 12 + (0.5 if minute >= 30 else 0)
-            # 返回对应的图标
-            return icons.get(key, '❓')
-
-        def format_text(hour):
-            # 格式化文本为"01点"、"02点"……"23点"
-            return f'{hour:02d}点'
-
-        if self.time_zone.value and self.time_zone.value != "-":
+        if self.time_zone.value == "":
+            self.update_button_state(True, '✅line')
+        elif self.time_zone.value == "-":
+            self.update_button_state(False)
+        else:
             try:
                 time_zone_offset = int(self.time_zone.value)
                 current_utc_time = datetime.now()
                 adjusted_time = current_utc_time + timedelta(hours=time_zone_offset)
-                icon = get_clock_icon(adjusted_time.hour, adjusted_time.minute)
-                text = format_text(adjusted_time.hour)
-
-                self.btn_line.enabled = True
-                self.btn_new4.enabled = True
-                self.btn_new8.enabled = True
+                icon = self.get_clock_icon(adjusted_time.hour, adjusted_time.minute)
+                text = self.format_text(adjusted_time.hour)
+                self.update_button_state(True, f'{icon}{text}')
             except ValueError:
-                icon = '❓'
-                text = '❓'
-
-            # 更新按钮文本和图标
-            self.btn_line.text = f'{icon}{text}'
-            self.btn_new4.text = f'{icon}{text}'
-            self.btn_new8.text = f'{icon}{text}'
-        if self.time_zone.value == "":
-            self.btn_line.enabled = True
-            self.btn_new4.enabled = True
-            self.btn_new8.enabled = True
-            self.btn_line.text = '✅line'
-            self.btn_new4.text = '✅line'
-            self.btn_new8.text = '✅line'
-        if self.time_zone.value == "-":
-            self.btn_line.enabled = False
-            self.btn_new4.enabled = False
-            self.btn_new8.enabled = False
-    
+                self.update_button_state(False, '❓❓')
 
     def compare_keyword_data(self):
         # 从 API 获取数据
