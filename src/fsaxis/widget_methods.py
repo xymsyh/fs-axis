@@ -88,6 +88,8 @@ def on_change(self, widget=None):
         return f"{keyword_left}{formatted_value}{keyword_right}"
     
     result = format_value(keyword_left, formatted_value, keyword_right)
+    if '[规划[' in result:
+        result = r'{}' + result
     self.inp_line.value = result
 
 
