@@ -421,6 +421,11 @@ class fsaxis(toga.App):
 
         if response:
             self.running_status.value = str(response['msg']) + ": " + str(response['data']['updatedRange'])
+            # 检查self.btn_line.text是否包含任意一个时钟图标
+            if any(icon in self.btn_line.text for icon in self.clock_icons.values()):
+                # 如果包含，执行某些操作
+                # if '-' in self.time_zone.value 
+                    self.time_zone.value = ''
         else:
             self.running_status.value = "write_data为空"
         
@@ -494,7 +499,8 @@ class fsaxis(toga.App):
             self.change_btnLine_status_byTZ(widget)
 
 
-    def clk_btn_line(self, widget):  
+    def clk_btn_line(self, widget):
+
         # widget_methods.on_lose_focus.inp_keyword(self, widget) #使用失去焦点方法。用于更新关键词框中的内容
         if self.inp_content.value == "" and self.inp_keyword.value != "" and self.inp_line.value == "":
             widget_methods.on_change(self, widget)
