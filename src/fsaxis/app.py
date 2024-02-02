@@ -146,10 +146,10 @@ class fsaxis(toga.App):
 
     # 定义相关回调函数
         
-    @staticmethod
-    def get_clock_icon(hour, minute):
+    # @staticmethod
+    def get_clock_icon(self, hour, minute):
         # 根据小时和分钟确定图标
-        icons = {
+        self.clock_icons = {
             0: '🕛', 0.5: '🕧', 1: '🕐', 1.5: '🕜',
             2: '🕑', 2.5: '🕝', 3: '🕒', 3.5: '🕞',
             4: '🕓', 4.5: '🕟', 5: '🕔', 5.5: '🕠',
@@ -160,7 +160,7 @@ class fsaxis(toga.App):
         # 计算对应的键值
         key = hour % 12 + (0.5 if minute >= 30 else 0)
         # 返回对应的图标
-        return icons.get(key, '❓')
+        return self.clock_icons.get(key, '❓')
 
     @staticmethod
     def format_text(hour):
