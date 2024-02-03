@@ -32,9 +32,9 @@ print("工作目录 Current working directory:", os.getcwd())
 
 class fsaxis(toga.App):
     def startup(self):
-        self.lineButton_state_read = '📡读取'
+        self.lineButton_state_read = '🚀读取'
         self.lineButton_state_write = '✅写入'
-        self.lineButton_state_read_icon = '📡'
+        self.lineButton_state_read_icon = '🚀'
         self.lineButton_state_write_icon = '✅'
 
         #region# keywords_box
