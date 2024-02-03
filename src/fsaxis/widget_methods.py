@@ -188,7 +188,9 @@ class on_lose_focus:
         if (self.inp_keyword.value == ''
                 and self.inp_content.value == ''
                 and "图片写入中..." not in self.inp_line.value):
-            self.inp_content.value = self.inp_line.value
+            
+            if self.inp_line.value != self.last_inp_line_value:
+                self.inp_content.value = self.inp_line.value
         
         if widget == self.inp_keyword:
             self.rewrite_keywords_json(widget)

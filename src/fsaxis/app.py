@@ -536,6 +536,10 @@ class fsaxis(toga.App):
                 return None
         time_zone = parse_time_zone_string(self.time_zone.value) #待修改完毕
         # time_zone = int(self.time_zone.value)
+
+        # 添加上次提交的内容保存到变量，以确保不会不必要的获取焦点以更新内容
+        self.last_inp_line_value = self.inp_line.value
+
         threading.Thread(target=self.worker, args=(self.inp_line.value, time_zone,)).start()
 
     def clk_btn_cell(self, widget):
