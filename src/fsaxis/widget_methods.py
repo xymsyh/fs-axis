@@ -71,7 +71,11 @@ def on_change(self, widget=None):
 
     # 检查规划冒号逻辑
     if "规划" in keyword_left:
-        content_value = content_value.replace("：", "：：", 1)
+        if "：：" in content_value:
+            pass
+        else:
+            content_value = content_value.replace("：", "：：", 1)
+        
 
     # 检查图片标识逻辑
     formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
