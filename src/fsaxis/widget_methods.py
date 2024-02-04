@@ -69,11 +69,17 @@ def on_change(self, widget=None):
         keyword_left = ''
         keyword_right = ''
 
-    # 简化条件逻辑
+    # 检查规划冒号逻辑
+    if "规划" in keyword_left:
+        content_value = content_value.replace("：", "：：", 1)
+
+    # 检查图片标识逻辑
     formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
 
     # 组合最终的格式化值
     def format_value(keyword_left, formatted_value, keyword_right):
+
+        # ↓↓↓检查支出逻辑↓↓↓
         # 检查keyword_left是否包含"支出" [支出]
         if "支出" in keyword_left:
             # 使用正则表达式提取数字和文本部分
@@ -86,6 +92,7 @@ def on_change(self, widget=None):
                 return f"{keyword_left}{numbers}{keyword_right}{text}"
         # 如果不包含"支出"或者没有匹配到格式，返回原始格式
         return f"{keyword_left}{formatted_value}{keyword_right}"
+        # ↑↑↑检查支出逻辑↑↑↑
     
     result = format_value(keyword_left, formatted_value, keyword_right)
     if '[规划[' in result:
