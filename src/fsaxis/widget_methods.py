@@ -78,7 +78,10 @@ def on_change(self, widget=None):
         
 
     # 检查图片标识逻辑
-    formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
+    if "支出" in keyword_left:
+        formatted_value = f'{content_value} {picture_status_value}' if picture_status_value else content_value
+    else:
+        formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
 
     # 组合最终的格式化值
     def format_value(keyword_left, formatted_value, keyword_right):

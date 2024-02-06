@@ -28,9 +28,10 @@ api = feishu_api.FeishuOpenAPI()
 from datetime import datetime, timedelta
 import queue
 
-
 import os
 print("工作目录 Current working directory:", os.getcwd())
+
+import widget_text as wt
 
 class fsaxis(toga.App):
     def startup(self):
@@ -417,7 +418,7 @@ class fsaxis(toga.App):
                 result[0] = process_image_data(self.image_data)
                 on_complete()
 
-            self.picture_status.value = '图片写入中...'
+            self.picture_status.value = wt.图片写入中
             threading.Thread(target=thread_function).start()
         else:
             self.main_window.error_dialog("PhotoApp", "No image has been selected.")
@@ -493,9 +494,9 @@ class fsaxis(toga.App):
         """# 等待图片上传完成
         self.image_upload_completed.wait()"""
 
-        if "图片写入中..." in inp_line_value:
+        if wt.图片写入中 in inp_line_value:
             result = self.upload_result_queue.get()
-            inp_line_value = inp_line_value.replace("图片写入中...", result)
+            inp_line_value = inp_line_value.replace(wt.图片写入中, result)
 
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
         response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value, time_zone=time_zone)  
