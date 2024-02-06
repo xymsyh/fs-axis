@@ -324,6 +324,13 @@ class fsaxis(toga.App):
         await self.pick_image(widget)
         self.main_window.content = self.photo_view_box
 
+        # 注释以下段可取消安卓选中后自动执行 (取消自动执行后，需要手动点击上传按钮)
+        if sys.platform != 'win32': # != 'win32' 即安卓
+            self.perform_action2(widget) 
+            self.inp_content.focus()
+            # self.scroll_container.clear()
+            self.scroll_container.content = self.photo_view_box
+
     async def pick_image(self, widget):
         if sys.platform == 'win32':
             # Windows 环境下的逻辑
