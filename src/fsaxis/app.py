@@ -500,7 +500,7 @@ class fsaxis(toga.App):
             self.change_btnLine_status_byTZ(widget)
 
 
-    def clk_btn_line(self, widget):
+    def clk_btn_line(self, widget): #line回调
 
         # widget_methods.on_lose_focus.inp_keyword(self, widget) #使用失去焦点方法。用于更新关键词框中的内容
         if self.inp_content.value == "" and self.inp_keyword.value != "" and self.inp_line.value == "":
