@@ -329,7 +329,7 @@ class fsaxis(toga.App):
             self.perform_action2(widget) 
             self.inp_content.focus()
             # self.scroll_container.clear()
-            self.scroll_container.content = self.photo_view_box
+            self.scroll_container.content = self.image_view
 
     async def pick_image(self, widget):
         if sys.platform == 'win32':
@@ -475,6 +475,8 @@ class fsaxis(toga.App):
         # threading.Thread(target=self.on_btn_new2_press, kwargs={'assistive_calling': True}).start()
 
         self.on_btn_new2_press(assistive_calling=True)
+
+        self.scroll_container.content = self.keywords_box
 
     def worker4(self, message):
         print("message 01172159 01172159 01172159")
