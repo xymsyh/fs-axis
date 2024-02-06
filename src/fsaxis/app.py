@@ -26,6 +26,8 @@ import feishu_api
 api = feishu_api.FeishuOpenAPI()
 
 from datetime import datetime, timedelta
+import queue
+
 
 import os
 print("工作目录 Current working directory:", os.getcwd())
@@ -150,6 +152,10 @@ class fsaxis(toga.App):
         }
 
         threading.Thread(target=self.compare_keyword_data).start()
+
+        # self.image_upload_completed = threading.Event()
+        self.upload_result_queue = queue.Queue()
+
 
 
     # 定义相关回调函数
@@ -385,6 +391,11 @@ class fsaxis(toga.App):
 
     def update_status(self, result):
         self.picture_status.value = result
+        """# 图片上传逻辑...
+        self.image_upload_completed.clear()  # 确保事件处于未设置状态
+        # 进行图片上传...
+        self.image_upload_completed.set()  # 图片上传完成后设置事件"""
+        self.upload_result_queue.put(result)
         # self.inp_content.value = f"{result} {self.inp_content.value}"
 
     def perform_action(self, widget):
@@ -479,6 +490,13 @@ class fsaxis(toga.App):
                 response, full_cell, old_cell_data = old_cell_data))
 
     def worker(self, inp_line_value, time_zone):
+        """# 等待图片上传完成
+        self.image_upload_completed.wait()"""
+
+        if "图片写入中..." in inp_line_value:
+            result = self.upload_result_queue.get()
+            inp_line_value = inp_line_value.replace("图片写入中...", result)
+
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
         response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value, time_zone=time_zone)  
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
