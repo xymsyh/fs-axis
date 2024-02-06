@@ -480,8 +480,6 @@ class fsaxis(toga.App):
 
     def worker(self, inp_line_value, time_zone):
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
-        # time_zone = self.time_zone.value
-        # time_zone = int(time_zone)
         response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value, time_zone=time_zone)  
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
             response, full_cell, old_cell_data = old_cell_data))
