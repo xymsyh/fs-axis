@@ -171,7 +171,7 @@ class on_lose_focus:
     @staticmethod
     def inp_keyword(self, widget=None):
         if self.inp_keyword.value != '':
-            self.inp_keyword.value = self.inp_keyword.value.replace("，", "/").replace("。", "/").replace("[", "/")
+            self.inp_keyword.value = self.inp_keyword.value.replace("，", "/").replace("。", "/").replace("、", "/").replace("[", "/")
 
         def auto_complete_keyword_logic():
             self_inp_keyword_value = None  # 在这里初始化变量
