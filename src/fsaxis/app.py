@@ -415,13 +415,20 @@ class fsaxis(toga.App):
             from write_image import process_image_data
             import threading
 
-            result = [None]
+            result = [None]  # 使用列表存储结果，以便在线程中修改
 
             def on_complete():
-                # 更新UI
+                # 使用 result[0] 获取结果，并更新UI
                 self.main_window.app.add_background_task(lambda *args, **kwargs: self.update_status(result[0]))
 
             def thread_function():
+                # 清空队列以确保获取的是最新结果
+                while not self.upload_result_queue.empty():
+                    try:
+                        self.upload_result_queue.get_nowait()
+                    except queue.Empty:
+                        break
+                # 将处理结果存储在 result[0] 中
                 result[0] = process_image_data(self.image_data)
                 on_complete()
 
@@ -429,6 +436,7 @@ class fsaxis(toga.App):
             threading.Thread(target=thread_function).start()
         else:
             self.main_window.error_dialog("PhotoApp", "No image has been selected.")
+
 
     # 定义main_box回调函数
     def update_ui_with_result(self, response, full_cell, no_write_history = False, old_cell_data=None):
