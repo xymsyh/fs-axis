@@ -61,10 +61,10 @@ def on_change(self, widget=None):
             # keyword_value = keyword_value.upper()
 
         keyword_left = f'[{keyword_value}['
-        keyword_left = keyword_left.replace("，", "[").replace("。", "[").replace("]", "[").replace("/", "[")
+        keyword_left = keyword_left.replace("，", "[").replace("。", "[").replace("、", "[").replace("]", "[").replace("/", "[")
 
         keyword_right = f']{keyword_value}]'
-        keyword_right = keyword_right.replace("，", "]").replace("。", "]").replace("[", "]").replace("/", "]")
+        keyword_right = keyword_right.replace("，", "]").replace("。", "]").replace("、", "]").replace("[", "]").replace("/", "]")
     else:
         keyword_left = ''
         keyword_right = ''
