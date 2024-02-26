@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "网址获标题" 
+版本说明 = "重排按钮" 
 
 import sys
 from pathlib import Path
@@ -37,7 +37,7 @@ import widget_text as wt
 
 class fsaxis(toga.App):
     def startup(self):
-        self.lineButton_state_read = '🚀读取'
+        self.读取 = '🚀读取'
         self.lineButton_state_write = '✅写入'
         self.lineButton_state_read_icon = '🚀'
         self.lineButton_state_write_icon = '✅'
@@ -85,61 +85,61 @@ class fsaxis(toga.App):
         self.inp_cell = toga.MultilineTextInput(style=Pack(flex=1, height=150), placeholder='inp_cell')
         self.inp_cell.readonly = True
 
-        # Creating buttons 创建按钮
-        button_style = {'width': 85, 'padding_top': 12} #靠顶风格
-        self.btn_line = toga.Button(self.lineButton_state_read, style=Pack(**button_style), on_press=self.clk_btn_line)
-        self.btn_clear = toga.Button('🗑️内容', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
-        button_style = {'width': 85, 'padding_top': 25} #第二风格
-        # self.btn_clear = toga.Button('clear', style=Pack(**button_style), on_press=self.clk_btn_clear)
-        
-        self.btn_cell = toga.Button('往事', style=Pack(**button_style), on_press=self.on_btn_new2_press) #####################
+        # 标准按钮
 
-        # Add your new buttons here 新增按钮
-
+        ## 靠顶风格
+        button_style = {'width': 85, 'padding_top': 12} 
+        self.btn_std1 = toga.Button('🖼️传图', style=Pack(**button_style), on_press=self.on_btn_new3_press)
+        self.btn_std3 = toga.Button(self.读取, style=Pack(**button_style), on_press=self.clk_btn_line)
         
+        ## 第二风格
+        button_style = {'width': 85, 'padding_top': 25} 
+        self.btn_std2 = toga.Button('🗑️清内', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
+        
+        # 新按钮
         button_style_用于开头 = {'width': 85, 'padding': (0, 0, 0, 5)}
         button_style_用于后跟 = {'width': 85, 'padding': (0, 0, 0, 0)}
 
         buttons_config = {
             'btn_new1': {
-                'text': 'CL仅读', 
+                'text': '🗑️清关',  
                 'style': button_style_用于开头, 
-                'callback': self.on_btn_new1_press
-            },
-            'btn_new2': {
-                'text': '往事', 
-                'style': button_style_用于后跟, 
-                'callback': self.on_btn_new2_press
-            },
-            'btn_new3': {
-                'text': '传图', 
-                'style': button_style_用于后跟, 
-                'callback': self.on_btn_new3_press
-            },
-            'btn_new4': {
-                'text': self.lineButton_state_read,  # 使用 self.lineButton_state_read 直接作为文本值
-                'style': button_style_用于后跟, 
-                'callback': self.clk_btn_line
-            },
-            'btn_new5': {
-                'text': '更新JS', 
-                'style': button_style_用于开头, 
-                'callback': self.rewrite_keywords_json
-            },
-            'btn_new6': {
-                'text': '🔄关键', 
-                'style': button_style_用于后跟, 
                 'callback': lambda widget: widget_methods.on_press.clear_keyword(self, widget)
             },
-            'btn_new7': {
-                'text': '回滚', 
+            'btn_new2': {
+                'text': '🗑️清内', 
+                'style': button_style_用于后跟, 
+                'callback': lambda widget: widget_methods.on_press.clear(self, widget)
+            },
+            'btn_new3': {
+                'text': '🔀童锁', 
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+            'btn_new4': {
+                'text': "🤫写隐",  # 使用 self.lineButton_state_read 直接作为文本值
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+            'btn_new5': {
+                'text': '📜往事', 
+                'style': button_style_用于开头, 
+                'callback': self.on_btn_new2_press
+            },
+            'btn_new6': {
+                'text': '🔙回滚', 
                 'style': button_style_用于后跟, 
                 'callback': self.clk_btn_cell
             },
-            'btn_new8': {
-                'text': self.lineButton_state_read, 
+            'btn_new7': {
+                'text': '👀仅读', 
                 'style': button_style_用于后跟, 
-                'callback': self.clk_btn_line
+                'callback': self.on_btn_new1_press
+            },
+            'btn_new8': {
+                'text': "🤫写隐", 
+                'style': button_style_用于后跟, 
+                'callback': None
             },
         }
 
@@ -156,13 +156,13 @@ class fsaxis(toga.App):
             )
 
         # Organizing components into rows and columns 将组件组织成行和列
-        col_1 = toga.Box(style=column_style, children=[self.btn_line, self.btn_cell]) 
+        col_1 = toga.Box(style=column_style, children=[self.btn_std1, self.btn_std2]) 
         row_1 = toga.Box(style=row_style, children=[self.time_zone, self.running_status])
         row_2 = toga.Box(style=row_style, children=[self.inp_cell, col_1])
-        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_clear]) 
+        row_3 = toga.Box(style=row_style, children=[self.inp_line, self.btn_std3]) 
         row_4 = toga.Box(style=row_style, children=[self.inp_keyword, self.inp_content])
-        row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new3, self.btn_new2, self.btn_new4])
-        row_6 = toga.Box(style=row_style, children=[self.btn_new5, self.btn_new7, self.btn_new6, self.btn_new8])
+        row_5 = toga.Box(style=row_style, children=[self.btn_new1, self.btn_new2, self.btn_new3, self.btn_new4])
+        row_6 = toga.Box(style=row_style, children=[self.btn_new5, self.btn_new6, self.btn_new7, self.btn_new8])
 
 
         # New row for the new buttons 新按钮的行
@@ -225,7 +225,8 @@ class fsaxis(toga.App):
         return f'{hour:02d}'
 
     def update_lineButton_state(self, enabled, text=None):
-        for btn in [self.btn_line, self.btn_new4, self.btn_new8]:
+        # for btn in [self.btn_std1, self.btn_new4, self.btn_new8]:
+        for btn in [self.btn_std3]:
             btn.enabled = enabled
             if text:
                 btn.text = text
@@ -304,9 +305,9 @@ class fsaxis(toga.App):
 
         # 更新按钮文本以反映当前状态
         if self.inp_cell.readonly:
-            self.btn_new1.text = 'CL仅读'
+            self.btn_new7.text = '👀仅读'
         else:
-            self.btn_new1.text = '现可写'
+            self.btn_new7.text = '✍️可写'
     
     
 
@@ -498,15 +499,15 @@ class fsaxis(toga.App):
         if response:
             self.running_status.value = str(response['msg']) + ": " + str(response['data']['updatedRange'])
             # 检查self.btn_line.text是否包含任意一个时钟图标
-            if any(icon in self.btn_line.text for icon in self.clock_icons.values()):
+            if any(icon in self.btn_std1.text for icon in self.clock_icons.values()):
                 # 如果包含，执行某些操作
                 # if '-' in self.time_zone.value 
                     self.time_zone.value = ''
         else:
             self.running_status.value = "write_data为空"
         
-        self.btn_line.enabled = True
-        self.btn_cell.enabled = True
+        self.btn_std1.enabled = True
+        self.btn_std2.enabled = True
 
         # --- 用于保持 inp_line 不变的方法 --- ↓
         # 注：下述7行方法于 01131540 进行了重构，未进行测试而直接发布了，后续出现相关问题可关注此
@@ -575,7 +576,7 @@ class fsaxis(toga.App):
         
         if self.time_zone.value == "":
             if self.inp_line.value == "":
-                self.update_lineButton_state(True, self.lineButton_state_read)
+                self.update_lineButton_state(True, self.读取)
             if self.inp_line.value != "":
                 self.update_lineButton_state(True, self.lineButton_state_write)
         else:
@@ -592,8 +593,8 @@ class fsaxis(toga.App):
         # global my_global_variable
         self.my_global_variable = self.inp_content.value # 用于后续判断用户是否更改inp_content值
 
-        self.btn_line.enabled = False
-        self.btn_cell.enabled = False
+        self.btn_std1.enabled = False
+        self.btn_std2.enabled = False
         
         self.running_status.value = "执行中..."
         history_methods.write("line", self.inp_line.value)
@@ -625,8 +626,8 @@ class fsaxis(toga.App):
         threading.Thread(target=self.worker, args=(self.inp_line.value, time_zone,)).start()
 
     def clk_btn_cell(self, widget):
-        self.btn_line.enabled = False
-        self.btn_cell.enabled = False
+        self.btn_std1.enabled = False
+        self.btn_std2.enabled = False
         self.inp_cell.readonly = True
         cell_history_data = history_methods.read("cell")
 
@@ -649,8 +650,8 @@ class fsaxis(toga.App):
         def on_cancel(widget):
             # self.running_status.value = "操作已取消"
             self.main_window.content = self.main_box
-            self.btn_line.enabled = True
-            self.btn_cell.enabled = True
+            self.btn_std1.enabled = True
+            self.btn_std2.enabled = True
 
         # 创建确认对话框的内容
         confirm_label = toga.Label('确认回退至以下版本？')
