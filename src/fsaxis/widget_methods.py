@@ -75,10 +75,14 @@ def on_change(self, widget=None):
             pass
         else:
             content_value = content_value.replace("：", "：：", 1)
-        
+
+    if "规划" in keyword_left:
+        # 本逻辑为: 防止中括号和大括号出现在内容中, 以免影响可分析性
+        picture_status_value = picture_status_value.replace('[', '(').replace('{', '(').replace(']', ')').replace('}', ')')
+        content_value = content_value.replace('[', '(').replace('{', '(').replace(']', ')').replace('}', ')')
 
     # 检查图片标识逻辑
-    if "支出" in keyword_left:
+    if "支出" in keyword_left or "规划" in keyword_left:
         formatted_value = f'{content_value} {picture_status_value}' if picture_status_value else content_value
     else:
         formatted_value = f'{picture_status_value} {content_value}' if picture_status_value else content_value
@@ -104,6 +108,7 @@ def on_change(self, widget=None):
     result = format_value(keyword_left, formatted_value, keyword_right)
     if '[规划[' in result:
         result = r'{}' + result
+
     self.inp_line.value = result
 
 
