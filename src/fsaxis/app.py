@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "重排按钮" 
+版本说明 = "恒星童锁" 
 
 import sys
 from pathlib import Path
@@ -196,7 +196,7 @@ class fsaxis(toga.App):
 
 
         # 创建按钮
-        for key, config in self.标准配置.items():
+        for key, config in self.童锁配置.items():
             setattr(
                 self, 
                 key, 
@@ -263,7 +263,7 @@ class fsaxis(toga.App):
         if hasattr(self, 'child_lock_active'):
             self.child_lock_active = not self.child_lock_active
         else:
-            self.child_lock_active = True
+            self.child_lock_active = False
 
         # 选择正确的配置字典
         config_to_use = self.童锁配置 if self.child_lock_active else self.标准配置
@@ -278,9 +278,9 @@ class fsaxis(toga.App):
 
         # 根据童锁的激活状态更新童锁按钮的文本
         if self.child_lock_active:
-            self.btn_std1.text = '童锁：开'
+            self.btn_std1.text = '⭐恒星'
         else:
-            self.btn_std1.text = '童锁：关'
+            self.btn_std1.text = '🌠流星'
 
     # @staticmethod
     def get_clock_icon(self, hour, minute):
@@ -378,9 +378,9 @@ class fsaxis(toga.App):
 
         # 更新按钮文本以反映当前状态
         if self.inp_cell.readonly:
-            self.btn_new7.text = '👀仅读'
+            self.btn_new1.text = '👀仅读'
         else:
-            self.btn_new7.text = '✍️可写'
+            self.btn_new1.text = '✍️可写'
     
     
 
