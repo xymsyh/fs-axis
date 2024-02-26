@@ -102,20 +102,22 @@ class fsaxis(toga.App):
 
         buttons_config = {
             'btn_new1': {
-                'text': '🗑️清关',  
+                'text': '👀仅读', 
                 'style': button_style_用于开头, 
+                'callback': self.on_btn_new1_press
+            },
+
+            'btn_new2': {
+                'text': '🗑️清关',  
+                'style': button_style_用于后跟, 
                 'callback': lambda widget: widget_methods.on_press.clear_keyword(self, widget)
             },
-            'btn_new2': {
+            'btn_new3': {
                 'text': '🗑️清内', 
                 'style': button_style_用于后跟, 
                 'callback': lambda widget: widget_methods.on_press.clear(self, widget)
             },
-            'btn_new3': {
-                'text': '🖼️传图', 
-                'style': button_style_用于后跟, 
-                'callback': self.on_btn_new3_press
-            },
+
             'btn_new4': {
                 'text': "🤫写隐",  # 使用 self.lineButton_state_read 直接作为文本值
                 'style': button_style_用于后跟, 
@@ -131,11 +133,13 @@ class fsaxis(toga.App):
                 'style': button_style_用于后跟, 
                 'callback': self.clk_btn_cell
             },
+
             'btn_new7': {
-                'text': '👀仅读', 
+                'text': '🖼️传图', 
                 'style': button_style_用于后跟, 
-                'callback': self.on_btn_new1_press
+                'callback': self.on_btn_new3_press
             },
+
             'btn_new8': {
                 'text': "🤫写隐", 
                 'style': button_style_用于后跟, 
