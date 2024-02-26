@@ -100,7 +100,7 @@ class fsaxis(toga.App):
         button_style_用于开头 = {'width': 85, 'padding': (0, 0, 0, 5)}
         button_style_用于后跟 = {'width': 85, 'padding': (0, 0, 0, 0)}
 
-        buttons_config = {
+        self.标准配置 = {
             'btn_new1': {
                 'text': '👀仅读', 
                 'style': button_style_用于开头, 
@@ -147,8 +147,56 @@ class fsaxis(toga.App):
             },
         }
 
+        self.童锁配置 = {
+            'btn_new1': {
+                'text': '前天', 
+                'style': button_style_用于开头, 
+                'callback': None
+            },
+
+            'btn_new2': {
+                'text': '昨天',  
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+            'btn_new3': {
+                'text': '今天', 
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+
+            'btn_new4': {
+                'text': "明天",  # 使用 self.lineButton_state_read 直接作为文本值
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+            'btn_new5': {
+                'text': '前天', 
+                'style': button_style_用于开头, 
+                'callback': None
+            },
+            'btn_new6': {
+                'text': '昨天', 
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+
+            'btn_new7': {
+                'text': '今天', 
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+
+            'btn_new8': {
+                'text': "明天", 
+                'style': button_style_用于后跟, 
+                'callback': None
+            },
+        }
+
+
         # 创建按钮
-        for key, config in buttons_config.items():
+        for key, config in self.标准配置.items():
             setattr(
                 self, 
                 key, 
@@ -229,7 +277,7 @@ class fsaxis(toga.App):
             self.btn_std1.text = '童锁：开'
         else:
             self.btn_std1.text = '童锁：关'
-            
+
     # @staticmethod
     def get_clock_icon(self, hour, minute):
         # 根据小时和分钟确定图标
