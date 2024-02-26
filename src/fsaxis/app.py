@@ -99,12 +99,12 @@ class fsaxis(toga.App):
         
         button_style2 = {'width': 85, 'padding': (0, 0, 0, 0)}
         button_style3 = {'width': 85, 'padding': (0, 0, 0, 5)}
-        self.btn_new1 = toga.Button(text = 'CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
+        self.btn_new1 = toga.Button('CL仅读', style=Pack(**button_style3), on_press=self.on_btn_new1_press)
         self.btn_new2 = toga.Button('往事', style=Pack(**button_style2), on_press=self.on_btn_new2_press) 
         self.btn_new3 = toga.Button('传图', style=Pack(**button_style2), on_press=self.on_btn_new3_press)
         self.btn_new4 = toga.Button(self.lineButton_state_read, style=Pack(**button_style2), on_press=self.clk_btn_line)
 
-        self.btn_new5 = toga.Button(text = '更新JS', style=Pack(**button_style3), on_press=self.rewrite_keywords_json)
+        self.btn_new5 = toga.Button('更新JS', style=Pack(**button_style3), on_press=self.rewrite_keywords_json)
         self.btn_new6 = toga.Button('🔄关键', style=Pack(**button_style2), on_press = lambda widget: widget_methods.on_press.clear_keyword(self, widget)) 
         self.btn_new7 = toga.Button('回滚', style=Pack(**button_style2), on_press=self.clk_btn_cell)  ###################
         self.btn_new8 = toga.Button(self.lineButton_state_read, style=Pack(**button_style2), on_press=self.clk_btn_line)
