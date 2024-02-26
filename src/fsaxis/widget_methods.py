@@ -4,10 +4,11 @@ from datetime import datetime
 import os
 import re
 
-
 import json
 import os
 from datetime import datetime
+
+import requests
 
 def on_change(self, widget=None):
     
@@ -46,10 +47,49 @@ def on_change(self, widget=None):
     auto_complete_keyword_logic()
 
     def handle_url(content):
-        # 使用更高效的方式来检查 URL
-        if any(substring in content for substring in ['http://', 'https://', 'www.']):
-            return content + ' '
-        return content
+        # 查找 URL
+        start_pos = -1
+        for substring in ['http://', 'https://', 'www.']:
+            start_pos = content.find(substring)
+            if start_pos != -1:
+                break
+
+        if start_pos == -1:
+            return content  # 没有找到网址，返回原文本
+
+        # 提取 URL
+        end_pos = len(content)
+        for i in range(start_pos, len(content)):
+            if content[i] in [' ', '，', '。', '！', '？', '；', '：', '“', '”', '（', '）', '、', '《', '》', '—']:
+                end_pos = i
+                break
+
+        url = content[start_pos:end_pos]
+
+        # 设置请求头部，模仿常见浏览器
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://www.google.com/',
+            'Origin': 'https://www.google.com'
+        }
+
+        # 获取网址标题
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                start = response.text.find('<title>') + 7
+                end = response.text.find('</title>', start)
+                title = response.text[start:end].strip()
+            else:
+                title = f'无法获取标题，状态码：{response.status_code}'
+        except Exception as e:
+            title = f'获取标题时出错：{e}'
+
+        # 返回格式化的字符串
+        return f"{content}：{title}"
+
     
     content_value = handle_url(self.inp_content.value)
     # picture_status_value = getattr(self, 'picture_status', None)

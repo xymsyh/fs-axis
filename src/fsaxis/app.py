@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "02261714 测试版本说明" 
+版本说明 = "网址获标题" 
 
 import sys
 from pathlib import Path
