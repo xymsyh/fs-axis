@@ -89,7 +89,7 @@ class fsaxis(toga.App):
 
         ## 靠顶风格
         button_style = {'width': 85, 'padding_top': 12} 
-        self.btn_std1 = toga.Button('🖼️传图', style=Pack(**button_style), on_press=self.on_btn_new3_press)
+        self.btn_std1 = toga.Button('🔀童锁', style=Pack(**button_style), on_press=self.toggle_child_lock)
         self.btn_std3 = toga.Button(self.读取, style=Pack(**button_style), on_press=self.clk_btn_line)
         
         ## 第二风格
@@ -112,9 +112,9 @@ class fsaxis(toga.App):
                 'callback': lambda widget: widget_methods.on_press.clear(self, widget)
             },
             'btn_new3': {
-                'text': '🔀童锁', 
+                'text': '🖼️传图', 
                 'style': button_style_用于后跟, 
-                'callback': None
+                'callback': self.on_btn_new3_press
             },
             'btn_new4': {
                 'text': "🤫写隐",  # 使用 self.lineButton_state_read 直接作为文本值
@@ -205,9 +205,14 @@ class fsaxis(toga.App):
         # self.image_upload_completed = threading.Event()
         self.upload_result_queue = queue.Queue()
 
-
-
     # 定义相关回调函数
+    def toggle_child_lock(self, widget):
+        # 遍历按钮并设置其文本和回调函数为None
+        for btn_name in ['btn_new1', 'btn_new2', 'btn_new3', 'btn_new4', 'btn_new5', 'btn_new6', 'btn_new7', 'btn_new8']:
+            btn = getattr(self, btn_name, None)
+            if btn:
+                btn.text = None  # 将按钮文本设置为None
+                btn.on_press = None  # 移除按钮的回调函数
         
     # @staticmethod
     def get_clock_icon(self, hour, minute):
