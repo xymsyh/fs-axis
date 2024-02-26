@@ -211,13 +211,25 @@ class fsaxis(toga.App):
 
     # 定义相关回调函数
     def toggle_child_lock(self, widget):
-        # 遍历按钮并设置其文本和回调函数为None
+        # 定义一个属性来跟踪童锁是否被激活
+        if hasattr(self, 'child_lock_active'):
+            self.child_lock_active = not self.child_lock_active
+        else:
+            self.child_lock_active = True
+
+        # 根据童锁状态切换按钮的启用状态
         for btn_name in ['btn_new1', 'btn_new2', 'btn_new3', 'btn_new4', 'btn_new5', 'btn_new6', 'btn_new7', 'btn_new8']:
             btn = getattr(self, btn_name, None)
             if btn:
-                btn.text = None  # 将按钮文本设置为None
-                btn.on_press = None  # 移除按钮的回调函数
-        
+                # 切换按钮的启用状态
+                btn.enabled = not self.child_lock_active
+
+        # 根据童锁的激活状态更新童锁按钮的文本
+        if self.child_lock_active:
+            self.btn_std1.text = '童锁：开'
+        else:
+            self.btn_std1.text = '童锁：关'
+            
     # @staticmethod
     def get_clock_icon(self, hour, minute):
         # 根据小时和分钟确定图标
