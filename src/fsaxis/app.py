@@ -97,48 +97,48 @@ class fsaxis(toga.App):
         # Add your new buttons here 新增按钮
 
         
-        button_style2 = {'width': 85, 'padding': (0, 0, 0, 0)}
-        button_style3 = {'width': 85, 'padding': (0, 0, 0, 5)}
+        button_style_用于开头 = {'width': 85, 'padding': (0, 0, 0, 5)}
+        button_style_用于后跟 = {'width': 85, 'padding': (0, 0, 0, 0)}
 
         buttons_config = {
             'btn_new1': {
                 'text': 'CL仅读', 
-                'style': button_style3, 
+                'style': button_style_用于开头, 
                 'callback': self.on_btn_new1_press
             },
             'btn_new2': {
                 'text': '往事', 
-                'style': button_style2, 
+                'style': button_style_用于后跟, 
                 'callback': self.on_btn_new2_press
             },
             'btn_new3': {
                 'text': '传图', 
-                'style': button_style2, 
+                'style': button_style_用于后跟, 
                 'callback': self.on_btn_new3_press
             },
             'btn_new4': {
                 'text': self.lineButton_state_read,  # 使用 self.lineButton_state_read 直接作为文本值
-                'style': button_style2, 
+                'style': button_style_用于后跟, 
                 'callback': self.clk_btn_line
             },
             'btn_new5': {
                 'text': '更新JS', 
-                'style': button_style3, 
+                'style': button_style_用于开头, 
                 'callback': self.rewrite_keywords_json
             },
             'btn_new6': {
                 'text': '🔄关键', 
-                'style': button_style2, 
+                'style': button_style_用于后跟, 
                 'callback': lambda widget: widget_methods.on_press.clear_keyword(self, widget)
             },
             'btn_new7': {
                 'text': '回滚', 
-                'style': button_style2, 
+                'style': button_style_用于后跟, 
                 'callback': self.clk_btn_cell
             },
             'btn_new8': {
                 'text': self.lineButton_state_read, 
-                'style': button_style2, 
+                'style': button_style_用于后跟, 
                 'callback': self.clk_btn_line
             },
         }
