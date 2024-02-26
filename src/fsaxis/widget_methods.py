@@ -59,8 +59,10 @@ def on_change(self, widget=None):
 
         # 提取 URL
         end_pos = len(content)
+        # 定义一个用于检测网址结束的字符集合，包括空格和中文全角标点符号
+        stop_chars = [' ', '，', '。', '！', '？', '；', '：', '“', '”', '（', '）', '、', '《', '》', '—']
         for i in range(start_pos, len(content)):
-            if content[i] in [' ', '，', '。', '！', '？', '；', '：', '“', '”', '（', '）', '、', '《', '》', '—']:
+            if content[i] in stop_chars or '\u4e00' <= content[i] <= '\u9fff':  # 检查是否是中文字符
                 end_pos = i
                 break
 
