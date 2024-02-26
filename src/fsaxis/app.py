@@ -265,12 +265,16 @@ class fsaxis(toga.App):
         else:
             self.child_lock_active = True
 
-        # 根据童锁状态切换按钮的启用状态
-        for btn_name in ['btn_new1', 'btn_new2', 'btn_new3', 'btn_new4', 'btn_new5', 'btn_new6', 'btn_new7', 'btn_new8']:
+        # 选择正确的配置字典
+        config_to_use = self.童锁配置 if self.child_lock_active else self.标准配置
+
+        # 根据童锁状态切换按钮的启用状态和文本
+        for btn_name, btn_config in config_to_use.items():
             btn = getattr(self, btn_name, None)
             if btn:
-                # 切换按钮的启用状态
-                btn.enabled = not self.child_lock_active
+                btn.text = btn_config['text']  # 更新按钮文本
+                btn.on_press = btn_config['callback']  # 更新按钮回调函数
+                # btn.style = btn_config['style']  # 更新按钮样式，如果需要
 
         # 根据童锁的激活状态更新童锁按钮的文本
         if self.child_lock_active:
