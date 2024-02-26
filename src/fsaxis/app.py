@@ -149,46 +149,46 @@ class fsaxis(toga.App):
 
         self.童锁配置 = {
             'btn_new1': {
-                'text': '前天', 
+                'text': '🌙前天', 
                 'style': button_style_用于开头, 
                 'callback': None
             },
 
             'btn_new2': {
-                'text': '昨天',  
+                'text': '🌙昨天',  
                 'style': button_style_用于后跟, 
                 'callback': None
             },
             'btn_new3': {
-                'text': '今天', 
+                'text': '☀️今天', 
                 'style': button_style_用于后跟, 
                 'callback': None
             },
 
             'btn_new4': {
-                'text': "明天",  # 使用 self.lineButton_state_read 直接作为文本值
+                'text': "💫明天",  
                 'style': button_style_用于后跟, 
                 'callback': None
             },
             'btn_new5': {
-                'text': '前天', 
+                'text': '🌙前天', 
                 'style': button_style_用于开头, 
                 'callback': None
             },
             'btn_new6': {
-                'text': '昨天', 
+                'text': '🌙昨天', 
                 'style': button_style_用于后跟, 
                 'callback': None
             },
 
             'btn_new7': {
-                'text': '今天', 
+                'text': '☀️今天', 
                 'style': button_style_用于后跟, 
                 'callback': None
             },
 
             'btn_new8': {
-                'text': "明天", 
+                'text': "💫明天", 
                 'style': button_style_用于后跟, 
                 'callback': None
             },
