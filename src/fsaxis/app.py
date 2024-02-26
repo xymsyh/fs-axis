@@ -1,4 +1,6 @@
-# app.py 
+# app.py
+
+版本说明 = "02261714 测试版本说明" 
 
 import sys
 from pathlib import Path
@@ -688,4 +690,4 @@ class fsaxis(toga.App):
 
 
 def main():
-    return fsaxis()
+    return fsaxis(f"飞书轴线_{版本说明}")
