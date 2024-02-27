@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "恒星童锁" 
+版本说明 = "升至三月" 
 
 import sys
 from pathlib import Path
