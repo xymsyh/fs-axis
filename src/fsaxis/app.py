@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "升至三月" 
+版本说明 = "深空探秘" 
 
 import sys
 from pathlib import Path
@@ -37,10 +37,10 @@ import widget_text as wt
 
 class fsaxis(toga.App):
     def startup(self):
-        self.读取 = '🚀读取'
-        self.lineButton_state_write = '✅写入'
-        self.lineButton_state_read_icon = '🚀'
-        self.lineButton_state_write_icon = '✅'
+        self.line读取 = '🚀读取'
+        self.line写入 = '✅写入'
+        self.line读取icon = '🚀'
+        self.line写入icon = '✅'
 
         #region# keywords_box
         self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=(0, 5, 0, 5)))
@@ -89,12 +89,12 @@ class fsaxis(toga.App):
 
         ## 靠顶风格
         button_style = {'width': 85, 'padding_top': 12} 
-        self.btn_std1 = toga.Button('🔀童锁', style=Pack(**button_style), on_press=self.toggle_child_lock)
-        self.btn_std3 = toga.Button(self.读取, style=Pack(**button_style), on_press=self.clk_btn_line)
+        self.btn_std1 = toga.Button('📜老滚', style=Pack(**button_style), on_press=self.clk_btn_cell)
+        self.btn_std3 = toga.Button('🔀童锁', style=Pack(**button_style), on_press=self.toggle_child_lock)
         
         ## 第二风格
         button_style = {'width': 85, 'padding_top': 25} 
-        self.btn_std2 = toga.Button('🗑️清内', style=Pack(**button_style), on_press = lambda widget: widget_methods.on_press.clear(self, widget))
+        self.btn_std2 = toga.Button('🖼️绘图', style=Pack(**button_style), on_press = self.on_btn_new3_press)
         
         # 新按钮
         button_style_用于开头 = {'width': 85, 'padding': (0, 0, 0, 5)}
@@ -108,28 +108,28 @@ class fsaxis(toga.App):
             },
 
             'btn_new2': {
-                'text': '🗑️清关',  
-                'style': button_style_用于后跟, 
-                'callback': lambda widget: widget_methods.on_press.clear_keyword(self, widget)
-            },
-            'btn_new3': {
-                'text': '🗑️清内', 
-                'style': button_style_用于后跟, 
-                'callback': lambda widget: widget_methods.on_press.clear(self, widget)
-            },
-
-            'btn_new4': {
-                'text': "🤫写隐",  # 使用 self.lineButton_state_read 直接作为文本值
+                'text': '🎨待定',  
                 'style': button_style_用于后跟, 
                 'callback': None
             },
+            'btn_new3': {
+                'text': '🗑️清关', 
+                'style': button_style_用于后跟, 
+                'callback': lambda widget: widget_methods.on_press.clear_keyword(self, widget)
+            },
+
+            'btn_new4': {
+                'text': "🗑️清内",  # 使用 self.lineButton_state_read 直接作为文本值
+                'style': button_style_用于后跟, 
+                'callback': lambda widget: widget_methods.on_press.clear(self, widget)
+            },
             'btn_new5': {
-                'text': '📜往事', 
+                'text': '🕰️往事', 
                 'style': button_style_用于开头, 
                 'callback': self.on_btn_new2_press
             },
             'btn_new6': {
-                'text': '🔙回滚', 
+                'text': '📜回滚', 
                 'style': button_style_用于后跟, 
                 'callback': self.clk_btn_cell
             },
@@ -149,48 +149,48 @@ class fsaxis(toga.App):
 
         self.童锁配置 = {
             'btn_new1': {
-                'text': '🌙前天', 
+                'text': '🌙昨天', 
                 'style': button_style_用于开头, 
                 'callback': None
             },
 
             'btn_new2': {
-                'text': '🌙昨天',  
+                'text': '☀️今天',  
                 'style': button_style_用于后跟, 
                 'callback': None
             },
             'btn_new3': {
-                'text': '☀️今天', 
+                'text': '💫明天', 
                 'style': button_style_用于后跟, 
                 'callback': None
             },
 
             'btn_new4': {
-                'text': "💫明天",  
+                'text': "🌌深空",  
                 'style': button_style_用于后跟, 
-                'callback': None
+                'callback': lambda widget: widget_methods.on_press.clear(self, widget)
             },
             'btn_new5': {
-                'text': '🌙前天', 
+                'text': '🌙昨天', 
                 'style': button_style_用于开头, 
                 'callback': None
             },
             'btn_new6': {
-                'text': '🌙昨天', 
-                'style': button_style_用于后跟, 
-                'callback': None
-            },
-
-            'btn_new7': {
                 'text': '☀️今天', 
                 'style': button_style_用于后跟, 
                 'callback': None
             },
 
-            'btn_new8': {
-                'text': "💫明天", 
+            'btn_new7': {
+                'text': '💫明天', 
                 'style': button_style_用于后跟, 
                 'callback': None
+            },
+
+            'btn_new8': {
+                'text': self.line读取, 
+                'style': button_style_用于后跟, 
+                'callback': self.clk_btn_line
             },
         }
 
@@ -278,9 +278,10 @@ class fsaxis(toga.App):
 
         # 根据童锁的激活状态更新童锁按钮的文本
         if self.child_lock_active:
-            self.btn_std1.text = '⭐恒星'
+            # self.btn_std3.text = '⭐恒星'
+            self.btn_std3.text = '🔀童锁'
         else:
-            self.btn_std1.text = '🌠流星'
+            self.btn_std3.text = '🌠流星'
 
     # @staticmethod
     def get_clock_icon(self, hour, minute):
@@ -298,8 +299,9 @@ class fsaxis(toga.App):
         return f'{hour:02d}'
 
     def update_lineButton_state(self, enabled, text=None):
+        # 这里用于更改on_change时, 发送按钮的更新逻辑
         # for btn in [self.btn_std1, self.btn_new4, self.btn_new8]:
-        for btn in [self.btn_std3]:
+        for btn in [self.btn_new8]:
             btn.enabled = enabled
             if text:
                 btn.text = text
@@ -319,9 +321,9 @@ class fsaxis(toga.App):
                 icon = self.get_clock_icon(adjusted_time.hour, adjusted_time.minute)
                 text = self.format_text(adjusted_time.hour)
                 if self.inp_line.value:
-                    self.update_lineButton_state(True, f'{self.lineButton_state_write_icon}{icon}{text}')
+                    self.update_lineButton_state(True, f'{self.line写入icon}{icon}{text}')
                 else:
-                    self.update_lineButton_state(True, f'{self.lineButton_state_read_icon}{icon}{text}')
+                    self.update_lineButton_state(True, f'{self.line读取icon}{icon}{text}')
             except ValueError:
                 self.update_lineButton_state(False, '❓❓')
 
@@ -649,9 +651,9 @@ class fsaxis(toga.App):
         
         if self.time_zone.value == "":
             if self.inp_line.value == "":
-                self.update_lineButton_state(True, self.读取)
+                self.update_lineButton_state(True, self.line读取)
             if self.inp_line.value != "":
-                self.update_lineButton_state(True, self.lineButton_state_write)
+                self.update_lineButton_state(True, self.line写入)
         else:
             self.change_btnLine_status_byTZ(widget)
 
