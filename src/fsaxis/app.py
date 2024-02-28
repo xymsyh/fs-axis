@@ -151,18 +151,21 @@ class fsaxis(toga.App):
             'btn_new1': {
                 'text': '🌙昨天', 
                 'style': button_style_用于开头, 
-                'callback': None
+                'callback': None, 
+                'enabled': False
             },
 
             'btn_new2': {
                 'text': '☀️今天',  
                 'style': button_style_用于后跟, 
-                'callback': None
+                'callback': None, 
+                'enabled': False
             },
             'btn_new3': {
                 'text': '💫明天', 
                 'style': button_style_用于后跟, 
-                'callback': None
+                'callback': None, 
+                'enabled': False
             },
 
             'btn_new4': {
@@ -173,18 +176,21 @@ class fsaxis(toga.App):
             'btn_new5': {
                 'text': '🌙昨天', 
                 'style': button_style_用于开头, 
-                'callback': None
+                'callback': None, 
+                'enabled': False
             },
             'btn_new6': {
                 'text': '☀️今天', 
                 'style': button_style_用于后跟, 
-                'callback': None
+                'callback': None, 
+                'enabled': False
             },
 
             'btn_new7': {
                 'text': '💫明天', 
                 'style': button_style_用于后跟, 
-                'callback': None
+                'callback': None, 
+                'enabled': False
             },
 
             'btn_new8': {
@@ -203,7 +209,9 @@ class fsaxis(toga.App):
                 toga.Button(
                     config['text'], 
                     style=Pack(**config['style']), 
-                    on_press=config['callback']
+                    on_press=config['callback'], 
+                    # 同样使用 get 方法设置按钮的初始启用状态，如果 'enabled' 字段不存在，则默认为 True
+                    enabled=config.get('enabled', True)
                 )
             )
 
@@ -275,6 +283,8 @@ class fsaxis(toga.App):
                 btn.text = btn_config['text']  # 更新按钮文本
                 btn.on_press = btn_config['callback']  # 更新按钮回调函数
                 # btn.style = btn_config['style']  # 更新按钮样式，如果需要
+                # 使用 get 方法获取 'enabled' 字段的值，如果不存在则默认为 True
+                btn.enabled = btn_config.get('enabled', True)
 
         # 根据童锁的激活状态更新童锁按钮的文本
         if self.child_lock_active:
