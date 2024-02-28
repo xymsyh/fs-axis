@@ -701,8 +701,10 @@ class fsaxis(toga.App):
         threading.Thread(target=self.worker, args=(self.inp_line.value, time_zone,)).start()
 
     def clk_btn_cell(self, widget):
-        self.btn_std1.enabled = False
-        self.btn_std2.enabled = False
+        """self.btn_std1.enabled = False
+        self.btn_std2.enabled = False"""
+        self.btn_new8.enabled = False #这部分内容的目的是为了确保不会重复触发回调函数, 以免出现错误
+
         self.inp_cell.readonly = True
         cell_history_data = history_methods.read("cell")
 
@@ -725,8 +727,9 @@ class fsaxis(toga.App):
         def on_cancel(widget):
             # self.running_status.value = "操作已取消"
             self.main_window.content = self.main_box
-            self.btn_std1.enabled = True
-            self.btn_std2.enabled = True
+            """self.btn_std1.enabled = True
+            self.btn_std2.enabled = True"""
+            self.btn_new8.enabled = True
 
         # 创建确认对话框的内容
         confirm_label = toga.Label('确认回退至以下版本？')
