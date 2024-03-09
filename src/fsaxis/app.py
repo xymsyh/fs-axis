@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "深空探秘" 
+版本说明 = "禁焦转录" 
 
 import sys
 from pathlib import Path
