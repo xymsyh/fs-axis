@@ -670,6 +670,11 @@ class fsaxis(toga.App):
 
     def clk_btn_line(self, widget): #line回调
 
+        # 首先检查inp_content.value是否为空, 若为空则更新状态栏并返回
+        if self.inp_content.value == "" and self.inp_keyword.value != "": 
+            self.running_status.value = "inp_content为空 无法继续"
+            return  # 停止执行后续代码
+
         # widget_methods.on_lose_focus.inp_keyword(self, widget) #使用失去焦点方法。用于更新关键词框中的内容
         if self.inp_content.value == "" and self.inp_keyword.value != "" and self.inp_line.value == "":
             widget_methods.on_change(self, widget)
