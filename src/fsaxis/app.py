@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "inp_content为空不继续" 
+版本说明 = "单空不继续" 
 
 import sys
 from pathlib import Path
