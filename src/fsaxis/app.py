@@ -338,6 +338,9 @@ class fsaxis(toga.App):
                 self.update_lineButton_state(False, '❓❓')
 
     def compare_keyword_data(self):
+        if sys.platform == 'win32': #电脑保快速启动, 直接跳过创建keyword_box
+            return
+
         # 从 API 获取数据
         api = feishu_api.FeishuOpenAPI()
         self.sheet_data_json = api.get_sheet_data('70fPAj!B1:B2')['data']['valueRange']['values'][0][0]  # 假设 api_methods 是您用来调用 API 的模块
