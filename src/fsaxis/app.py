@@ -339,7 +339,7 @@ class fsaxis(toga.App):
 
     def compare_keyword_data(self):
         if sys.platform == 'win32': #电脑保快速启动, 直接跳过创建keyword_box
-            return
+            pass #待后续补全相关keyword_json的处理逻辑
 
         # 从 API 获取数据
         api = feishu_api.FeishuOpenAPI()
