@@ -34,6 +34,7 @@ import os
 print("工作目录 Current working directory:", os.getcwd())
 
 import widget_text as wt
+from typing import Optional
 
 class fsaxis(toga.App):
     def startup(self):
@@ -94,7 +95,7 @@ class fsaxis(toga.App):
         
         ## 第二风格
         button_style = {'width': 85, 'padding_top': 25} 
-        self.btn_std2 = toga.Button('🖼️绘图', style=Pack(**button_style), on_press = self.on_btn_new3_press)
+        self.btn_std2 = toga.Button('🖼️来歙', style=Pack(**button_style), on_press = self.on_btn_new3_press)
         
         # 新按钮
         button_style_用于开头 = {'width': 85, 'padding': (0, 0, 0, 5)}
@@ -470,27 +471,47 @@ class fsaxis(toga.App):
 
     async def pick_image(self, widget):
         if sys.platform == 'win32':
-            # Windows 环境下的逻辑
-            image_folder = 'C:\\Users\\Ran\\Pictures\\Quicker截图'
-            image_files = [os.path.join(image_folder, f) for f in os.listdir(image_folder) if f.endswith(('.png', '.jpg', '.jpeg'))]
-            latest_image = max(image_files, key=os.path.getmtime)
+            # 指定新的图片搜索目录
+            base_folder = 'C:\\Users\\Ran\\Desktop\\Log\\AM4'
+            latest_image_path: Optional[str] = None
             
-            with open(latest_image, 'rb') as f:
-                image_data = f.read()
-            # 加载图片
-            self.image_view.image = toga.Image(data=image_data)
+            # 遍历 base_folder 中的每个子文件夹
+            for folder in os.listdir(base_folder):
+                folder_path = os.path.join(base_folder, folder)
+                
+                # 确保当前路径是文件夹
+                if os.path.isdir(folder_path):
+                    # 获取文件夹中的所有图片文件
+                    image_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith(('.png', '.jpg', '.jpeg'))]
+                    
+                    # 如果当前文件夹中有图片，则找出最新的一张
+                    if image_files:
+                        folder_latest_image = max(image_files, key=os.path.getmtime)
+                        
+                        # 比较并更新全局的最新图片
+                        if latest_image_path is None or os.path.getmtime(folder_latest_image) > os.path.getmtime(latest_image_path):
+                            latest_image_path = folder_latest_image
             
-            # 获取图片的原始尺寸
-            original_width, original_height = self.image_view.image.size
-            
-            # 设置 ImageView 的 style 属性，这里假设我们希望图片的最大宽度不超过窗口宽度
-            max_width = self.main_window.size[0]
-            scale_factor = min(max_width / original_width, 1)  # 确保不放大图片
-            
-            # 调整 ImageView 的大小以保持图片比例
-            self.image_view.style.width = original_width * scale_factor
-            self.image_view.style.height = original_height * scale_factor
-            self.image_view.refresh()
+            # 确保找到了最新的图片
+            if latest_image_path:
+                with open(latest_image_path, 'rb') as f:
+                    image_data = f.read()
+                # 加载图片
+                self.image_view.image = toga.Image(data=image_data)
+                
+                # 获取图片的原始尺寸
+                original_width, original_height = self.image_view.image.size
+                
+                # 设置 ImageView 的 style 属性，以适应窗口宽度
+                max_width = self.main_window.size[0]
+                scale_factor = min(max_width / original_width, 1)  # 确保不放大图片
+                
+                # 调整 ImageView 的大小以保持图片比例
+                self.image_view.style.width = original_width * scale_factor
+                self.image_view.style.height = original_height * scale_factor
+                self.image_view.refresh()
+            else:
+                print("No image found.")
         else:
             # Android 环境下的代码保持不变
             from android.content import Intent # type: ignore
