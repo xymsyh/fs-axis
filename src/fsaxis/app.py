@@ -15,6 +15,7 @@ def add_project_root_to_sys_path(): # 本行默认收起
     sys.path.append(str(project_root))
 add_project_root_to_sys_path()
 
+import _method
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
