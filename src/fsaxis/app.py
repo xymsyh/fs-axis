@@ -472,7 +472,9 @@ class fsaxis(toga.App):
 
     async def pick_image(self, widget):
         if sys.platform == 'win32':
-            # 指定新的图片搜索目录
+
+            # 原始AM4代码
+            r"""# 指定新的图片搜索目录
             base_folder = 'C:\\Users\\Ran\\Desktop\\Log\\AM4'
             latest_image_path: Optional[str] = None
             
@@ -491,8 +493,25 @@ class fsaxis(toga.App):
                         
                         # 比较并更新全局的最新图片
                         if latest_image_path is None or os.path.getmtime(folder_latest_image) > os.path.getmtime(latest_image_path):
-                            latest_image_path = folder_latest_image
+                            latest_image_path = folder_latest_image"""
             
+            # region: 直接使用下载路径
+            # 指定新的图片搜索目录
+            base_folder = 'C:\\Users\\Ran\\Downloads'
+            latest_image_path: Optional[str] = None
+
+            # 获取目录中的所有图片文件
+            image_files = [os.path.join(base_folder, f) for f in os.listdir(base_folder) if f.endswith(('.png', '.jpg', '.jpeg'))]
+
+            # 如果目录中有图片，则找出最新的一张
+            if image_files:
+                latest_image_path = max(image_files, key=os.path.getmtime)
+
+            # 如果有找到最新的图片，latest_image_path 将包含最新图片的路径
+            if latest_image_path:
+                print(f"The latest image is located at: {latest_image_path}")
+            # endregion
+
             # 确保找到了最新的图片
             if latest_image_path:
                 with open(latest_image_path, 'rb') as f:
