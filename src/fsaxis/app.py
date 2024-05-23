@@ -496,7 +496,7 @@ class fsaxis(toga.App):
                         if latest_image_path is None or os.path.getmtime(folder_latest_image) > os.path.getmtime(latest_image_path):
                             latest_image_path = folder_latest_image"""
             
-            # region: 直接使用下载路径
+            # region: 路径采取1: 直接使用下载路径
             # 指定新的图片搜索目录
             base_folder = 'C:\\Users\\Ran\\Downloads'
             latest_image_path: Optional[str] = None
@@ -511,6 +511,12 @@ class fsaxis(toga.App):
             # 如果有找到最新的图片，latest_image_path 将包含最新图片的路径
             if latest_image_path:
                 print(f"The latest image is located at: {latest_image_path}")
+            # endregion
+
+            # region: 路径采取2: 使用指定路径
+            # 读取「"D:\Quicker\用于指示最新截图路径的.txt"」内内容, 作为latest_image_path变量的值
+            with open("D:\Quicker\用于指示最新截图路径的.txt", "r", encoding="utf-8") as f:
+                latest_image_path = f.read()
             # endregion
 
             # 确保找到了最新的图片
