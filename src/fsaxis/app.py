@@ -48,7 +48,10 @@ class fsaxis(toga.App):
         self.keywords_box = toga.Box(style=Pack(direction=COLUMN, padding=(0, 5, 0, 5)))
         
         #endregion
+        
+        # define a scroll 组件
         self.scroll_container = toga.ScrollContainer(content=self.keywords_box,style=Pack(height=200))
+        self.scroll_container.style = Pack(flex=1)
 
         #region# main_box
         # Refactored styling for reuse 重构样式以供重用
@@ -228,7 +231,6 @@ class fsaxis(toga.App):
 
 
         # New row for the new buttons 新按钮的行
-        # row6 = toga.Box(style=row_style, children=[self.scroll_container])
 
         # Adding rows to the main layout box 将行添加到主布局框
         self.main_box.add(row_1)
@@ -237,7 +239,6 @@ class fsaxis(toga.App):
         self.main_box.add(row_4)
         self.main_box.add(row_5)
         self.main_box.add(row_6)
-        self.scroll_container.style = Pack(flex=1)
 
         self.main_box.add(self.scroll_container)
         #endregion
@@ -427,7 +428,7 @@ class fsaxis(toga.App):
 
     def create_photo_view(self):
         # 01151718 开始重构create_photo_view函数
-        from toga import ImageView, ScrollContainer
+        import toga
 
         # 创建上传、选择、返回按钮
         action_button = toga.Button('上传所选图片', on_press=self.perform_action2, style=Pack(padding=0, flex=3))
@@ -443,10 +444,10 @@ class fsaxis(toga.App):
         row_2 = toga.Box(style=Pack(direction=ROW, padding=5), children=[action_button2, back_button2])
 
         # 创建 ImageView，用于显示图片
-        self.image_view = ImageView(style=Pack(width=400, height=300))
+        self.image_view = toga.ImageView(style=Pack(width=400, height=300))
 
         # 创建 ScrollView，用于滚动查看 ImageView
-        scroll_container = ScrollContainer(content=self.image_view, style=Pack(flex=1))
+        scroll_container = toga.ScrollContainer(content=self.image_view, style=Pack(flex=1))
 
         # 创建垂直布局的容器，包括所有组件
         self.photo_view_box = toga.Box(children=[row_1, scroll_container, row_2], style=Pack(direction=COLUMN, padding=10))
