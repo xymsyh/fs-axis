@@ -120,6 +120,9 @@ class on_press:
 
     @staticmethod
     def clear(self, widget):
+
+        self.inp_content.focus() #本于07012054添加: 用于电脑端鼠标操作后, 能正常返回焦点给输入框。如果注释本行会导致鼠标操作后, 输入框失去焦点, 无法连续输入。
+
         # 01162244 修改clear按钮为：Clear改为简单的清空keyword中的内容，不执行焦点转移操作
 
         back_content = self.inp_line.value #保持inp_line不变

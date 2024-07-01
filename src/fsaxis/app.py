@@ -66,7 +66,7 @@ class fsaxis(toga.App):
         self.inp_keyword.on_change = lambda widget: widget_methods.on_change(self, widget)
         self.inp_keyword.on_lose_focus = lambda widget: widget_methods.on_lose_focus.inp_keyword(self, widget)
 
-        self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content', on_confirm=self.clk_btn_line)
+        self.inp_content = toga.TextInput(style=Pack(flex=2), placeholder='content', on_confirm=self.clk_btn_line_点击按钮line写入)
         self.inp_content.on_change = lambda widget: widget_methods.on_change(self, widget)
         # self.inp_content.on_lose_focus = lambda widget: widget_methods.on_lose_focus.inp_content(self, widget)
         self.inp_content.on_gain_focus = lambda widget: widget_methods.on_lose_focus.inp_content(self, widget)
@@ -201,7 +201,7 @@ class fsaxis(toga.App):
             'btn_new8': {
                 'text': self.line读取, 
                 'style': button_style_用于后跟, 
-                'callback': self.clk_btn_line
+                'callback': self.clk_btn_line_点击按钮line写入
             },
         }
 
@@ -625,7 +625,10 @@ class fsaxis(toga.App):
 
     # 定义main_box回调函数
     def update_ui_with_result(self, response, full_cell, no_write_history = False, old_cell_data=None):
-        """更新界面元素的值。"""
+        """
+        更新界面元素的值。
+        07012051标记: 本用于在line内容写完之后, 更新界面ui元素
+        """
         self.inp_cell.value = full_cell
 
         if no_write_history == False:
@@ -692,7 +695,7 @@ class fsaxis(toga.App):
             toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
                 response, full_cell, old_cell_data = old_cell_data))
 
-    def worker(self, inp_line_value, time_zone):
+    def worker_用于line内容的写入(self, inp_line_value, time_zone):
         """# 等待图片上传完成
         self.image_upload_completed.wait()"""
 
@@ -702,6 +705,7 @@ class fsaxis(toga.App):
 
         """在后台线程中执行耗时操作，并在完成后更新UI。"""
         response, full_cell, old_cell_data = api_methods.write_line_data(inp_line_value, time_zone=time_zone)  
+
         toga.App.app.add_background_task(lambda interface: self.update_ui_with_result(
             response, full_cell, old_cell_data = old_cell_data))
 
@@ -719,7 +723,15 @@ class fsaxis(toga.App):
             self.change_btnLine_status_byTZ(widget)
 
 
-    def clk_btn_line(self, widget): #line回调
+    def clk_btn_line_点击按钮line写入(self, widget): #line回调
+
+        #然标记
+
+        self.inp_content.focus() #本于07012054添加: 用于电脑端鼠标操作后, 能正常返回焦点给输入框。如果注释本行会导致鼠标操作后, 输入框失去焦点, 无法连续输入。
+        # 07012107 测试发现会造成的一个结果是: Content的内容被自动全选了, 可以先不管它
+        '''self.inp_keyword.focus()
+        self.inp_content.focus()
+        self.inp_content.value = self.inp_content.value + ""'''
 
         # 首先检查inp_content.value是否为空, 若为空则更新状态栏并返回
         if self.inp_content.value == "" and self.inp_keyword.value != "": 
@@ -764,9 +776,9 @@ class fsaxis(toga.App):
         # 添加上次提交的内容保存到变量，以确保不会不必要的获取焦点以更新内容
         self.last_inp_line_value = self.inp_line.value
 
-        threading.Thread(target=self.worker, args=(self.inp_line.value, time_zone,)).start()
+        threading.Thread(target=self.worker_用于line内容的写入, args=(self.inp_line.value, time_zone,)).start()
 
-    def clk_btn_cell(self, widget):
+    def clk_btn_cell(self, widget): #07012049标记本代码是用于回退内容
         """self.btn_std1.enabled = False
         self.btn_std2.enabled = False"""
         self.btn_new8.enabled = False #这部分内容的目的是为了确保不会重复触发回调函数, 以免出现错误
