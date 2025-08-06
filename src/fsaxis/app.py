@@ -1,6 +1,6 @@
 # app.py
 
-版本说明 = "a2更新为2024-12-31" 
+版本说明 = "a2更新为2025-12-31" 
 
 import sys
 from pathlib import Path
