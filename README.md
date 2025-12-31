@@ -1,7 +1,7 @@
 # 部署流程
 
-1. 将 fs_api 下载在 D:\R2025\RPA 文件夹下
-2. 将 fsaxis 下载在 D:\R2025\RPA 文件夹下
+1. 将 fs_api 下载在 D:\R2025\RPA 文件夹下，跳转链接：https://github.com/xymsyh/fs_api_example
+2. 将 本文件夹 下载在 D:\R2025\RPA 文件夹下
 3. 管理员权限运行 "README.创建符号链接.py" 以创建需要的符号链接
 4. 运行 "briefcase dev" 可以直接在开发环境中运行 fsaxis 应用
 
