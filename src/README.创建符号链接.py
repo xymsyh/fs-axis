@@ -1,84 +1,58 @@
 import os
-import sys
+import shutil
 
-def create_symbolic_links():
+def create_symbolic_links(source_dir, target_dir, file_pairs):
     """
     批量创建符号链接
-    源文件来自 D:\R2025\RPA\fs_api\
-    目标链接创建在 D:\R2025\RPA\fsaxis\src\fsaxis\
+    
+    Args:
+        source_dir (str): 源文件目录
+        target_dir (str): 目标链接目录
+        file_pairs (list): 文件名配对列表，格式为[(target_name, source_name), ...]
     """
-    
-    # 源目录和目标目录
-    source_dir = r"D:\R2025\RPA\fs_api"
-    target_dir = r"D:\R2025\RPA\fsaxis\src\fsaxis"
-    
-    # 需要创建链接的文件列表
-    files_to_link = [
-        "feishu_api.py",
-        "autom_tbl_inp.py", 
-        "json_cached.json",
-        "json_config.json",
-        "json_keywords.json",
-        "write_image.py"
-    ]
-    
-    print("🚀 开始批量创建符号链接...")
-    print(f"源目录: {source_dir}")
-    print(f"目标目录: {target_dir}")
-    print("-" * 50)
-    
-    # 确保目标目录存在
-    os.makedirs(target_dir, exist_ok=True)
-    
-    success_count = 0
-    error_count = 0
-    
-    for filename in files_to_link:
-        source_path = os.path.join(source_dir, filename)
-        target_path = os.path.join(target_dir, filename)
+    for target_name, source_name in file_pairs:
+        target_path = os.path.join(target_dir, target_name)
+        source_path = os.path.join(source_dir, source_name)
         
-        try:
-            # 检查源文件是否存在
-            if not os.path.exists(source_path):
-                print(f"❌ 错误: 源文件不存在 - {source_path}")
-                error_count += 1
-                continue
+        # 检查源文件是否存在
+        if not os.path.exists(source_path):
+            print(f"源文件不存在: {source_path}")
+            continue
             
-            # 如果目标链接已存在，先删除
-            if os.path.exists(target_path) or os.path.islink(target_path):
-                try:
+        # 确保目标目录存在
+        os.makedirs(target_dir, exist_ok=True)
+        
+        # 如果目标文件已存在，先删除
+        if os.path.exists(target_path):
+            try:
+                if os.path.islink(target_path):
                     os.remove(target_path)
-                    print(f"📝 已删除现有文件: {filename}")
-                except Exception as e:
-                    print(f"⚠️  无法删除现有文件 {filename}: {e}")
-                    error_count += 1
-                    continue
-            
-            # 创建符号链接
+                else:
+                    os.unlink(target_path)
+            except OSError as e:
+                print(f"删除现有文件失败: {target_path} - {e}")
+                continue
+        
+        # 创建符号链接
+        try:
             os.symlink(source_path, target_path)
-            print(f"✅ 成功创建: {filename}")
-            success_count += 1
-            
-        except Exception as e:
-            print(f"❌ 创建 {filename} 失败: {e}")
-            error_count += 1
-    
-    print("-" * 50)
-    print(f"📊 完成统计:")
-    print(f"   成功: {success_count} 个")
-    print(f"   失败: {error_count} 个")
-    
-    if error_count == 0:
-        print("🎉 所有符号链接创建成功！")
-    else:
-        print("⚠️  部分链接创建失败，请检查错误信息。")
+            print(f"成功创建链接: {target_path} -> {source_path}")
+        except OSError as e:
+            print(f"创建链接失败: {target_path} -> {source_path} - {e}")
 
-if __name__ == "__main__":
-    # 检查操作系统（Windows需要管理员权限）
-    if sys.platform == "win32":
-        import ctypes
-        if not ctypes.windll.shell32.IsUserAnAdmin():
-            print("⚠️  在Windows上创建符号链接可能需要管理员权限。")
-            print("   请以管理员身份运行此脚本。")
-    
-    create_symbolic_links()
+# 定义文件配对关系
+file_pairs = [
+    ('feishu_api.py', 'feishu_api.py'),
+    ('autom_tbl_inp.py', 'autom_tbl_inp.pyw'),
+    ('json_cached.json', 'json_cached.json'),
+    ('json_config.json', 'json_config.json'),
+    ('json_keywords.json', 'anal/json_keywords.json'),
+    ('write_image.py', 'write_image.py')
+]
+
+# 设置源目录和目标目录
+source_directory = r'D:\R2025\RPA\fs_api'
+target_directory = r'D:\R2025\RPA\fsaxis\src\fsaxis'
+
+# 执行创建
+create_symbolic_links(source_directory, target_directory, file_pairs)
