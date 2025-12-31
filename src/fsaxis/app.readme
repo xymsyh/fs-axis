@@ -1,3 +1,0 @@
-# 如果要修改点击回调, 需要查询
-
-def clk_btn_line(self, widget)
