@@ -1,3 +1,11 @@
+# APP下载测试
+
+- 百度网盘下载：https://pan.baidu.com/s/1DNWNjhbuYOGyXFkot1U4ww?pwd=3vxf 
+- 123云盘下载：https://www.123865.com/s/MuBzVv-erp8d
+
+安装APP后，这APP中执行的操作可在 https://rcentral.feishu.cn/wiki/Gki5wAsavi11OjkFa8YcNS33nzh
+中查看运行结果。
+
 # 部署流程
 
 1. 将 fs_api 下载在 D:\R2025\RPA 文件夹下，跳转链接：https://github.com/xymsyh/fs_api_example
